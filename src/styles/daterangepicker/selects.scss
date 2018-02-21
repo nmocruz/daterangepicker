@@ -1,5 +1,5 @@
 .daterangepicker select {
-  width: 100%;
+  width: fit-content;
   box-sizing: border-box;
   padding: 0.5em;
   height: auto;
@@ -19,16 +19,13 @@
 
   &.month-select {
     flex: 10;
-    // max-width: 75%;
   }
 
   &.year-select {
     flex: 11;
-    max-width: 75%;
   }
 
   &.decade-select {
     flex: 11;
-    width: fit-content;
   }
 }

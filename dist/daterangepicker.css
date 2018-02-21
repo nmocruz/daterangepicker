@@ -214,7 +214,9 @@
 }
 
 .daterangepicker select {
-  width: 100%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   box-sizing: border-box;
   padding: 0.5em;
   height: auto;
@@ -240,15 +242,11 @@
 .daterangepicker select.year-select {
   -ms-flex: 11;
       flex: 11;
-  max-width: 75%;
 }
 
 .daterangepicker select.decade-select {
   -ms-flex: 11;
       flex: 11;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
 }
 
 .calendar {

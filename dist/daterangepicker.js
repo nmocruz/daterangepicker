@@ -1035,6 +1035,7 @@
       this.endCalendar = new CalendarView(this, this.endDate, 'end');
       this.startDateInput = this.startCalendar.inputDate;
       this.endDateInput = this.endCalendar.inputDate;
+      this.range = null;
       this.dateRange = ko.observable([this.startDate(), this.endDate()]);
       this.startDate.subscribe((function(_this) {
         return function(newValue) {
@@ -1065,26 +1066,26 @@
           return function(newValue) {
             var endDate, startDate;
             startDate = newValue[0], endDate = newValue[1];
-            return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.startCalendar.firstDate(), _this.endCalendar.lastDate());
+            return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.range, _this.startCalendar.firstDate(), _this.endCalendar.lastDate());
           };
         })(this));
         this.startCalendar.firstDate.subscribe((function(_this) {
           return function(newValue) {
             var endDate, ref1, startDate;
             ref1 = _this.dateRange(), startDate = ref1[0], endDate = ref1[1];
-            return _this.callback(startDate.clone(), endDate.clone(), _this.period(), newValue, _this.endCalendar.lastDate());
+            return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.range, newValue, _this.endCalendar.lastDate());
           };
         })(this));
         this.endCalendar.lastDate.subscribe((function(_this) {
           return function(newValue) {
             var endDate, ref1, startDate;
             ref1 = _this.dateRange(), startDate = ref1[0], endDate = ref1[1];
-            return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.startCalendar.firstDate(), newValue);
+            return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.range, _this.startCalendar.firstDate(), newValue);
           };
         })(this));
         if (this.forceUpdate) {
           ref1 = this.dateRange(), startDate = ref1[0], endDate = ref1[1];
-          this.callback(startDate.clone(), endDate.clone(), this.period(), this.startCalendar.firstDate(), this.endCalendar.lastDate());
+          this.callback(startDate.clone(), endDate.clone(), this.period(), this.range, this.startCalendar.firstDate(), this.endCalendar.lastDate());
         }
       }
       if (this.anchorElement) {
@@ -1188,11 +1189,13 @@
 
     DateRangePickerView.prototype.setDateRange = function(dateRange) {
       if (dateRange.constructor === CustomDateRange) {
-        return this.expanded(true);
+        this.expanded(true);
+        return this.range = null;
       } else {
         this.expanded(false);
         this.close();
         this.period('day');
+        this.range = dateRange.title;
         this.startDate(dateRange.startDate);
         this.endDate(dateRange.endDate);
         return this.updateDateRange();
