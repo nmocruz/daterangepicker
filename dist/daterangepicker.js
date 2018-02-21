@@ -1209,6 +1209,7 @@
 
     DateRangePickerView.prototype.applyChanges = function() {
       this.close();
+      this.range = null;
       return this.updateDateRange();
     };
 

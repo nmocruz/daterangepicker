@@ -139,6 +139,7 @@ class DateRangePickerView
 
   applyChanges: () ->
     @close()
+    @range = null
     @updateDateRange()
 
   cancelChanges: () ->
