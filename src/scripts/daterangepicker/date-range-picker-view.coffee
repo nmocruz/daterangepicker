@@ -68,6 +68,12 @@ class DateRangePickerView
     else
       [@startCalendar, @endCalendar]
 
+  dateInput: (index) ->
+    if index() == 0
+      @startDateInput
+    else
+      @endDateInput
+
   updateDateRange: () ->
     @dateRange([@startDate(), @endDate()])
 

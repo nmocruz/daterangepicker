@@ -86,11 +86,13 @@ $border-radius: 4px;
 
   .custom-range-inputs {
     display: flex;
+    justify-content: center;
     margin: - $m;
     margin-bottom: 8px - $m;
 
     input {
       min-width: 50px;
+      max-width: 70%;
       width: 50px;
       flex: 1;
       margin: $m;
