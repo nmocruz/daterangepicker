@@ -57,5 +57,8 @@
         "single"
       ]
     }
+  },
+  "dependencies": {
+    "node-sass": "^4.8.3"
   }
 }

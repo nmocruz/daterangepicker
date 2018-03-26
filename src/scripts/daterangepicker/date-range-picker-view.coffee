@@ -5,6 +5,20 @@ class DateRangePickerView
     @startCalendar = new CalendarView(@, @startDate, 'start')
     @endCalendar = new CalendarView(@, @endDate, 'end')
 
+    @quick_periods = [
+      'Previous week'
+      'Previous month'
+      'Previous year'
+      'Last 7 days'
+      'Last 30 days'
+      'Last 60 days'
+      'Last 90 days'
+      'Last 6 months'
+      'Last 1 year'
+      'Last 2 year'
+      'Last 5 year'
+    ]
+
     @startDateInput = @startCalendar.inputDate
     @endDateInput = @endCalendar.inputDate
     @dateRange = ko.observable([@startDate(), @endDate()])
@@ -57,6 +71,13 @@ class DateRangePickerView
     if @opened()
       @updatePosition()
 
+  showQuick: () ->
+    @isShowingQuick(true)
+
+  hideQuick: () ->
+    @isShowingQuick(false)
+
+
   periodProxy: Period
 
   getLocale: () ->
@@ -106,6 +127,7 @@ class DateRangePickerView
 
   setPeriod: (period) ->
     @isCustomPeriodRangeActive(false)
+    @hideQuick()
     @period(period)
     @expanded(true)
 

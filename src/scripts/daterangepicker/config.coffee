@@ -22,6 +22,7 @@ class Config
 
     @ranges = @_ranges(options.ranges)
     @isCustomPeriodRangeActive = ko.observable(false)
+    @isShowingQuick = ko.observable(true)
 
     @anchorElement = @_anchorElement(options.anchorElement)
     @parentElement = @_parentElement(options.parentElement)
