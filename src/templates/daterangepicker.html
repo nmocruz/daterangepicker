@@ -1,25 +1,23 @@
 <div class="daterangepicker" data-bind="css: $data.cssClasses(), style: $data.style()">
+    <div class="controls">
+        <ul class="periods">
+            <li class="period"
+                data-bind="click : function(){ $data.showQuick() }">
+                Quick
+            </li>
+            <!-- ko foreach: $data.periods -->
+            <li class="period" data-bind="css: {active: $parent.isActivePeriod($data) && !$parent.isCustomPeriodRangeActive()}, text: $parent.periodProxy.title($data, $parent.getLocale()), click: function(){ $parent.setPeriod($data); }"></li>
+            <!-- /ko -->
+        </ul>
+        <form data-bind="submit: $data.applyChanges">
+            <div class="custom-range-buttons">
+                <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button>
+                <button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button>
+            </div>
+        </form>
+    </div>
     <div class="daterangepicker_content">
         <div class="calendar_container">
-  <div class="controls">
-    <ul class="periods">
-      <!-- ko foreach: $data.periods -->
-      <li class="period" data-bind="css: {active: $parent.isActivePeriod($data) && !$parent.isCustomPeriodRangeActive()}, text: $parent.periodProxy.title($data, $parent.getLocale()), click: function(){ $parent.setPeriod($data); }"></li>
-      <!-- /ko -->
-      <!-- ko foreach: $data.customPeriodRanges -->
-      <li class="period" data-bind="css: {active: $parent.isActiveCustomPeriodRange($data)}, text: $data.title, click: function(){ $parent.setCustomPeriodRange($data); }"></li>
-      <!-- /ko -->
-    </ul>
-    <ul class="ranges" data-bind="foreach: $data.ranges">
-      <li class="range" data-bind="css: {active: $parent.isActiveDateRange($data)}, text: $data.title, click: function(){ $parent.setDateRange($data); }"></li>
-    </ul>
-    <form data-bind="submit: $data.applyChanges">
-      <div class="custom-range-buttons">
-        <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button>
-        <button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button>
-      </div>
-    </form>
-  </div>
 
             <!-- ko foreach: $data.calendars() -->
             <div class="calendar">
@@ -71,36 +69,5 @@
             </ul>
 
         </div>
-    </div>
-    <div class="controls">
-        <ul class="periods">
-            <li class="period"
-                data-bind="click : function(){ $data.showQuick() }">
-                Quick
-            </li>
-            <!-- ko foreach: $data.periods -->
-            <li class="period"
-                data-bind=" css: {active: $parent.isActivePeriod($data) && !$parent.isCustomPeriodRangeActive()},
-                            text: $parent.periodProxy.title($data, $parent.getLocale()),
-                            click: function(){ $parent.setPeriod($data); }">
-            </li>
-            <!-- /ko -->
-            <!-- ko foreach: $data.customPeriodRanges -->
-            <li class="period"
-                data-bind=" css: {active: $parent.isActiveCustomPeriodRange($data)},
-                            text: $data.title,
-                            click: function(){ $parent.setCustomPeriodRange($data); }"></li>
-            <!-- /ko -->
-        </ul>
-        <form id="custom_range" data-bind="submit: $data.applyChanges">
-            <div class="custom-range-inputs">
-                <input type="text" data-bind="value: $data.startDateInput, event: {focus: $data.inputFocus}" />
-                <input type="text" data-bind="value: $data.endDateInput, event: {focus: $data.inputFocus}" />
-            </div>
-            <div class="custom-range-buttons">
-                <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button>
-                <button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button>
-            </div>
-        </form>
     </div>
 </div>

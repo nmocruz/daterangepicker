@@ -13,7 +13,7 @@ ko.bindingHandlers.daterangepicker = do ->
       observable = valueAccessor()
       options = ko.unwrap(allBindings.get(@_optionsKey)) || {}
       $(element).daterangepicker(options, (startDate, endDate, period) ->
-        observable([startDate, endDate, allEvents])
+        observable([startDate, endDate, []])
       )
 
     update: (element, valueAccessor, allBindings) ->
