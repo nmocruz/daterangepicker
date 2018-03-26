@@ -81,12 +81,15 @@
 .daterangepicker .custom-range-inputs {
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
   margin: -3px;
   margin-bottom: 5px;
 }
 
 .daterangepicker .custom-range-inputs input {
   min-width: 50px;
+  max-width: 70%;
   width: 50px;
   -ms-flex: 1;
       flex: 1;
@@ -115,7 +118,7 @@
 }
 
 .daterangepicker .custom-range-buttons button:hover {
-  background: gainsboro;
+  background: #dcdbdb;
 }
 
 .daterangepicker .custom-range-buttons button.apply-btn {
@@ -211,14 +214,20 @@
 }
 
 .daterangepicker select {
-  width: 100%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   box-sizing: border-box;
-  padding: 2px 7px;
+  padding: 0.5em;
   height: auto;
   font-size: 13px;
-  line-height: 1.5em;
   text-align: center;
-  margin: 0 2px;
+  margin: 3px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  height: auto;
+  font-size: 13px;
+  color: #333;
 }
 
 .daterangepicker select.hidden {
@@ -228,19 +237,16 @@
 .daterangepicker select.month-select {
   -ms-flex: 10;
       flex: 10;
-  max-width: 75%;
 }
 
 .daterangepicker select.year-select {
   -ms-flex: 11;
       flex: 11;
-  max-width: 75%;
 }
 
 .daterangepicker select.decade-select {
   -ms-flex: 11;
       flex: 11;
-  max-width: 75%;
 }
 
 .calendar {
@@ -281,6 +287,8 @@
 .calendar .calendar-header {
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-align: center;
+      align-items: center;
   margin: 0 6px 4px;
 }
 

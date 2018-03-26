@@ -1,12 +1,17 @@
 .daterangepicker select {
-  width: 100%;
+  width: fit-content;
   box-sizing: border-box;
-  padding: 2px 7px;
+  padding: 0.5em;
   height: auto;
   font-size: 13px;
-  line-height: 1.5em;
+  // line-height: 1.5em;
   text-align: center;
-  margin: 0 2px;
+  margin: 3px;
+  border-radius: $border-radius;
+  border: 1px solid #ccc;
+  height: auto;
+  font-size: 13px;
+  color: #333;
 
   &.hidden {
     display: none;
@@ -14,16 +19,13 @@
 
   &.month-select {
     flex: 10;
-    max-width: 75%;
   }
 
   &.year-select {
     flex: 11;
-    max-width: 75%;
   }
 
   &.decade-select {
     flex: 11;
-    max-width: 75%;
   }
 }
