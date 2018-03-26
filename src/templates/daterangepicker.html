@@ -9,19 +9,21 @@
             <li class="period" data-bind="css: {active: $parent.isActivePeriod($data) && !$parent.isCustomPeriodRangeActive()}, text: $parent.periodProxy.title($data, $parent.getLocale()), click: function(){ $parent.setPeriod($data); }"></li>
             <!-- /ko -->
         </ul>
-        <form data-bind="submit: $data.applyChanges">
-            <div class="custom-range-buttons">
-                <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button>
-                <button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button>
-            </div>
-        </form>
+        <!--<form data-bind="submit: $data.applyChanges">-->
+            <!--<div class="custom-range-buttons">-->
+                <!--<button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button>-->
+                <!--<button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button>-->
+            <!--</div>-->
+        <!--</form>-->
     </div>
     <div class="daterangepicker_content">
         <div class="calendar_container">
 
             <!-- ko foreach: $data.calendars() -->
             <div class="calendar">
-                <div class="calendar-title" data-bind="text: $data.label"></div>
+                <div class="calendar-title">
+                    <input type="text" data-bind="value: $parent.dateInput($index), event: {focus: $parent.inputFocus}" />
+                </div>
                 <div class="calendar-header" data-bind="with: $data.headerView">
                     <div class="arrow" data-bind="css: $data.prevArrowCss()">
                         <button data-bind="click: $data.clickPrevButton"><span class="arrow-left"></span></button>
