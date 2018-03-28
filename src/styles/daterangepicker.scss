@@ -104,16 +104,18 @@ $padding : 10px;
       color: #333;
     }
   }
+  form{
+    min-width: 100%;
+  }
+  .button_container{
+    display : flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
 
-  .custom-range-buttons {
-    display: flex;
-    margin: - $m;
-
-    button {
+    button{
       @include button-sizing;
-
       margin: $m;
-
       border-radius: $border-radius;
       background: $grey-color;
       color: $active-color;
@@ -121,7 +123,6 @@ $padding : 10px;
       &:hover {
         background: darken($grey-color, 10%);
       }
-
       &.apply-btn {
         background: $green-color;
         color: white;
@@ -130,6 +131,7 @@ $padding : 10px;
           background: darken($green-color, 10%);
         }
       }
+
     }
   }
 

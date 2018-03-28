@@ -96,5 +96,11 @@
                             click: function(){ $parent.setPeriod($data); }"></li>
             <!-- /ko -->
         </ul>
+        <form data-bind="submit: $data.applyChanges">
+            <div class="button_container">
+                <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button>
+                <button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button>
+            </div>
+        </form>
     </div>
 </div>
