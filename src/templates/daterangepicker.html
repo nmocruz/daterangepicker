@@ -68,7 +68,8 @@
                 <!-- ko foreach: $data.quickPeriodsLabel -->
                 <li class="period"
                     data-bind=" text: $data,
-                                click: function(){ $parent.setQuickDateRange($index) }">
+                                click: function(){ $parent.setQuickDateRange($index) },
+                                css : { active : $parent.isQuickPeriodSelected($index) }">
                 </li>
                 <!--/ko-->
             </ul>

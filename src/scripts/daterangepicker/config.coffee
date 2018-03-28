@@ -23,6 +23,7 @@ class Config
     @ranges = @_ranges(options.ranges)
     @isCustomPeriodRangeActive = ko.observable(false)
     @isShowingQuick = ko.observable(true)
+    @quickPeriodSelected = ko.observable(0)
 
     @anchorElement = @_anchorElement(options.anchorElement)
     @parentElement = @_parentElement(options.parentElement)
@@ -101,6 +102,8 @@ class Config
           new CustomDateRange(title)
         else
           @parseRange(value, title)
+
+
 
   parseRange: (value, title) ->
     throw new Error('Value should be an array') unless $.isArray(value)
