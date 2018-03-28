@@ -5,7 +5,10 @@ class DateRangePickerView
     @startCalendar = new CalendarView(@, @startDate, 'start')
     @endCalendar = new CalendarView(@, @endDate, 'end')
 
-    @quick_periods = [
+    @fromLabel = 'From'
+    @toLabel = 'To'
+
+    @quickPeriodsLabel = [
       'Previous week'
       'Previous month'
       'Previous year'
@@ -94,11 +97,29 @@ class DateRangePickerView
     else
       [@startCalendar, @endCalendar]
 
+  getStartDateInput: () ->
+    @startDateInput
+
+  getEndDateInput: () ->
+    @endDateInput
+
   dateInput: (index) ->
     if index() == 0
-      @startDateInput
+      @getStartDateInput()
     else
-      @endDateInput
+      @getEndDateInput()
+
+  getFromLabel: () ->
+    @fromLabel
+
+  getToLabel: () ->
+    @toLabel
+
+  getCalendarLabel : (index) ->
+    if index() == 0
+      @getFromLabel()
+    else
+      @getToLabel()
 
   updateDateRange: () ->
     @dateRange([@startDate(), @endDate()])

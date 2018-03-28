@@ -4,20 +4,24 @@
 
             <!-- ko foreach: $data.calendars() -->
             <div class="calendar">
-                <div class="calendar-title">
-                    <input type="text" data-bind="value: $parent.dateInput($index), event: {focus: $parent.inputFocus}" />
-                </div>
-                <div class="calendar-header" data-bind="with: $data.headerView">
-                    <div class="arrow" data-bind="css: $data.prevArrowCss()">
-                        <button data-bind="click: $data.clickPrevButton"><span class="arrow-left"></span></button>
+                <div class="calendar-top">
+                    <div class="calendar-title">
+                        <label data-bind="text: $parent.getCalendarLabel($index)"></label>
+                        <span>:</span>
+                        <input type="text" data-bind="value: $parent.dateInput($index), event: {focus: $parent.inputFocus}" />
                     </div>
-                    <div class="calendar-selects">
-                        <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, fireChange: true, css: {hidden: !$data.monthSelectorAvailable()}"></select>
-                        <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, fireChange: true, css: {hidden: !$data.yearSelectorAvailable()}"></select>
-                        <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, fireChange: true, css: {hidden: !$data.decadeSelectorAvailable()}"></select>
-                    </div>
-                    <div class="arrow" data-bind="css: $data.nextArrowCss()">
-                        <button data-bind="click: $data.clickNextButton"><span class="arrow-right"></span></button>
+                    <div class="calendar-header" data-bind="with: $data.headerView">
+                        <div class="arrow" data-bind="css: $data.prevArrowCss()">
+                            <button data-bind="click: $data.clickPrevButton"><span class="arrow-left"></span></button>
+                        </div>
+                        <div class="calendar-selects">
+                            <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, fireChange: true, css: {hidden: !$data.monthSelectorAvailable()}"></select>
+                            <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, fireChange: true, css: {hidden: !$data.yearSelectorAvailable()}"></select>
+                            <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, fireChange: true, css: {hidden: !$data.decadeSelectorAvailable()}"></select>
+                        </div>
+                        <div class="arrow" data-bind="css: $data.nextArrowCss()">
+                            <button data-bind="click: $data.clickNextButton"><span class="arrow-right"></span></button>
+                        </div>
                     </div>
                 </div>
                 <div class="calendar-table">
@@ -44,11 +48,27 @@
             <!-- /ko -->
         </div>
         <div class="quick_container" data-bind="css : { hide : !$data.isShowingQuick() }">
-
+            <div class="quick-top">
+                <div class="calendar-top">
+                    <div class="from-label">
+                        <label data-bind="text: $data.getFromLabel()"></label>
+                        <span>:</span>
+                        <input type="text" data-bind="value: $data.getStartDateInput()" />
+                    </div>
+                </div>
+                <div class="calendar-top">
+                    <div class="from-to">
+                        <label data-bind="text: $data.getToLabel()"></label>
+                        <span>:</span>
+                        <input type="text" data-bind="value: $data.getEndDateInput()" />
+                    </div>
+                </div>
+            </div>
             <ul class="periods">
-                <!-- ko foreach: $data.quick_periods -->
+                <!-- ko foreach: $data.quickPeriodsLabel -->
                 <li class="period"
-                    data-bind="text: $data">
+                    data-bind=" text: $data,
+                                click: function(){ $parent.setQuickDateRange($index) }">
                 </li>
                 <!--/ko-->
             </ul>
@@ -58,11 +78,21 @@
     <div class="controls">
         <ul class="periods">
             <li class="period"
-                data-bind="click : function(){ $data.showQuick() }">
+                data-bind=" css: {
+                                    active: $data.isShowingQuick()
+                                  },
+                            click : function(){ $data.showQuick() }">
                 Quick
             </li>
             <!-- ko foreach: $data.periods -->
-            <li class="period" data-bind="css: {active: $parent.isActivePeriod($data) && !$parent.isCustomPeriodRangeActive()}, text: $parent.periodProxy.title($data, $parent.getLocale()), click: function(){ $parent.setPeriod($data); }"></li>
+            <li class="period"
+                data-bind=" css: {
+                                    active: $parent.isActivePeriod($data)
+                                    && !$parent.isCustomPeriodRangeActive()
+                                    && !$parent.isShowingQuick()
+                                  },
+                            text: $parent.periodProxy.title($data, $parent.getLocale()),
+                            click: function(){ $parent.setPeriod($data); }"></li>
             <!-- /ko -->
         </ul>
     </div>

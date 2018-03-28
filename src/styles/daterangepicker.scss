@@ -183,7 +183,14 @@ $padding : 10px;
       align-items: center;
       flex-wrap: wrap;
       position: relative !important;
+
     }
+    .calendar-top{
+      background-color: $slightly-darker-grey-color !important;
+      border-radius: $border-radius;
+      padding : $padding;
+    }
+
     .quick_container{
       position: absolute;
       top: 0;
@@ -193,6 +200,15 @@ $padding : 10px;
       min-width: 100%;
       background-color: $grey-color;
       overflow: auto;
+
+      .quick-top{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        margin: $padding;
+      }
 
       .periods{
         //flex-wrap: wrap !important;
@@ -207,7 +223,7 @@ $padding : 10px;
           -webkit-column-break-inside: avoid;
           page-break-inside: avoid;
           break-inside: avoid;
-          display: inline-block;
+          display: block;
           &:first-child {
             border-radius: 0;
           }
