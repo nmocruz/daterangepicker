@@ -22,19 +22,19 @@ class DateRangePickerView
       'Last 5 year'
     ]
 
-    @quickPeriodsDates = {
-      'Previous week' : [moment().subtract(1, 'week'), moment()]
-      'Previous month' : [moment().subtract(1, 'months'), moment()]
-      'Previous year' : [moment().subtract(1, 'year'), moment()]
-      'Last 7 days' : [moment().subtract(7, 'days'), moment()]
-      'Last 30 days' : [moment().subtract(30, 'days'), moment()]
-      'Last 60 days' : [moment().subtract(60, 'days'), moment()]
-      'Last 90 days' : [moment().subtract(90, 'days'), moment()]
-      'Last 6 months' : [moment().subtract(6, 'months'), moment()]
-      'Last 1 year' : [moment().subtract(1, 'year'), moment()]
-      'Last 2 year' : [moment().subtract(2, 'years'), moment()]
-      'Last 5 year' : [moment().subtract(5, 'years'), moment()]
-    }
+    @quickPeriodsDates = [
+      [moment().subtract(1, 'week'), moment()],
+      [moment().subtract(1, 'months'), moment()],
+      [moment().subtract(1, 'year'), moment()],
+      [moment().subtract(7, 'days'), moment()],
+      [moment().subtract(30, 'days'), moment()],
+      [moment().subtract(60, 'days'), moment()],
+      [moment().subtract(90, 'days'), moment()],
+      [moment().subtract(6, 'months'), moment()],
+      [moment().subtract(1, 'year'), moment()],
+      [moment().subtract(2, 'years'), moment()],
+      [moment().subtract(5, 'years'), moment()]
+    ]
 
     @startDateInput = @startCalendar.inputDate
     @endDateInput = @endCalendar.inputDate
@@ -61,6 +61,13 @@ class DateRangePickerView
     if @callback
       @dateRange.subscribe (newValue) =>
         [startDate, endDate] = newValue
+        startDate.hours(0)
+        startDate.minutes(0)
+        startDate.seconds(0)
+
+        endDate.hours(23)
+        endDate.minutes(59)
+        endDate.seconds(59)
         @callback(startDate.clone(), endDate.clone(), @period(), @range, @startCalendar.firstDate(),
                   @endCalendar.lastDate())
       @startCalendar.firstDate.subscribe (newValue) =>
@@ -73,6 +80,7 @@ class DateRangePickerView
                   newValue)
       if @forceUpdate
         [startDate, endDate] = @dateRange()
+
         @callback(startDate.clone(), endDate.clone(), @period(), @range, @startCalendar.firstDate(),
                   @endCalendar.lastDate())
 
@@ -142,7 +150,7 @@ class DateRangePickerView
     obj = {
       single: @single()
       opened: @standalone() || @opened()
-      expanded: @standalone() || @single() || @expanded()
+      expanded: @standalone() || @single() || @expanded() || @isShowingQuick()
       standalone: @standalone()
       'hide-weekdays': @hideWeekdays()
       'hide-periods': (@periods().length + @customPeriodRanges.length) == 1
@@ -185,13 +193,11 @@ class DateRangePickerView
 
   setQuickDateRange: (index) ->
     @setQuickPeriodSelected(index)
-    title = @quickPeriodsLabel[index()]
-    date = @quickPeriodsDates[title]
+    date = @quickPeriodsDates[index()]
     startDate = date[0]
     endDate = date[1]
-    @setDateRange(new DateRange('Quick', startDate, endDate))
-    console.log(title)
-    console.log(date)
+    title = startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY')
+    @setDateRange(new DateRange(title, startDate, endDate))
 
   setDateRange: (dateRange) =>
     if dateRange.constructor == CustomDateRange

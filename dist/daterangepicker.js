@@ -138,7 +138,7 @@
         observable = valueAccessor();
         options = ko.unwrap(allBindings.get(this._optionsKey)) || {};
         return $(element).daterangepicker(options, function(startDate, endDate, period) {
-          return observable([startDate, endDate, allEvents]);
+          return observable([startDate, endDate, []]);
         });
       },
       update: function(element, valueAccessor, allBindings) {
@@ -317,6 +317,8 @@
       this.endDate = this._endDate(options.endDate);
       this.ranges = this._ranges(options.ranges);
       this.isCustomPeriodRangeActive = ko.observable(false);
+      this.isShowingQuick = ko.observable(true);
+      this.quickPeriodSelected = ko.observable(0);
       this.anchorElement = this._anchorElement(options.anchorElement);
       this.parentElement = this._parentElement(options.parentElement);
       this.callback = this._callback(options.callback);
@@ -408,7 +410,7 @@
       if (val instanceof Array) {
         ref1 = val, val = ref1[0], mode = ref1[1];
       }
-      val || (val = moment());
+      val || (val = moment().add('year', 100));
       return this._dateObservable(val, mode, this.minDate);
     };
 
@@ -1033,6 +1035,10 @@
       new Config(options).extend(this);
       this.startCalendar = new CalendarView(this, this.startDate, 'start');
       this.endCalendar = new CalendarView(this, this.endDate, 'end');
+      this.fromLabel = 'From';
+      this.toLabel = 'To';
+      this.quickPeriodsLabel = ['Previous week', 'Previous month', 'Previous year', 'Last 7 days', 'Last 30 days', 'Last 60 days', 'Last 90 days', 'Last 6 months', 'Last 1 year', 'Last 2 year', 'Last 5 year'];
+      this.quickPeriodsDates = [[moment().subtract(1, 'week'), moment()], [moment().subtract(1, 'months'), moment()], [moment().subtract(1, 'year'), moment()], [moment().subtract(7, 'days'), moment()], [moment().subtract(30, 'days'), moment()], [moment().subtract(60, 'days'), moment()], [moment().subtract(90, 'days'), moment()], [moment().subtract(6, 'months'), moment()], [moment().subtract(1, 'year'), moment()], [moment().subtract(2, 'years'), moment()], [moment().subtract(5, 'years'), moment()]];
       this.startDateInput = this.startCalendar.inputDate;
       this.endDateInput = this.endCalendar.inputDate;
       this.range = null;
@@ -1066,6 +1072,12 @@
           return function(newValue) {
             var endDate, startDate;
             startDate = newValue[0], endDate = newValue[1];
+            startDate.hours(0);
+            startDate.minutes(0);
+            startDate.seconds(0);
+            endDate.hours(23);
+            endDate.minutes(59);
+            endDate.seconds(59);
             return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.range, _this.startCalendar.firstDate(), _this.endCalendar.lastDate());
           };
         })(this));
@@ -1107,6 +1119,14 @@
       }
     }
 
+    DateRangePickerView.prototype.showQuick = function() {
+      return this.isShowingQuick(true);
+    };
+
+    DateRangePickerView.prototype.hideQuick = function() {
+      return this.isShowingQuick(false);
+    };
+
     DateRangePickerView.prototype.periodProxy = Period;
 
     DateRangePickerView.prototype.getLocale = function() {
@@ -1121,11 +1141,35 @@
       }
     };
 
+    DateRangePickerView.prototype.getStartDateInput = function() {
+      return this.startDateInput;
+    };
+
+    DateRangePickerView.prototype.getEndDateInput = function() {
+      return this.endDateInput;
+    };
+
     DateRangePickerView.prototype.dateInput = function(index) {
       if (index() === 0) {
-        return this.startDateInput;
+        return this.getStartDateInput();
       } else {
-        return this.endDateInput;
+        return this.getEndDateInput();
+      }
+    };
+
+    DateRangePickerView.prototype.getFromLabel = function() {
+      return this.fromLabel;
+    };
+
+    DateRangePickerView.prototype.getToLabel = function() {
+      return this.toLabel;
+    };
+
+    DateRangePickerView.prototype.getCalendarLabel = function(index) {
+      if (index() === 0) {
+        return this.getFromLabel();
+      } else {
+        return this.getToLabel();
       }
     };
 
@@ -1138,7 +1182,7 @@
       obj = {
         single: this.single(),
         opened: this.standalone() || this.opened(),
-        expanded: this.standalone() || this.single() || this.expanded(),
+        expanded: this.standalone() || this.single() || this.expanded() || this.isShowingQuick(),
         standalone: this.standalone(),
         'hide-weekdays': this.hideWeekdays(),
         'hide-periods': (this.periods().length + this.customPeriodRanges.length) === 1,
@@ -1183,8 +1227,27 @@
 
     DateRangePickerView.prototype.setPeriod = function(period) {
       this.isCustomPeriodRangeActive(false);
+      this.hideQuick();
       this.period(period);
       return this.expanded(true);
+    };
+
+    DateRangePickerView.prototype.setQuickPeriodSelected = function(index) {
+      return this.quickPeriodSelected(index());
+    };
+
+    DateRangePickerView.prototype.isQuickPeriodSelected = function(index) {
+      return this.quickPeriodSelected() === index();
+    };
+
+    DateRangePickerView.prototype.setQuickDateRange = function(index) {
+      var date, endDate, startDate, title;
+      this.setQuickPeriodSelected(index);
+      date = this.quickPeriodsDates[index()];
+      startDate = date[0];
+      endDate = date[1];
+      title = startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY');
+      return this.setDateRange(new DateRange(title, startDate, endDate));
     };
 
     DateRangePickerView.prototype.setDateRange = function(dateRange) {
@@ -1287,7 +1350,7 @@
 
   })();
 
-  DateRangePickerView.template = '<div class="daterangepicker" data-bind="css: $data.cssClasses(), style: $data.style()"> <div class="controls"> <ul class="periods"> <!-- ko foreach: $data.periods --> <li class="period" data-bind="css: {active: $parent.isActivePeriod($data) && !$parent.isCustomPeriodRangeActive()}, text: $parent.periodProxy.title($data, $parent.getLocale()), click: function(){ $parent.setPeriod($data); }"></li> <!-- /ko --> <!-- ko foreach: $data.customPeriodRanges --> <li class="period" data-bind="css: {active: $parent.isActiveCustomPeriodRange($data)}, text: $data.title, click: function(){ $parent.setCustomPeriodRange($data); }"></li> <!-- /ko --> </ul> <ul class="ranges" data-bind="foreach: $data.ranges"> <li class="range" data-bind="css: {active: $parent.isActiveDateRange($data)}, text: $data.title, click: function(){ $parent.setDateRange($data); }"></li> </ul> <form data-bind="submit: $data.applyChanges"> <div class="custom-range-buttons"> <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button> <button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button> </div> </form> </div> <!-- ko foreach: $data.calendars() --> <div class="calendar"> <div class="custom-range-inputs"> <input type="text" data-bind="value: $parent.dateInput($index), event: {focus: $parent.inputFocus}" /> </div> <div class="calendar-header" data-bind="with: $data.headerView"> <div class="arrow" data-bind="css: $data.prevArrowCss()"> <button data-bind="click: $data.clickPrevButton"> <span class="arrow-left"></span> </button> </div> <div class="calendar-selects"> <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, fireChange: true, css: {hidden: !$data.monthSelectorAvailable()}"></select> <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, fireChange: true, css: {hidden: !$data.yearSelectorAvailable()}"></select> <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, fireChange: true, css: {hidden: !$data.decadeSelectorAvailable()}"></select> </div> <div class="arrow" data-bind="css: $data.nextArrowCss()"> <button data-bind="click: $data.clickNextButton"> <span class="arrow-right"></span> </button> </div> </div> <div class="calendar-table"> <!-- ko if: $parent.periodProxy.showWeekDayNames($data.period()) --> <div class="table-row weekdays" data-bind="foreach: $data.weekDayNames()"> <div class="table-col"> <div class="table-value-wrapper"> <div class="table-value" data-bind="text: $data"></div> </div> </div> </div> <!-- /ko --> <!-- ko foreach: $data.calendar() --> <div class="table-row" data-bind="foreach: $data"> <div class="table-col" data-bind="event: $parents[1].eventsForDate($data), css: $parents[1].cssForDate($data)"> <div class="table-value-wrapper" data-bind="foreach: $parents[1].tableValues($data)"> <div class="table-value" data-bind="html: $data.html, css: $data.css"></div> </div> </div> </div> <!-- /ko --> </div> </div> <!-- /ko --> </div>';
+  DateRangePickerView.template = '<div class="daterangepicker" data-bind="css: $data.cssClasses(), style: $data.style()"> <div class="daterangepicker_content"> <div class="calendar_container"> <!-- ko foreach: $data.calendars() --> <div class="calendar"> <div class="calendar-top"> <div class="calendar-title"> <label data-bind="text: $parent.getCalendarLabel($index)"></label> <span>:</span> <input type="text" data-bind="value: $parent.dateInput($index), event: {focus: $parent.inputFocus}" /> </div> <div class="calendar-header" data-bind="with: $data.headerView"> <div class="arrow" data-bind="css: $data.prevArrowCss()"> <button data-bind="click: $data.clickPrevButton"><span class="arrow-left"></span></button> </div> <div class="calendar-selects"> <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, fireChange: true, css: {hidden: !$data.monthSelectorAvailable()}"></select> <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, fireChange: true, css: {hidden: !$data.yearSelectorAvailable()}"></select> <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, fireChange: true, css: {hidden: !$data.decadeSelectorAvailable()}"></select> </div> <div class="arrow" data-bind="css: $data.nextArrowCss()"> <button data-bind="click: $data.clickNextButton"><span class="arrow-right"></span></button> </div> </div> </div> <div class="calendar-table"> <!-- ko if: $parent.periodProxy.showWeekDayNames($data.period()) --> <div class="table-row weekdays" data-bind="foreach: $data.weekDayNames()"> <div class="table-col"> <div class="table-value-wrapper"> <div class="table-value" data-bind="text: $data"></div> </div> </div> </div> <!-- /ko --> <!-- ko foreach: $data.calendar() --> <div class="table-row" data-bind="foreach: $data"> <div class="table-col" data-bind="event: $parents[1].eventsForDate($data), css: $parents[1].cssForDate($data)"> <div class="table-value-wrapper" data-bind="foreach: $parents[1].tableValues($data)"> <div class="table-value" data-bind="html: $data.html, css: $data.css"></div> </div> </div> </div> <!-- /ko --> </div> </div> <!-- /ko --> </div> <div class="quick_container" data-bind="css : { hide : !$data.isShowingQuick() }"> <div class="quick-top"> <div class="calendar-top"> <div class="from-label"> <label data-bind="text: $data.getFromLabel()"></label> <span>:</span> <input type="text" data-bind="value: $data.getStartDateInput()" /> </div> </div> <div class="calendar-top"> <div class="from-to"> <label data-bind="text: $data.getToLabel()"></label> <span>:</span> <input type="text" data-bind="value: $data.getEndDateInput()" /> </div> </div> </div> <ul class="periods"> <!-- ko foreach: $data.quickPeriodsLabel --> <li class="period" data-bind=" text: $data, click: function(){ $parent.setQuickDateRange($index) }, css : { active : $parent.isQuickPeriodSelected($index) }"> </li> <!--/ko--> </ul> </div> </div> <div class="controls"> <ul class="periods"> <li class="period" data-bind=" css: { active: $data.isShowingQuick() }, click : function(){ $data.showQuick() }"> Quick </li> <!-- ko foreach: $data.periods --> <li class="period" data-bind=" css: {  active: $parent.isActivePeriod($data) && !$parent.isCustomPeriodRangeActive() && !$parent.isShowingQuick() }, text: $parent.periodProxy.title($data, $parent.getLocale()), click: function(){ $parent.setPeriod($data); }"></li> <!-- /ko --> </ul> <form data-bind="submit: $data.applyChanges"> <div class="button_container"> <button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button> <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button> </div> </form> </div> </div>';
 
   $.extend($.fn.daterangepicker, {
     ArrayUtils: ArrayUtils,
