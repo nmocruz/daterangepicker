@@ -297,7 +297,6 @@
       if (options == null) {
         options = {};
       }
-      console.log(options);
       this.firstDayOfWeek = this._firstDayOfWeek(options.firstDayOfWeek);
       this.allEvents = this._allEvents(options.allEvents);
       this.timeZone = this._timeZone(options.timeZone);
@@ -416,12 +415,10 @@
     };
 
     Config.prototype._startDate = function(val) {
-      console.log(val);
       val || (val = moment());
       val.hours(0);
       val.minutes(0);
       val.seconds(0);
-      console.log(val);
       return this._dateObservable(val, null, this.minDate, this.maxDate);
     };
 
@@ -1261,7 +1258,7 @@
       date = this.quickPeriodsDates[index()];
       startDate = date[0];
       endDate = date[1];
-      title = startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY');
+      title = startDate.format(this.locale.inputFormat) + ' - ' + endDate.format(this.locale.inputFormat);
       return this.setDateRange(new DateRange(title, startDate, endDate));
     };
 

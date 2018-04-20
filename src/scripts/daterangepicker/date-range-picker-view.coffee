@@ -202,7 +202,7 @@ class DateRangePickerView
     date = @quickPeriodsDates[index()]
     startDate = date[0]
     endDate = date[1]
-    title = startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY')
+    title = startDate.format(@locale.inputFormat) + ' - ' + endDate.format(@locale.inputFormat)
     @setDateRange(new DateRange(title, startDate, endDate))
 
   setDateRange: (dateRange) =>
