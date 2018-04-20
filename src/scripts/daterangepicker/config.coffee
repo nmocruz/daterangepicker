@@ -80,15 +80,21 @@ class Config
 
   _maxDate: (val) ->
     [val, mode] = val if val instanceof Array
-    val ||= moment().add('year', 100)
+    val ||= moment().add('year', 30)
     @_dateObservable(val, mode, @minDate)
 
   _startDate: (val) ->
-    val ||= moment().subtract(29, 'days')
+    val ||= moment()
+    val.hours(0)
+    val.minutes(0)
+    val.seconds(0)
     @_dateObservable(val, null, @minDate, @maxDate)
 
   _endDate: (val) ->
     val ||= moment()
+    val.hours(23)
+    val.minutes(59)
+    val.seconds(59)
     @_dateObservable(val, null, @startDate, @maxDate)
 
   _ranges: (obj) ->

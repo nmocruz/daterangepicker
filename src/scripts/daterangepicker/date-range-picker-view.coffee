@@ -1,7 +1,6 @@
 class DateRangePickerView
   constructor: (options = {}) ->
     new Config(options).extend(@)
-
     @startCalendar = new CalendarView(@, @startDate, 'start')
     @endCalendar = new CalendarView(@, @endDate, 'end')
 
@@ -68,6 +67,7 @@ class DateRangePickerView
         endDate.hours(23)
         endDate.minutes(59)
         endDate.seconds(59)
+
         @callback(startDate.clone(), endDate.clone(), @period(), @range, @startCalendar.firstDate(),
                   @endCalendar.lastDate())
       @startCalendar.firstDate.subscribe (newValue) =>
@@ -101,7 +101,13 @@ class DateRangePickerView
     if @opened()
       @updatePosition()
 
+    @showQuick()
+
   showQuick: () ->
+    quickDate = @quickPeriodsDates[0]
+    @startDate(quickDate[0])
+    @endDate(quickDate[1])
+    @updateDateRange()
     @isShowingQuick(true)
 
   hideQuick: () ->

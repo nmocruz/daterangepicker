@@ -190,7 +190,7 @@ $padding : 10px;
     .calendar-top{
       background-color: $slightly-darker-grey-color !important;
       border-radius: $border-radius;
-      padding : $padding;
+      padding : $padding * 2;
     }
 
     .quick_container{
@@ -207,9 +207,9 @@ $padding : 10px;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
-        margin: $padding;
+        margin: 4px;
       }
 
       .periods{
