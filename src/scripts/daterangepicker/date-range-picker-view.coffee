@@ -7,32 +7,97 @@ class DateRangePickerView
     @fromLabel = 'From'
     @toLabel = 'To'
 
-    @quickPeriodsLabel = [
-      'Previous week'
-      'Previous month'
-      'Previous year'
-      'Last 7 days'
-      'Last 30 days'
-      'Last 60 days'
-      'Last 90 days'
-      'Last 6 months'
-      'Last 1 year'
-      'Last 2 year'
-      'Last 5 year'
-    ]
-
-    @quickPeriodsDates = [
-      [moment().subtract(1, 'week'), moment()],
-      [moment().subtract(1, 'months'), moment()],
-      [moment().subtract(1, 'year'), moment()],
-      [moment().subtract(7, 'days'), moment()],
-      [moment().subtract(30, 'days'), moment()],
-      [moment().subtract(60, 'days'), moment()],
-      [moment().subtract(90, 'days'), moment()],
-      [moment().subtract(6, 'months'), moment()],
-      [moment().subtract(1, 'year'), moment()],
-      [moment().subtract(2, 'years'), moment()],
-      [moment().subtract(5, 'years'), moment()]
+    @quickPeriodsRanges = [
+      {
+        label: 'Last Day'
+        timeDependant : false
+        range : [moment().subtract(1, 'day'), moment()]
+      }
+      {
+        label: 'Previous week'
+        timeDependant : false,
+        range : [moment().subtract(1, 'week'), moment()]
+      }
+      {
+        label : 'Previous month'
+        timeDependant : false
+        range : [moment().subtract(1, 'months'), moment()]
+      }
+      {
+        label : 'Previous year'
+        timeDependant : false
+        range : [moment().subtract(1, 'year'), moment()]
+      }
+      {
+        label : 'Last 15 minutes'
+        timeDependant : true
+        range : [moment().subtract(15, 'minutes'), moment()]
+      }
+      {
+        label : 'Last 30 minutes'
+        timeDependant : true
+        range : [moment().subtract(30, 'minutes'), moment()]
+      }
+      {
+        label : 'Last 1 hour'
+        timeDependant : true
+        range : [moment().subtract(1, 'hour'), moment()]
+      }
+      {
+        label : 'Last 4 hours'
+        timeDependant : true
+        range : [moment().subtract(4, 'hours'), moment()]
+      }
+      {
+        label : 'Last 12 hours'
+        timeDependant : true
+        range : [moment().subtract(12, 'hours'), moment()]
+      }
+      {
+        label : 'Last 24 hours'
+        timeDependant : true
+        range : [moment().subtract(12, 'hours'), moment()]
+      }
+      {
+        label : 'Last 7 days'
+        timeDependant : false
+        range : [moment().subtract(7, 'days'), moment()]
+      }
+      {
+        label : 'Last 30 days'
+        timeDependant : false
+        range : [moment().subtract(30, 'days'), moment()]
+      }
+      {
+        label : 'Last 60 days'
+        timeDependant : false
+        range : [moment().subtract(60, 'days'), moment()]
+      }
+      {
+        label : 'Last 90 days'
+        timeDependant : false
+        range : [moment().subtract(90, 'days'), moment()]
+      }
+      {
+        label : 'Last 6 months'
+        timeDependant : false
+        range : [moment().subtract(6, 'months'), moment()]
+      }
+      {
+        label : 'Last 1 year'
+        timeDependant : false
+        range : [moment().subtract(1, 'year'), moment()]
+      }
+      {
+        label : 'Last 2 years'
+        timeDependant : false
+        range : [moment().subtract(2, 'years'), moment()]
+      }
+      {
+        label : 'Last 5 years'
+        timeDependant : false
+        range : [moment().subtract(5, 'years'), moment()]
+      }
     ]
 
     @startDateInput = @startCalendar.inputDate
@@ -60,13 +125,14 @@ class DateRangePickerView
     if @callback
       @dateRange.subscribe (newValue) =>
         [startDate, endDate] = newValue
-        startDate.hours(0)
-        startDate.minutes(0)
-        startDate.seconds(0)
+        if !@isTimeDependant()
+          startDate.hours(0)
+          startDate.minutes(0)
+          startDate.seconds(0)
 
-        endDate.hours(23)
-        endDate.minutes(59)
-        endDate.seconds(59)
+          endDate.hours(23)
+          endDate.minutes(59)
+          endDate.seconds(59)
 
         @callback(startDate.clone(), endDate.clone(), @period(), @range, @startCalendar.firstDate(),
                   @endCalendar.lastDate())
@@ -104,15 +170,10 @@ class DateRangePickerView
     @showQuick()
 
   showQuick: () ->
-    quickDate = @quickPeriodsDates[0]
-    @startDate(quickDate[0])
-    @endDate(quickDate[1])
-    @updateDateRange()
     @isShowingQuick(true)
 
   hideQuick: () ->
     @isShowingQuick(false)
-
 
   periodProxy: Period
 
@@ -199,7 +260,8 @@ class DateRangePickerView
 
   setQuickDateRange: (index) ->
     @setQuickPeriodSelected(index)
-    date = @quickPeriodsDates[index()]
+    date = @quickPeriodsRanges[index()]['range']
+    @isTimeDependant(@quickPeriodsRanges[index()]['timeDependant'])
     startDate = date[0]
     endDate = date[1]
     title = startDate.format(@locale.inputFormat) + ' - ' + endDate.format(@locale.inputFormat)

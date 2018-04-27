@@ -23,6 +23,7 @@ class Config
     @ranges = @_ranges(options.ranges)
     @isCustomPeriodRangeActive = ko.observable(false)
     @isShowingQuick = ko.observable(true)
+    @isTimeDependant = ko.observable(false)
     @quickPeriodSelected = ko.observable(0)
 
     @anchorElement = @_anchorElement(options.anchorElement)
@@ -80,11 +81,11 @@ class Config
 
   _maxDate: (val) ->
     [val, mode] = val if val instanceof Array
-    val ||= moment().add('year', 30)
+    val ||= moment().add(30, 'years')
     @_dateObservable(val, mode, @minDate)
 
   _startDate: (val) ->
-    val ||= moment()
+    val ||= moment().subtract(1, 'day')
     val.hours(0)
     val.minutes(0)
     val.seconds(0)

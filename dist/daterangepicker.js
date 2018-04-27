@@ -318,6 +318,7 @@
       this.ranges = this._ranges(options.ranges);
       this.isCustomPeriodRangeActive = ko.observable(false);
       this.isShowingQuick = ko.observable(true);
+      this.isTimeDependant = ko.observable(false);
       this.quickPeriodSelected = ko.observable(0);
       this.anchorElement = this._anchorElement(options.anchorElement);
       this.parentElement = this._parentElement(options.parentElement);
@@ -410,12 +411,12 @@
       if (val instanceof Array) {
         ref1 = val, val = ref1[0], mode = ref1[1];
       }
-      val || (val = moment().add('year', 30));
+      val || (val = moment().add(30, 'years'));
       return this._dateObservable(val, mode, this.minDate);
     };
 
     Config.prototype._startDate = function(val) {
-      val || (val = moment());
+      val || (val = moment().subtract(1, 'day'));
       val.hours(0);
       val.minutes(0);
       val.seconds(0);
@@ -1043,8 +1044,81 @@
       this.endCalendar = new CalendarView(this, this.endDate, 'end');
       this.fromLabel = 'From';
       this.toLabel = 'To';
-      this.quickPeriodsLabel = ['Previous week', 'Previous month', 'Previous year', 'Last 7 days', 'Last 30 days', 'Last 60 days', 'Last 90 days', 'Last 6 months', 'Last 1 year', 'Last 2 year', 'Last 5 year'];
-      this.quickPeriodsDates = [[moment().subtract(1, 'week'), moment()], [moment().subtract(1, 'months'), moment()], [moment().subtract(1, 'year'), moment()], [moment().subtract(7, 'days'), moment()], [moment().subtract(30, 'days'), moment()], [moment().subtract(60, 'days'), moment()], [moment().subtract(90, 'days'), moment()], [moment().subtract(6, 'months'), moment()], [moment().subtract(1, 'year'), moment()], [moment().subtract(2, 'years'), moment()], [moment().subtract(5, 'years'), moment()]];
+      this.quickPeriodsRanges = [
+        {
+          label: 'Last Day',
+          timeDependant: false,
+          range: [moment().subtract(1, 'day'), moment()]
+        }, {
+          label: 'Previous week',
+          timeDependant: false,
+          range: [moment().subtract(1, 'week'), moment()]
+        }, {
+          label: 'Previous month',
+          timeDependant: false,
+          range: [moment().subtract(1, 'months'), moment()]
+        }, {
+          label: 'Previous year',
+          timeDependant: false,
+          range: [moment().subtract(1, 'year'), moment()]
+        }, {
+          label: 'Last 15 minutes',
+          timeDependant: true,
+          range: [moment().subtract(15, 'minutes'), moment()]
+        }, {
+          label: 'Last 30 minutes',
+          timeDependant: true,
+          range: [moment().subtract(30, 'minutes'), moment()]
+        }, {
+          label: 'Last 1 hour',
+          timeDependant: true,
+          range: [moment().subtract(1, 'hour'), moment()]
+        }, {
+          label: 'Last 4 hours',
+          timeDependant: true,
+          range: [moment().subtract(4, 'hours'), moment()]
+        }, {
+          label: 'Last 12 hours',
+          timeDependant: true,
+          range: [moment().subtract(12, 'hours'), moment()]
+        }, {
+          label: 'Last 24 hours',
+          timeDependant: true,
+          range: [moment().subtract(12, 'hours'), moment()]
+        }, {
+          label: 'Last 7 days',
+          timeDependant: false,
+          range: [moment().subtract(7, 'days'), moment()]
+        }, {
+          label: 'Last 30 days',
+          timeDependant: false,
+          range: [moment().subtract(30, 'days'), moment()]
+        }, {
+          label: 'Last 60 days',
+          timeDependant: false,
+          range: [moment().subtract(60, 'days'), moment()]
+        }, {
+          label: 'Last 90 days',
+          timeDependant: false,
+          range: [moment().subtract(90, 'days'), moment()]
+        }, {
+          label: 'Last 6 months',
+          timeDependant: false,
+          range: [moment().subtract(6, 'months'), moment()]
+        }, {
+          label: 'Last 1 year',
+          timeDependant: false,
+          range: [moment().subtract(1, 'year'), moment()]
+        }, {
+          label: 'Last 2 years',
+          timeDependant: false,
+          range: [moment().subtract(2, 'years'), moment()]
+        }, {
+          label: 'Last 5 years',
+          timeDependant: false,
+          range: [moment().subtract(5, 'years'), moment()]
+        }
+      ];
       this.startDateInput = this.startCalendar.inputDate;
       this.endDateInput = this.endCalendar.inputDate;
       this.range = null;
@@ -1078,12 +1152,14 @@
           return function(newValue) {
             var endDate, startDate;
             startDate = newValue[0], endDate = newValue[1];
-            startDate.hours(0);
-            startDate.minutes(0);
-            startDate.seconds(0);
-            endDate.hours(23);
-            endDate.minutes(59);
-            endDate.seconds(59);
+            if (!_this.isTimeDependant()) {
+              startDate.hours(0);
+              startDate.minutes(0);
+              startDate.seconds(0);
+              endDate.hours(23);
+              endDate.minutes(59);
+              endDate.seconds(59);
+            }
             return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.range, _this.startCalendar.firstDate(), _this.endCalendar.lastDate());
           };
         })(this));
@@ -1127,11 +1203,6 @@
     }
 
     DateRangePickerView.prototype.showQuick = function() {
-      var quickDate;
-      quickDate = this.quickPeriodsDates[0];
-      this.startDate(quickDate[0]);
-      this.endDate(quickDate[1]);
-      this.updateDateRange();
       return this.isShowingQuick(true);
     };
 
@@ -1255,7 +1326,8 @@
     DateRangePickerView.prototype.setQuickDateRange = function(index) {
       var date, endDate, startDate, title;
       this.setQuickPeriodSelected(index);
-      date = this.quickPeriodsDates[index()];
+      date = this.quickPeriodsRanges[index()]['range'];
+      this.isTimeDependant(this.quickPeriodsRanges[index()]['timeDependant']);
       startDate = date[0];
       endDate = date[1];
       title = startDate.format(this.locale.inputFormat) + ' - ' + endDate.format(this.locale.inputFormat);
@@ -1362,7 +1434,7 @@
 
   })();
 
-  DateRangePickerView.template = '<div class="daterangepicker" data-bind="css: $data.cssClasses(), style: $data.style()"> <div class="daterangepicker_content"> <div class="calendar_container"> <!-- ko foreach: $data.calendars() --> <div class="calendar"> <div class="calendar-top"> <div class="calendar-title"> <label data-bind="text: $parent.getCalendarLabel($index)"></label> <span>:</span> <input type="text" data-bind="value: $parent.dateInput($index), event: {focus: $parent.inputFocus}" /> </div> <div class="calendar-header" data-bind="with: $data.headerView"> <div class="arrow" data-bind="css: $data.prevArrowCss()"> <button data-bind="click: $data.clickPrevButton"><span class="arrow-left"></span></button> </div> <div class="calendar-selects"> <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, fireChange: true, css: {hidden: !$data.monthSelectorAvailable()}"></select> <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, fireChange: true, css: {hidden: !$data.yearSelectorAvailable()}"></select> <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, fireChange: true, css: {hidden: !$data.decadeSelectorAvailable()}"></select> </div> <div class="arrow" data-bind="css: $data.nextArrowCss()"> <button data-bind="click: $data.clickNextButton"><span class="arrow-right"></span></button> </div> </div> </div> <div class="calendar-table"> <!-- ko if: $parent.periodProxy.showWeekDayNames($data.period()) --> <div class="table-row weekdays" data-bind="foreach: $data.weekDayNames()"> <div class="table-col"> <div class="table-value-wrapper"> <div class="table-value" data-bind="text: $data"></div> </div> </div> </div> <!-- /ko --> <!-- ko foreach: $data.calendar() --> <div class="table-row" data-bind="foreach: $data"> <div class="table-col" data-bind="event: $parents[1].eventsForDate($data), css: $parents[1].cssForDate($data)"> <div class="table-value-wrapper" data-bind="foreach: $parents[1].tableValues($data)"> <div class="table-value" data-bind="html: $data.html, css: $data.css"></div> </div> </div> </div> <!-- /ko --> </div> </div> <!-- /ko --> </div> <div class="quick_container" data-bind="css : { hide : !$data.isShowingQuick() }"> <div class="quick-top"> <div class="calendar-top"> <div class="from-label"> <label data-bind="text: $data.getFromLabel()"></label> <span>:</span> <input type="text" data-bind="value: $data.getStartDateInput()" /> </div> </div> <div class="calendar-top calendar-title"> <div class="from-to"> <label data-bind="text: $data.getToLabel()"></label> <span>:</span> <input type="text" data-bind="value: $data.getEndDateInput()" /> </div> </div> </div> <ul class="periods"> <!-- ko foreach: $data.quickPeriodsLabel --> <li class="period" data-bind=" text: $data, click: function(){ $parent.setQuickDateRange($index) }, css : { active : $parent.isQuickPeriodSelected($index) }"> </li> <!--/ko--> </ul> </div> </div> <div class="controls"> <ul class="periods"> <li class="period" data-bind=" css: { active: $data.isShowingQuick() }, click : function(){ $data.showQuick() }"> Quick </li> <!-- ko foreach: $data.periods --> <li class="period" data-bind=" css: {  active: $parent.isActivePeriod($data) && !$parent.isCustomPeriodRangeActive() && !$parent.isShowingQuick() }, text: $parent.periodProxy.title($data, $parent.getLocale()), click: function(){ $parent.setPeriod($data); }"></li> <!-- /ko --> </ul> <form data-bind="submit: $data.applyChanges"> <div class="button_container"> <button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button> <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button> </div> </form> </div> </div>';
+  DateRangePickerView.template = '<div class="daterangepicker" data-bind="css: $data.cssClasses(), style: $data.style()"> <div class="daterangepicker_content"> <div class="calendar_container"> <!-- ko foreach: $data.calendars() --> <div class="calendar"> <div class="calendar-top"> <div class="calendar-title"> <label data-bind="text: $parent.getCalendarLabel($index)"></label> <span>:</span> <input type="text" data-bind="value: $parent.dateInput($index), event: {focus: $parent.inputFocus}" /> </div> <div class="calendar-header" data-bind="with: $data.headerView"> <div class="arrow" data-bind="css: $data.prevArrowCss()"> <button data-bind="click: $data.clickPrevButton"><span class="arrow-left"></span></button> </div> <div class="calendar-selects"> <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, fireChange: true, css: {hidden: !$data.monthSelectorAvailable()}"></select> <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, fireChange: true, css: {hidden: !$data.yearSelectorAvailable()}"></select> <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, fireChange: true, css: {hidden: !$data.decadeSelectorAvailable()}"></select> </div> <div class="arrow" data-bind="css: $data.nextArrowCss()"> <button data-bind="click: $data.clickNextButton"><span class="arrow-right"></span></button> </div> </div> </div> <div class="calendar-table"> <!-- ko if: $parent.periodProxy.showWeekDayNames($data.period()) --> <div class="table-row weekdays" data-bind="foreach: $data.weekDayNames()"> <div class="table-col"> <div class="table-value-wrapper"> <div class="table-value" data-bind="text: $data"></div> </div> </div> </div> <!-- /ko --> <!-- ko foreach: $data.calendar() --> <div class="table-row" data-bind="foreach: $data"> <div class="table-col" data-bind="event: $parents[1].eventsForDate($data), css: $parents[1].cssForDate($data)"> <div class="table-value-wrapper" data-bind="foreach: $parents[1].tableValues($data)"> <div class="table-value" data-bind="html: $data.html, css: $data.css"></div> </div> </div> </div> <!-- /ko --> </div> </div> <!-- /ko --> </div> <div class="quick_container" data-bind="css : { hide : !$data.isShowingQuick() }"> <div class="quick-top"> <div class="calendar-top"> <div class="from-label"> <label data-bind="text: $data.getFromLabel()"></label> <span>:</span> <input type="text" data-bind="value: $data.getStartDateInput()" /> </div> </div> <div class="calendar-top"> <div class="from-to"> <label data-bind="text: $data.getToLabel()"></label> <span>:</span> <input type="text" data-bind="value: $data.getEndDateInput()" /> </div> </div> </div> <ul class="periods"> <!-- ko foreach: $data.quickPeriodsRanges --> <li class="period" data-bind=" text: $data.label, click: function(){ $parent.setQuickDateRange($index) }, css : { active : $parent.isQuickPeriodSelected($index) }"> </li> <!--/ko--> </ul> </div> </div> <div class="controls"> <ul class="periods"> <li class="period" data-bind=" css: { active: $data.isShowingQuick() }, click : function(){ $data.showQuick() }"> Quick </li> <!-- ko foreach: $data.periods --> <li class="period" data-bind=" css: {  active: $parent.isActivePeriod($data) && !$parent.isCustomPeriodRangeActive() && !$parent.isShowingQuick() }, text: $parent.periodProxy.title($data, $parent.getLocale()), click: function(){ $parent.setPeriod($data); }"></li> <!-- /ko --> </ul> <form data-bind="submit: $data.applyChanges"> <div class="button_container"> <button class="cancel-btn" data-bind="text: $data.locale.cancelButtonTitle, click: $data.cancelChanges"></button> <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button> </div> </form> </div> </div>';
 
   $.extend($.fn.daterangepicker, {
     ArrayUtils: ArrayUtils,

@@ -56,7 +56,7 @@
                         <input type="text" data-bind="value: $data.getStartDateInput()" />
                     </div>
                 </div>
-                <div class="calendar-top calendar-title">
+                <div class="calendar-top">
                     <div class="from-to">
                         <label data-bind="text: $data.getToLabel()"></label>
                         <span>:</span>
@@ -65,9 +65,9 @@
                 </div>
             </div>
             <ul class="periods">
-                <!-- ko foreach: $data.quickPeriodsLabel -->
+                <!-- ko foreach: $data.quickPeriodsRanges -->
                 <li class="period"
-                    data-bind=" text: $data,
+                    data-bind=" text: $data.label,
                                 click: function(){ $parent.setQuickDateRange($index) },
                                 css : { active : $parent.isQuickPeriodSelected($index) }">
                 </li>

@@ -191,6 +191,7 @@ $padding : 10px;
       background-color: $slightly-darker-grey-color !important;
       border-radius: $border-radius;
       padding : $padding * 2;
+      box-sizing: border-box !important;
     }
 
     .quick_container{
@@ -206,7 +207,7 @@ $padding : 10px;
       .quick-top{
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
+        //flex-wrap: wrap;
         justify-content: space-between;
         align-items: center;
         margin: 4px;
