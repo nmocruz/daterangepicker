@@ -9,94 +9,137 @@ class DateRangePickerView
 
     @quickPeriodsRanges = [
       {
-        label: 'Last Day'
-        timeDependant : false
-        range : [moment().subtract(1, 'day'), moment()]
+        label: 'Today'
+        range : [
+          moment.utc().startOf('day'),
+          moment.utc().endOf('day')
+        ]
+      }
+      {
+        label: 'Yesterday'
+        range : [
+          moment.utc().subtract(1, 'day').startOf('day'),
+          moment.utc().subtract(1, 'day').endOf('day')
+        ]
       }
       {
         label: 'Previous week'
-        timeDependant : false,
-        range : [moment().subtract(1, 'week'), moment()]
+        range : [
+          moment.utc().subtract(1, 'week').startOf('week').startOf('day'),
+          moment.utc().subtract(1, 'week').endOf('week').endOf('day')
+        ]
       }
       {
         label : 'Previous month'
-        timeDependant : false
-        range : [moment().subtract(1, 'months'), moment()]
+        range : [
+          moment.utc().subtract(1, 'months').startOf('month').startOf('day'),
+          moment.utc().subtract(1, 'months').endOf('month').endOf('day')
+        ]
       }
       {
         label : 'Previous year'
-        timeDependant : false
-        range : [moment().subtract(1, 'year'), moment()]
+        range : [
+          moment.utc().subtract(1, 'year').startOf('year').startOf('day'),
+          moment.utc().subtract(1, 'year').endOf('year').endOf('day')
+        ]
       }
       {
         label : 'Last 15 minutes'
-        timeDependant : true
-        range : [moment().subtract(15, 'minutes'), moment()]
+        range : [
+          moment.utc().subtract(15, 'minutes'),
+          moment.utc()
+        ]
       }
       {
         label : 'Last 30 minutes'
-        timeDependant : true
-        range : [moment().subtract(30, 'minutes'), moment()]
+        range : [
+          moment.utc().subtract(30, 'minutes'),
+          moment.utc()
+        ]
       }
       {
         label : 'Last 1 hour'
-        timeDependant : true
-        range : [moment().subtract(1, 'hour'), moment()]
+        range : [
+          moment.utc().subtract(1, 'hour'),
+          moment.utc()
+        ]
       }
       {
         label : 'Last 4 hours'
-        timeDependant : true
-        range : [moment().subtract(4, 'hours'), moment()]
+        range : [
+          moment.utc().subtract(4, 'hours'),
+          moment.utc()
+        ]
       }
       {
         label : 'Last 12 hours'
-        timeDependant : true
-        range : [moment().subtract(12, 'hours'), moment()]
+        range : [
+          moment.utc().subtract(12, 'hours'),
+          moment.utc()
+        ]
       }
       {
         label : 'Last 24 hours'
-        timeDependant : true
-        range : [moment().subtract(12, 'hours'), moment()]
+        range : [
+          moment.utc().subtract(12, 'hours'),
+          moment.utc()
+        ]
       }
       {
         label : 'Last 7 days'
-        timeDependant : false
-        range : [moment().subtract(7, 'days'), moment()]
+        range : [
+          moment.utc().subtract(7, 'days').startOf('day'),
+          moment.utc().endOf('day')
+        ]
       }
       {
         label : 'Last 30 days'
-        timeDependant : false
-        range : [moment().subtract(30, 'days'), moment()]
+        range : [
+          moment.utc().subtract(30, 'days').startOf('day'),
+          moment.utc().endOf('day')
+        ]
       }
       {
         label : 'Last 60 days'
-        timeDependant : false
-        range : [moment().subtract(60, 'days'), moment()]
+        range : [
+          moment.utc().subtract(60, 'days').startOf('day'),
+          moment.utc().endOf('day')
+        ]
       }
       {
         label : 'Last 90 days'
-        timeDependant : false
-        range : [moment().subtract(90, 'days'), moment()]
+        range : [
+          moment.utc().subtract(90, 'days').startOf('day'),
+          moment.utc().endOf('day')
+        ]
       }
       {
         label : 'Last 6 months'
-        timeDependant : false
-        range : [moment().subtract(6, 'months'), moment()]
+        range : [
+          moment.utc().subtract(6, 'months').startOf('day'),
+          moment.utc().endOf('day')
+        ]
       }
       {
         label : 'Last 1 year'
-        timeDependant : false
-        range : [moment().subtract(1, 'year'), moment()]
+        range : [
+          moment.utc().subtract(1, 'year').startOf('day'),
+          moment.utc().endOf('day')
+        ]
       }
       {
         label : 'Last 2 years'
-        timeDependant : false
-        range : [moment().subtract(2, 'years'), moment()]
+        range : [
+          moment.utc().subtract(2, 'years').startOf('day'),
+          moment.utc().endOf('day')
+        ]
       }
       {
         label : 'Last 5 years'
-        timeDependant : false
-        range : [moment().subtract(5, 'years'), moment()]
+        range : [
+          moment.utc().subtract(5, 'years').startOf('day'),
+          moment.utc().endOf('day')
+        ]
       }
     ]
 
@@ -125,15 +168,6 @@ class DateRangePickerView
     if @callback
       @dateRange.subscribe (newValue) =>
         [startDate, endDate] = newValue
-        if !@isTimeDependant()
-          startDate.hours(0)
-          startDate.minutes(0)
-          startDate.seconds(0)
-
-          endDate.hours(23)
-          endDate.minutes(59)
-          endDate.seconds(59)
-
         @callback(startDate.clone(), endDate.clone(), @period(), @range, @startCalendar.firstDate(),
                   @endCalendar.lastDate())
       @startCalendar.firstDate.subscribe (newValue) =>
