@@ -81,7 +81,7 @@ class DateRangePickerView
       {
         label : 'Last 24 hours'
         range : [
-          moment.utc().subtract(12, 'hours'),
+          moment.utc().subtract(24, 'hours'),
           moment.utc()
         ]
       }
