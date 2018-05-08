@@ -64,15 +64,42 @@
                     </div>
                 </div>
             </div>
-            <ul class="periods">
-                <!-- ko foreach: $data.quickPeriodsRanges -->
-                <li class="period"
-                    data-bind=" text: $data.label,
-                                click: function(){ $parent.setQuickDateRange($index) },
-                                css : { active : $parent.isQuickPeriodSelected($index) }">
-                </li>
-                <!--/ko-->
-            </ul>
+            <div class="quick_periods_container">
+                <ul id="this_periods" class="periods">
+                    <!-- ko foreach: $data.quickPeriodsRanges -->
+                    <!-- ko if: $index() <= 3 -->
+                    <li class="period"
+                        data-bind=" text: $data.label,
+                                    click: function(){ $parent.setQuickDateRange($index) },
+                                    css : { active : $parent.isQuickPeriodSelected($index) }">
+                    </li>
+                    <!--/ko-->
+                    <!--/ko-->
+                </ul>
+                <ul id="prev_periods" class="periods">
+                    <!-- ko foreach: $data.quickPeriodsRanges -->
+                    <!-- ko if: $index() > 3 && $index() <= 7 -->
+                    <li class="period"
+                        data-bind=" text: $data.label,
+                                    click: function(){ $parent.setQuickDateRange($index) },
+                                    css : { active : $parent.isQuickPeriodSelected($index) }">
+                    </li>
+                    <!--/ko-->
+                    <!--/ko-->
+                </ul>
+
+                <ul id="last_periods" class="periods">
+                    <!-- ko foreach: $data.quickPeriodsRanges -->
+                    <!-- ko if: $index() > 7-->
+                    <li class="period"
+                        data-bind=" text: $data.label,
+                                    click: function(){ $parent.setQuickDateRange($index) },
+                                    css : { active : $parent.isQuickPeriodSelected($index) }">
+                    </li>
+                    <!--/ko-->
+                    <!--/ko-->
+                </ul>
+            </div>
 
         </div>
     </div>

@@ -213,15 +213,20 @@ $padding : 10px;
         margin: 4px;
       }
 
+      .quick_periods_container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: nowrap;
+      }
+
       .periods{
         //flex-wrap: wrap !important;
         display: inline-block;
         align-items: flex-start;
         margin: 0 auto 8px;
         padding-top: $padding;
-        -webkit-column-count: 3 !important;
-        -moz-column-count: 3 !important;
-        column-count: 3 !important;
         li {
           -webkit-column-break-inside: avoid;
           page-break-inside: avoid;
@@ -235,6 +240,16 @@ $padding : 10px;
             border-radius: 0;
           }
         }
+      }
+
+      #this_periods, #prev_periods{
+        min-width: 25% !important;
+      }
+      #last_periods{
+        min-width: 50% !important;
+        column-count: 2 !important;
+        -webkit-column-count: 2 !important;
+        -moz-column-count: 2 !important;
       }
     }
   }

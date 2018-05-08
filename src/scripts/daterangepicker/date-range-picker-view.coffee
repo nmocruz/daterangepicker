@@ -16,12 +16,36 @@ class DateRangePickerView
         ]
       }
       {
+        label: 'This week'
+        range : [
+          moment.utc().startOf('week').startOf('day'),
+          moment.utc().endOf('week').endOf('day')
+        ]
+      }
+
+      {
+        label : 'This month'
+        range : [
+          moment.utc().startOf('month').startOf('day'),
+          moment.utc().endOf('month').endOf('day')
+        ]
+      }
+      {
+        label : 'This year'
+        range : [
+          moment.utc().startOf('year').startOf('day'),
+          moment.utc().endOf('year').endOf('day')
+        ]
+      }
+
+      {
         label: 'Yesterday'
         range : [
           moment.utc().subtract(1, 'day').startOf('day'),
           moment.utc().subtract(1, 'day').endOf('day')
         ]
       }
+
       {
         label: 'Previous week'
         range : [
@@ -29,6 +53,7 @@ class DateRangePickerView
           moment.utc().subtract(1, 'week').endOf('week').endOf('day')
         ]
       }
+
       {
         label : 'Previous month'
         range : [
@@ -36,6 +61,7 @@ class DateRangePickerView
           moment.utc().subtract(1, 'months').endOf('month').endOf('day')
         ]
       }
+
       {
         label : 'Previous year'
         range : [
