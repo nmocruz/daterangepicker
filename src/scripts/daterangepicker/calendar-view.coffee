@@ -121,11 +121,11 @@ class CalendarView
     periodIsDay ||= @period() == 'day'
     differentMonth = !date.isSame(@currentDate(), 'month')
     inRange = @inRange(date)
-    isEvent = @isEvent(date)
+    
     {
       "in-range": !@single() && (inRange || onRangeEnd)
       "#{@type}-date": onRangeEnd
-      "highlight": !@single() && (inRange || onRangeEnd) && isEvent
+      "highlight": !@single() && (inRange || onRangeEnd)
       "clickable": withinBoundaries && !@isCustomPeriodRangeActive()
       "out-of-boundaries": !withinBoundaries || @isCustomPeriodRangeActive()
       "unavailable": (periodIsDay && differentMonth)

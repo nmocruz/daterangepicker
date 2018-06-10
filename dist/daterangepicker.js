@@ -5,7 +5,29 @@
  * license: MIT
  * https://sensortower.github.io/daterangepicker
  */
-(function() {
+(function(root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Make globally available as well
+        define([ 'moment', 'ko', 'jquery'], function(moment, ko, jQuery) {
+            if(!jquery.fn) jquery.fn = {};
+            if(!ko.fn) ko.fn = {};
+            return factory(moment, ko, jQuery);
+        });
+    } else if  (typeof module === 'object' && module.exports) {
+        // Node / Browserify
+        var jQuery = (typeof window != 'undefined') ? window.jQuery : undefined;
+
+        if(!jQuery) {
+            jQuery = require('jquery');
+            if(!jQuery.fn) jQuery.fn = {};
+        }
+        var moment = (typeof window != 'undefined' && typeof window.moment != 'undefined') ? window.moment : require('moment');
+        var ko = (typeof window != 'undefined' && typeof window.ko != 'undefined') ? window.ko : require('knockout');
+        module.exports = factory(moment, ko, jQuery);
+    } else {
+        root.daterangepicker = factory(root.moment, root.ko, root.jQuery);
+    }
+}(this, function(moment, ko,  $) {
   var AllTimeDateRange, ArrayUtils, CalendarHeaderView, CalendarView, Config, CustomDateRange, DateRange, DateRangePickerView, MomentIterator, MomentUtil, Period,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty,
@@ -1291,4 +1313,5 @@
     CalendarHeaderView: CalendarHeaderView
   });
 
-}).call(this);
+  return DateRangePickerView;
+}));
