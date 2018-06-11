@@ -5,7 +5,7 @@
   "engines": {
     "node": "*"
   },
-  "main": "./dist/daterangepicker.js",
+  "main": "dist/daterangepicker.js",
   "typings": "./daterangepicker.d.ts",
   "devDependencies": {
     "@types/jquery": "^3.3.2",
