@@ -27,51 +27,6 @@ declare global {
     }
 }
 
-declare class DateRangePickerView {
-    constructor(
-        options?: daterangepicker.Config
-    );
-
-    periodProxy: daterangepicker.Period;
-    outsideClick: (Event) => KnockoutObservable<boolean>;
-    startCalendar: CalendarView;
-    endCalendar: CalendarView;
-    startDateInput: KnockoutComputed<any>;
-    endDateInput: KnockoutComputed<any>;
-    dateRange: KnockoutObservable<any>;
-    startDate: KnockoutObservable<any>;
-    endDate: KnockoutObservable<any>;
-    style: KnockoutObservable<any>;
-    callback: (
-        startDate: Moment,
-        endDate: Moment,
-        period: daterangepicker.Period,
-        calStartDate: Moment,
-        calEndDate: Moment
-    ) => any;
-    anchorElement: HTMLElement;
-    wrapper: HTMLElement;
-    containerElement: HTMLElement;
-    locale: Locale;
-    getLocale() : Locale;
-    calendars() : CalendarView[];
-    updateDateRange() : KnockoutObservableArray<Moment>;
-    isActivePeriod(period: daterangepicker.Period) : boolean;
-    cssClasses() : any;
-    isActiveDateRange(dateRange: daterangepicker.DateRange) : boolean;
-    isActiveCustomPeriodRange(customPeriodRange: any) : boolean;
-    inputFocus() : KnockoutObservable<boolean>;
-    setPeriod(period: daterangepicker.Period) : KnockoutObservable<boolean>;
-    setDateRange(dateRange: daterangepicker.DateRange) : KnockoutObservable<any>;
-    setCustomPeriodRange(customPeriodRange: daterangepicker.DateRange) : KnockoutObservable<any>;
-    applyChanges() : KnockoutObservable<any>;
-    cancelChanges() : void;
-    open() : KnockoutObservable<boolean>;
-    close() : any;
-    toggle() : any;
-    updatePosition() : any;
-}
-
 declare namespace daterangepicker {
     type DateRangePickerCallback = (
         startDate: Moment,
@@ -138,7 +93,31 @@ declare namespace daterangepicker {
         YEAR = 'year'
     }
 
-    interface Config {
+    export interface Options {
+        timeZone?: string;
+        minDate?: Moment;
+        maxDate?: Moment;
+        startDate?: Moment;
+        endDate?: Moment;
+        period?: any;
+        periods?: any[];
+        single?: boolean;
+        orientation?: string;
+        opened?: boolean;
+        expanded?: boolean;
+        standalone?: boolean;
+        hideWeekdays?: boolean;
+        anchorElement?: HTMLElement;
+        parentElement?: HTMLElement;
+        forceUpdate?: boolean;
+        customPeriodRanges?: Object;
+        ranges?: DateRange[];
+        locale?: Locale;
+        isCustomPeriodRangeActive?: boolean;
+        callback?: (startDate: Moment, endDate: Moment, period: string) => void;
+    }
+
+    export interface Config {
         timeZone: KnockoutObservable<string>;
         minDate: KnockoutComputed<Moment>;
         maxDate: KnockoutComputed<Moment>;
@@ -196,7 +175,52 @@ declare namespace daterangepicker {
     interface AllTimeDateRange extends DateRange {}
     interface CustomDateRange extends DateRange {}
 
-    interface CalendarView {
+    export class DateRangePickerView {
+        constructor(
+            options?: Options
+        );
+
+        periodProxy: daterangepicker.Period;
+        outsideClick: (event: Event) => KnockoutObservable<boolean>;
+        startCalendar: CalendarView;
+        endCalendar: CalendarView;
+        startDateInput: KnockoutComputed<any>;
+        endDateInput: KnockoutComputed<any>;
+        dateRange: KnockoutObservable<any>;
+        startDate: KnockoutObservable<any>;
+        endDate: KnockoutObservable<any>;
+        style: KnockoutObservable<any>;
+        callback: (
+            startDate: Moment,
+            endDate: Moment,
+            period: daterangepicker.Period,
+            calStartDate: Moment,
+            calEndDate: Moment
+        ) => any;
+        anchorElement: HTMLElement;
+        wrapper: HTMLElement;
+        containerElement: HTMLElement;
+        locale: Locale;
+        getLocale() : Locale;
+        calendars() : CalendarView[];
+        updateDateRange() : KnockoutObservableArray<Moment>;
+        isActivePeriod(period: daterangepicker.Period) : boolean;
+        cssClasses() : any;
+        isActiveDateRange(dateRange: daterangepicker.DateRange) : boolean;
+        isActiveCustomPeriodRange(customPeriodRange: any) : boolean;
+        inputFocus() : KnockoutObservable<boolean>;
+        setPeriod(period: daterangepicker.Period) : KnockoutObservable<boolean>;
+        setDateRange(dateRange: daterangepicker.DateRange) : KnockoutObservable<any>;
+        setCustomPeriodRange(customPeriodRange: daterangepicker.DateRange) : KnockoutObservable<any>;
+        applyChanges() : KnockoutObservable<any>;
+        cancelChanges() : void;
+        open() : KnockoutObservable<boolean>;
+        close() : any;
+        toggle() : any;
+        updatePosition() : any;
+    }
+
+    export interface CalendarView {
         inRange: (date: Moment) => boolean;
         isEvent: (date: Moment) => boolean;
         tableValues: (date: Moment) => Object;
@@ -227,7 +251,7 @@ declare namespace daterangepicker {
         __range__(left: number, right: number, inclusive: boolean) : number[];
     }
 
-    interface CalendarHeaderView {
+    export interface CalendarHeaderView {
         currentDate: KnockoutObservable<Moment>;
         period: Period;
         timeZone: string;
