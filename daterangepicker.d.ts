@@ -23,23 +23,23 @@ declare global {
             options?: daterangepicker.Config,
             callback?: daterangepicker.DateRangePickerCallback
         ) => JQuery);
-        data(key: 'daterangepicker') : DateRangePickerView | undefined;
+        data(key: 'daterangepicker') : daterangepicker.DateRangePickerView | undefined;
     }
 }
 
 declare namespace daterangepicker {
-    type DateRangePickerCallback = (
+    export type DateRangePickerCallback = (
         startDate: Moment,
         endDate: Moment,
         period: string | null
     ) => void;
 
-    interface ArrayUtils {
+    export interface ArrayUtils {
         rotateArray<T>(array: T[], offset: number) : T[];
         uniqArray<T>(array: T[]) : T[];
     }
 
-    interface MomentIterator {
+    export interface MomentIterator {
         array(date, amount, period);
         // constructor(date, period) {
         //   this.date = date.clone();
@@ -50,15 +50,15 @@ declare namespace daterangepicker {
           __range__(left, right, inclusive);
     }
 
-    interface MomentUtil {
+    export interface MomentUtil {
         patchCurrentLocale(obj: any) : any;
         setFirstDayOfTheWeek(dow: number) : any;
         tz(...input: any[]) : any;
     }
 
-    type allPeriods = 'day' | 'week' | 'month' | 'quarter' | 'year';
+    export type allPeriods = 'day' | 'week' | 'month' | 'quarter' | 'year';
 
-    interface Period {
+    export interface Period {
         scale(period: string) : string;
         showWeekDayNames(period: string) : boolean;
         nextPageArguments(period: string) : any;
@@ -68,24 +68,19 @@ declare namespace daterangepicker {
         extendObservable(observable: KnockoutObservable<any>) : KnockoutObservable<any>;
     }
 
-    interface DateRange {
-        title: string;
-        startDate: Moment;
-        endDate: Moment
+    export interface DateRange {
+        title?: string;
+        startDate?: Moment;
+        endDate?: Moment
     }
 
-    interface DateSelection {
+    export interface DateSelection {
         momentObject: Moment;
         // ('inclusive' | 'exclusive' | 'expanded')
         selectionType: string;
     }
 
-    interface DateRange {
-        description: string;
-        period: any; // Moment or string
-    }
-
-    enum PeriodTypes {
+    export enum PeriodTypes {
         DAY = 'day',
         WEEK = 'week',
         MONTH = 'month',
@@ -118,30 +113,30 @@ declare namespace daterangepicker {
     }
 
     export interface Config {
-        timeZone: KnockoutObservable<string>;
-        minDate: KnockoutComputed<Moment>;
-        maxDate: KnockoutComputed<Moment>;
-        startDate: KnockoutComputed<Moment>;
-        endDate: KnockoutComputed<Moment>;
-        period: any;
-        periods: any[];
-        single: KnockoutObservable<boolean>;
-        orientation: KnockoutObservable<string>;
-        opened: KnockoutObservable<boolean>;
-        expanded: KnockoutObservable<boolean>;
-        standalone: KnockoutObservable<boolean>;
-        hideWeekdays: KnockoutObservable<boolean>;
-        anchorElement: HTMLElement;
-        parentElement: HTMLElement;
-        forceUpdate: KnockoutObservable<boolean>;
-        customPeriodRanges: Object;
-        ranges: DateRange[];
-        locale: Locale;
-        isCustomPeriodRangeActive: KnockoutObservable<boolean>;
+        timeZone?: KnockoutObservable<string>;
+        minDate?: KnockoutComputed<Moment>;
+        maxDate?: KnockoutComputed<Moment>;
+        startDate?: KnockoutComputed<Moment>;
+        endDate?: KnockoutComputed<Moment>;
+        period?: any;
+        periods?: any[];
+        single?: KnockoutObservable<boolean>;
+        orientation?: KnockoutObservable<string>;
+        opened?: KnockoutObservable<boolean>;
+        expanded?: KnockoutObservable<boolean>;
+        standalone?: KnockoutObservable<boolean>;
+        hideWeekdays?: KnockoutObservable<boolean>;
+        anchorElement?: HTMLElement;
+        parentElement?: HTMLElement;
+        forceUpdate?: KnockoutObservable<boolean>;
+        customPeriodRanges?: Object;
+        ranges?: DateRange[];
+        locale?: Locale;
+        isCustomPeriodRangeActive?: KnockoutObservable<boolean>;
         // allEvents: KnockoutObservable<Object>;
-        callback: (startDate: Moment, endDate: Moment, period: string) => void;
-        firstDayOfWeek: KnockoutObservable<number>;
-        extend(obj: Object) : Object;
+        callback?: (startDate: Moment, endDate: Moment, period: string) => void;
+        firstDayOfWeek?: KnockoutObservable<number>;
+        extend?(obj: Object) : Object;
         _firstDayOfWeek(val: number) : KnockoutObservable<number>;
         _allEvents(object: Object) : KnockoutObservable<Object>;
         _timeZone(tz: string) : KnockoutObservable<string>;
@@ -172,8 +167,8 @@ declare namespace daterangepicker {
         _callback(cb: (...input: any[]) => any) : any;
     }
 
-    interface AllTimeDateRange extends DateRange {}
-    interface CustomDateRange extends DateRange {}
+    export interface AllTimeDateRange extends DateRange {}
+    export interface CustomDateRange extends DateRange {}
 
     export class DateRangePickerView {
         constructor(
