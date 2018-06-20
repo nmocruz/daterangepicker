@@ -20,12 +20,35 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "../website/images/",
+                "output": "./assets/images/"
+              },
+              {
+                "glob": "**/*",
+                "input": "../website/styles/",
+                "output": "./assets/styles/"
+              }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss",
+              "node_modules/prismjs/themes/prism-okaidia.css",
+              "node_modules/highlightjs/styles/github.css",
+              "../dist/daterangepicker.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/marked/lib/marked.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-css.min.js",
+              "node_modules/prismjs/components/prism-javascript.min.js",
+              "node_modules/prismjs/components/prism-markdown.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/moment/moment.js",
+              "node_modules/knockout/build/output/knockout-latest.js",
+              "../dist/daterangepicker.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -123,5 +146,10 @@
       }
     }
   },
-  "defaultProject": "website-angular"
+  "defaultProject": "website-angular",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
