@@ -1,13 +1,16 @@
 [![Build Status](https://travis-ci.org/sensortower/daterangepicker.svg?branch=master)](https://travis-ci.org/sensortower/daterangepicker)
 [![Join the chat at https://gitter.im/sensortower/daterangepicker](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sensortower/daterangepicker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![ghit.me](https://ghit.me/badge.svg?repo=sensortower/daterangepicker)](https://ghit.me/repo/sensortower/daterangepicker)
+[![Github search hit counter](https://img.shields.io/github/search/frost-byte/daterangepicker/goto.svg)](https://github.com/frost-byte/daterangepicker)
 [![Analytics](https://ga-beacon.appspot.com/UA-71619034-2/daterangepicker/README?flat)](https://github.com/igrigorik/ga-beacon)
 
-# daterangepicker
+<h1 class="hide-me" id="daterangepicker">daterangepicker</h1>
 
-[![Demo screenshot](https://sensortower.github.io/daterangepicker/images/demo.gif)](https://sensortower.github.io/daterangepicker/)
-
-[Demo available here](https://sensortower.github.io/daterangepicker/)
+<p class="hide-me">
+<img src="https://sensortower.github.io/daterangepicker/images/demo.gif" alt="Demo screenshot">
+</p>
+<p class="hide-me">
+<a href="https://sensortower.github.io/daterangepicker">Demo available here</a>
+</p>
 
 ## Notable Features
 
@@ -69,6 +72,5 @@ gulp serve
 ```
 
 
-## Copyright
-
-Copyright © 2015 SensorTower Inc. See LICENSE for further details.
+<h2 class="hide-me" id="copyright">Copyright</h2>
+<p class="hide-me">Copyright © 2015 SensorTower Inc. See LICENSE for further details.</p>

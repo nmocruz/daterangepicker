@@ -1,11 +1,22 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "module": "es2015",
-  },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
-  ]
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../out-tsc/app",
+        "sourceMap": true,
+        "listFiles": true,
+        "moduleResolution": "node",
+        "traceResolution": true,
+        "types": [],
+        "typeRoots": [
+            "../node_modules/@types"
+        ],
+    },
+    "include": [
+        "../src/**/*.ts"
+    ],
+    "exclude": [
+        "src/test.ts",
+        "**/*.spec.ts",
+        "node_modules",
+    ]
 }

@@ -1,21 +1,29 @@
 {
-  "compileOnSave": true,
-  "compilerOptions": {
-    "outDir": "./dist/out-tsc",
-    "baseUrl": "src",
-    "sourceMap": true,
-    "declaration": true,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "target": "es6",
-    "typeRoots": [
-      "./"
-    ],
-    "lib": [
-      "es2016",
-      "dom"
+    "compileOnSave": true,
+    "compilerOptions": {
+        "outDir": "./dist/out-tsc",
+        "baseUrl": "src",
+        "sourceMap": true,
+        "declaration": true,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "target": "es6",
+        "typeRoots": [
+            "./node_modules/@types",
+            "./node_modules/moment",
+            "./node_modules/knockout/build/types"
+        ],
+        "types": [],
+        "lib": [
+            "es2016",
+            "dom"
+        ]
+    },
+    "exclude" : [
+        "website-angular",
+        "node_modules",
+        "bower_components"
     ]
-  }
 }

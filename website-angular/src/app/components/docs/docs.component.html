@@ -1,3 +1,33 @@
-<p>
-  docs works!
-</p>
+<section class="secondary-section">
+    <div class="container">
+        <div class="content">
+            <markdown [src]="'assets/docs/index.md'"></markdown>
+        </div>
+        <aside>
+            <!-- ko foreach: tree -->
+            <!-- ko with: $data[0] -->
+            <h3>
+                    <a href="docs#installation">Installation</a>
+            </h3>
+            <h3>
+                    <a href="docs#integration">Integration</a>
+            </h3>
+            <h3>
+                    <a href="docs#configuration">Configuration</a>
+            </h3>
+            <h3>
+                    <a href="docs#customization">Customization</a>
+            </h3>
+<!--
+            <h3 data-bind="css: { active: $data == $root.activeItem(), highlighted: $data == $root.activeItem().parent }">
+                <a href="#" data-bind="attr: {href: $data.id}, text: $data.name"></a>
+            </h3>
+            <ul data-bind="foreach: $data.slice(1)">
+                <li data-bind="css: { active: $data == $root.activeItem() }">
+                    <a href="#" data-bind="attr: {href: $data.id}, text: $data.name"></a>
+                </li>
+            </ul>
+ -->
+        </aside>
+    </div>
+</section>

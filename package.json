@@ -1,75 +1,69 @@
 {
-  "name": "knockout-daterangepicker-fb",
-  "version": "0.2.2",
-  "private": true,
-  "engines": {
-    "node": "*"
-  },
-  "main": "dist/daterangepicker.js",
-  "typings": "./daterangepicker.d.ts",
-  "devDependencies": {
-    "@types/jquery": "^3.3.2",
-    "babel-core": "^6.26.3",
-    "browser-sync": "^2.24.4",
-    "chai": "^4.1.2",
-    "del": "^3.0.0",
-    "gulp": "^4.0.0",
-    "gulp-autoprefixer": "^5.0.0",
-    "gulp-babel": "^7.0.1",
-    "gulp-bump": "^3.1.1",
-    "gulp-cache": "^1.0.2",
-    "gulp-callback": "0.0.3",
-    "gulp-clean-css": "^3.9.4",
-    "gulp-coffee": "^3.0.2",
-    "gulp-ext-replace": "^0.3.0",
-    "gulp-file-include": "^2.0.1",
-    "gulp-fingerprint": "^0.3.2",
-    "gulp-gh-pages": "^0.5.4",
-    "gulp-github-release": "^1.0.3",
-    "gulp-header": "^2.0.5",
-    "gulp-if": "^2.0.2",
-    "gulp-include": "^2.0.3",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-minify-html": "^1.0.0",
-    "gulp-mocha-phantomjs": "^0.12.2",
-    "gulp-plumber": "^1.0.1",
-    "gulp-sass": "^4.0.1",
-    "gulp-size": "^3.0.0",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.0",
-    "gulp-useref": "^3.1.5",
-    "gulp-util": "^3.0.7",
-    "highlight.js": "^9.1.2",
-    "hoek": "^5.0.3",
-    "main-bower-files": "^2.5.0",
-    "marked": "^0.4.0",
-    "mocha": "^5.2.0",
-    "opn": "^5.3.0",
-    "require-dir": "^1.0.0",
-    "typescript": ">=2.7.0 < 2.8.0",
-    "wiredep": "^4.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/frost-byte/daterangepicker"
-  },
-  "eslintConfig": {
-    "env": {
-      "node": true,
-      "browser": true
+    "name": "knockout-daterangepicker-fb",
+    "version": "0.2.2",
+    "private": true,
+    "engines": {
+        "node": "*"
     },
-    "rules": {
-      "quotes": [
-        2,
-        "single"
-      ]
+    "main": "dist/daterangepicker.js",
+    "typings": "./daterangepicker.d.ts",
+    "devDependencies": {
+        "@types/chai": "^4.1.4",
+        "@types/jquery": "^3.3.2",
+        "@types/mocha": "^5.2.3",
+        "babel-core": "^6.26.3",
+        "browser-sync": "^2.24.4",
+        "chai": "^4.1.2",
+        "del": "^3.0.0",
+        "gulp": "^4.0.0",
+        "gulp-autoprefixer": "^5.0.0",
+        "gulp-babel": "^7.0.1",
+        "gulp-bump": "^3.1.1",
+        "gulp-cache": "^1.0.2",
+        "gulp-callback": "0.0.3",
+        "gulp-clean-css": "^3.9.4",
+        "gulp-coffee": "^3.0.2",
+        "gulp-ext-replace": "^0.3.0",
+        "gulp-file-include": "^2.0.1",
+        "gulp-header": "^2.0.5",
+        "gulp-if": "^2.0.2",
+        "gulp-load-plugins": "^1.5.0",
+        "gulp-plumber": "^1.0.1",
+        "gulp-sass": "^4.0.1",
+        "gulp-size": "^3.0.0",
+        "gulp-sourcemaps": "^2.6.4",
+        "gulp-uglify": "^3.0.0",
+        "gulp-useref": "^3.1.5",
+        "highlight.js": "^9.1.2",
+        "hoek": "^5.0.3",
+        "main-bower-files": "^2.5.0",
+        "marked": "^0.4.0",
+        "mocha": "^5.2.0",
+        "opn": "^5.3.0",
+        "require-dir": "^1.0.0",
+        "typescript": ">=2.7.0 < 2.8.0",
+        "wiredep": "^4.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/frost-byte/daterangepicker"
+    },
+    "eslintConfig": {
+        "env": {
+            "node": true,
+            "browser": true
+        },
+        "rules": {
+            "quotes": [
+                2,
+                "single"
+            ]
+        }
+    },
+    "dependencies": {
+        "jquery": "^3.3.1",
+        "knockout": "3.5.0-rc",
+        "moment": "^2.22.2",
+        "moment-timezone": "^0.5.17"
     }
-  },
-  "dependencies": {
-    "@types/knockout": "^3.4.54",
-    "jquery": "^3.3.1",
-    "knockout": "^3.4.2",
-    "moment": "^2.22.2",
-    "moment-timezone": "^0.5.17"
-  }
 }

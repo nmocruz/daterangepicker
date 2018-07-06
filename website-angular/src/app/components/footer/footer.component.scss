@@ -1,14 +1,12 @@
-app-footer {
-  margin: 10px 0;
-  padding: 10px 0 0;
-  .container {
+.container {
     display: flex;
     border-top: 1px solid #ddd;
-  }
-  p {
+}
+
+p {
     flex: 1;
-  }
-  p:last-child {
+}
+
+p:last-child {
     text-align: right;
-  }
 }

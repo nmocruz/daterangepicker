@@ -1,8 +1,19 @@
-import * as ko from 'knockout';
+import { BindingHandlers, BindingHandler, Observable, Computed, ObservableArray } from 'knockout';
 import { Moment, Locale } from 'moment';
 
+declare global {
+    export interface BindingHandlers {
+        daterangepicker: BindingHandler;
+    }
+
+    export interface JQuery {
+        daterangepicker: DateRangePicker;
+        data(key: 'daterangepicker'): DateRangePickerView | undefined;
+    }
+}
+
 declare module 'moment' {
-    interface Locale {
+    export interface Locale {
         applyButtonTitle: 'Apply',
         cancelButtonTitle: 'Cancel',
         inputFormat: 'L',
@@ -15,250 +26,323 @@ declare module 'moment' {
         yearLabel: 'Year'
     }
 }
-
-declare namespace daterangepicker_fb {
-    export type DateRangePickerCallback = (
-        startDate: Moment,
-        endDate: Moment,
-        period: string | null
-    ) => void;
-
-    export interface ArrayUtils {
-        rotateArray<T>(array: T[], offset: number) : T[];
-        uniqArray<T>(array: T[]) : T[];
+declare module 'knockout' {
+    export interface Computed<T> {
+        mode?: string;
+        fit: (date?: Moment | string) => Moment;
+        clone: (date?: Moment | string) => Moment;
+        isWithinBoundaries: (date?: Moment | string) => boolean;
     }
-
-    export interface MomentIterator {
-        date: Moment;
-        period: Period;
-        array?(date: Moment, amount: number, period: Period) : Moment[];
-        next?() : void;
-        __range__?(left: number, right: number, inclusive: boolean|string) : number[];
+    export interface Observable<T> {
+        scale?(period: string) : string;
+        showWeekDayNames?(period: string) : boolean;
+        nextPageArguments?(period: string) : [ number, string ];
+        format?(period: string) : string;
+        title?(period: string , localeObj: Locale) : string;
+        dimensions?(period: string) : number[];
+        extendObservable?(observable: string | [string, Locale]) : Observable<string> | Observable<Locale>;
     }
-
-    export interface MomentUtil {
-        patchCurrentLocale(obj: any) : any;
-        setFirstDayOfTheWeek(dow: number) : any;
-        tz(...input: any[]) : any;
-    }
-
-    export type allPeriods = 'day' | 'week' | 'month' | 'quarter' | 'year';
-
-    export interface Period {
-        scale(period: string) : string;
-        showWeekDayNames(period: string) : boolean;
-        nextPageArguments(period: string) : any;
-        format(period: string) : string;
-        title(period: string , localeObj: Locale) : string;
-        dimensions(period: string) : number[];
-        extendObservable(observable: KnockoutObservable<any>) : KnockoutObservable<any>;
-    }
-
-    export interface DateRange {
-        title?: string;
-        startDate?: Moment;
-        endDate?: Moment
-    }
-
-    export interface DateSelection {
-        momentObject: Moment;
-        // ('inclusive' | 'exclusive' | 'expanded')
-        selectionType: string;
-    }
-
-    export enum PeriodTypes {
-        DAY = 'day',
-        WEEK = 'week',
-        MONTH = 'month',
-        QUARTER = 'quarter',
-        YEAR = 'year'
-    }
-
-    export interface Options {
-        timeZone?: string;
-        minDate?: Moment;
-        maxDate?: Moment;
-        startDate?: Moment;
-        endDate?: Moment;
-        period?: any;
-        periods?: any[];
-        single?: boolean;
-        orientation?: string;
-        opened?: boolean;
-        expanded?: boolean;
-        standalone?: boolean;
-        hideWeekdays?: boolean;
-        anchorElement?: HTMLElement;
-        parentElement?: HTMLElement;
-        forceUpdate?: boolean;
-        customPeriodRanges?: Object;
-        ranges?: DateRange[];
-        locale?: Locale;
-        isCustomPeriodRangeActive?: boolean;
-        callback?: (startDate: Moment, endDate: Moment, period: string) => void;
-    }
-
-    export interface Config {
-        timeZone?: string;
-        minDate?: Moment;
-        maxDate?: Moment;
-        startDate?: Moment;
-        endDate?: Moment;
-        period?: any;
-        periods?: any[];
-        single?: boolean;
-        orientation?: string;
-        opened?: boolean;
-        expanded?: boolean;
-        standalone?: boolean;
-        hideWeekdays?: boolean;
-        anchorElement?: HTMLElement;
-        parentElement?: HTMLElement;
-        forceUpdate?: boolean;
-        customPeriodRanges?: Object;
-        ranges?: DateRange[];
-        locale?: Locale;
-        isCustomPeriodRangeActive?: KnockoutObservable<boolean>;
-        // allEvents: KnockoutObservable<Object>;
-        callback?: (startDate: Moment, endDate: Moment, period: string) => void;
-        firstDayOfWeek?: KnockoutObservable<number>;
-        extend?(obj: Object) : Object;
-        _firstDayOfWeek?(val: number) : KnockoutObservable<number>;
-        _allEvents?(object: Object) : KnockoutObservable<Object>;
-        _timeZone?(tz: string) : KnockoutObservable<string>;
-        _periods?(periods: Period[]) : KnockoutObservableArray<Period>;
-        _customPeriodRanges?(obj: any) : Object;
-        _period?(val: any) : KnockoutObservable<Period>;
-        _single?(isSingle: boolean) : KnockoutObservable<boolean>;
-        _opened?(isOpened: boolean) : KnockoutObservable<boolean>;
-        _expanded?(isExpanded: boolean) : KnockoutObservable<boolean>;
-        _standalone?(isStandalone: boolean) : KnockoutObservable<boolean>;
-        _hideWeekdays?(hideWeekdays: boolean) : KnockoutObservable<boolean>;
-        _minDate?(val: any) : KnockoutComputed<Moment>;
-        _maxDate?(val: any) : KnockoutComputed<Moment>;
-        _startDate?(date: Moment) : KnockoutComputed<Moment>;
-        _endDate?(date: Moment) : KnockoutComputed<Moment>;
-        _ranges?(obj: Object) : DateRange[];
-        parseRange?(range: Moment[], title: string) : DateRange;
-        _orientation?(orientation: string) : KnockoutObservable<string>;
-        _dateObservable?(
-          date: Moment,
-          mode: string,
-          minBoundary: any,
-          maxBoundary: any
-        ) : KnockoutComputed<Moment>;
-        _defaultRanges?() : Object;
-        _anchorElement?(elementName: string) : HTMLElement;
-        _parentElement?(elementName: string) : HTMLElement;
-        _callback?(cb: (...input: any[]) => any) : any;
-    }
-
-    export interface AllTimeDateRange extends DateRange {}
-    export interface CustomDateRange extends DateRange {}
-
-    export class DateRangePickerView {
-        constructor(
-            options?: Options
-        );
-
-        periodProxy: Period;
-        outsideClick: (event: Event) => KnockoutObservable<boolean>;
-        startCalendar: CalendarView;
-        endCalendar: CalendarView;
-        startDateInput: KnockoutComputed<any>;
-        endDateInput: KnockoutComputed<any>;
-        dateRange: KnockoutObservable<any>;
-        startDate: KnockoutObservable<any>;
-        endDate: KnockoutObservable<any>;
-        style: KnockoutObservable<any>;
-        callback: (
-            startDate: Moment,
-            endDate: Moment,
-            period: Period,
-            calStartDate: Moment,
-            calEndDate: Moment
-        ) => any;
-        anchorElement: HTMLElement;
-        wrapper: HTMLElement;
-        containerElement: HTMLElement;
-        locale: Locale;
-        getLocale() : Locale;
-        calendars() : CalendarView[];
-        updateDateRange() : KnockoutObservableArray<Moment>;
-        isActivePeriod(period: Period) : boolean;
-        cssClasses() : any;
-        isActiveDateRange(dateRange: DateRange) : boolean;
-        isActiveCustomPeriodRange(customPeriodRange: any) : boolean;
-        inputFocus() : KnockoutObservable<boolean>;
-        setPeriod(period: Period) : KnockoutObservable<boolean>;
-        setDateRange(dateRange: DateRange) : KnockoutObservable<any>;
-        setCustomPeriodRange(customPeriodRange: DateRange) : KnockoutObservable<any>;
-        applyChanges() : KnockoutObservable<any>;
-        cancelChanges() : void;
-        open() : KnockoutObservable<boolean>;
-        close() : any;
-        toggle() : any;
-        updatePosition() : any;
-    }
-
-    export interface CalendarView {
-        inRange: (date: Moment) => boolean;
-        isEvent: (date: Moment) => boolean;
-        tableValues: (date: Moment) => Object;
-        formatDateTemplate: (date: Moment) => Object;
-        eventsForDate: (date: Moment) => Object;
-        cssForDate: (date: Moment, periodIsDay: boolean) => Object;
-        allEvents: KnockoutObservable<Object>;
-        period: Period;
-        single: boolean;
-        timeZone: string;
-        locale: Locale;
-        startDate: Moment;
-        endDate: Moment;
-        isCustomPeriodRangeActive: KnockoutObservable<boolean>;
-        type: string;
-        label: string;
-        hoverDate: KnockoutObservable<Moment>;
-        activeDate: KnockoutObservable<Moment>;
-        currentDate: KnockoutObservable<Moment>;
-        inputDate: KnockoutComputed<Moment>;
-        firstDate: KnockoutComputed<Moment>;
-        lastDate: KnockoutComputed<Moment>;
-        headerView: CalendarHeaderView;
-        calendar(): any[];
-        weekDayNames() : string[];
-        firstYearOfDecade(date: Moment) : any
-        lastYearOfDecade(date: Moment) : any;
-        __range__(left: number, right: number, inclusive: boolean) : number[];
-    }
-
-    export interface CalendarHeaderView {
-        currentDate: KnockoutObservable<Moment>;
-        period: Period;
-        timeZone: string;
-        firstDate: KnockoutComputed<Moment>;
-        firstYearOfDecade(date: Moment) : any
-        prevDate: KnockoutComputed<Moment>;
-        nextDate: KnockoutComputed<Moment>;
-        selectedMonth: KnockoutComputed<any>;
-        selectedYear: KnockoutComputed<any>;
-        selectedDecade: KnockoutComputed<any>;
-        clickPrevButton() :  KnockoutObservable<Moment>;
-        clickNextButton() :  KnockoutObservable<Moment>;
-        prevArrowCss(): Object;
-        nextArrowCss(): Object;
-        monthOptions(): number[];
-        yearOptions(): number[];
-        decadeOptions(): number[];
-        monthSelectorAvailable(): boolean;
-        yearSelectorAvailable(): boolean;
-        decadeSelectorAvailable(): boolean;
-        monthFormatter(month: number): string;
-        yearFormatter(year: number): string;
-        decadeFormatter(from: number): string;
-    }
-
-    function __range__(left: number, right: number, inclusive: boolean) : number[];
 }
 
-export = daterangepicker_fb;
+export interface DateRangePicker {
+    ( options?: Options, callback?: DateRangePickerCallback ): JQuery;
+    ArrayUtils?: ArrayUtils;
+    Config?: Config;
+    MomentIterator?: MomentIterator;
+    MomentUtil?: MomentUtil;
+    Period?: Period;
+    DateRangePickerView?: DateRangePickerView;
+    DateRange?: DateRange;
+    Options?: Options;
+}
+
+
+/*
+    The js module extends the JQuery interface ($.fn) with the daterangepicker function
+    daterangepicker(options?: Options, callback?: DateRangePickerCallback) => JQuery<HTMLElement>
+    This function sets the data property called 'daterangepicker' to a new DateRangePickerCallback
+    initialized using the options parameter)
+
+    This same daterangepicker function is extended to include all of the supporting types defined in the module
+        ArrayUtils, MomentIterator, MomentUtil
+        Period, Config
+        DateRange, AllTimeDateRange, CustomDateRange
+        DateRangePickerView
+        CalendarView, CalendarHeaderView
+
+    The only export from the module is the DateRangePickerView class
+ */
+
+export interface ArrayUtils {
+    rotateArray<T>(array: T[], offset: number) : T[];
+    uniqArray<T>(array: T[]) : T[];
+}
+
+export type DateRangePickerCallback = (
+    startDate: Moment,
+    endDate: Moment,
+    period: string | null
+) => void;
+
+interface MomentIteratorInterface {
+    array?(date: Moment, amount: number, period: string) : Moment[];
+    next?() : Moment;
+    date: Moment;
+    period: string;
+
+}
+
+export class MomentIterator implements MomentIteratorInterface {
+    constructor(date: Moment, period: string);
+    static array(date: Moment, amount: number, period: string) : Moment[];
+    next() : Moment;
+    date: Moment;
+    period: string;
+}
+
+interface MomentUtilInterface {
+    patchCurrentLocale?(currentLocale: Locale) : Locale
+    setFirstDayOfTheWeek?(dow: number) : Locale;
+    tz?(...input: any[]) : Moment;
+}
+
+export class MomentUtil implements MomentUtilInterface {
+    static patchCurrentLocale(currentLocale: Locale) : Locale;
+    static setFirstDayOfTheWeek(dow: number) : Locale;
+    static tz(...input: any[]) : Moment;
+}
+
+export type allPeriods = 'day' | 'week' | 'month' | 'quarter' | 'year';
+
+export class Period {
+    static scale(period: string) : string;
+    static showWeekDayNames(period: string) : boolean;
+    static nextPageArguments(period: string) : [ number, string ];
+    static format(period: string) : string;
+    static title(period: string , localeObj: Locale) : string;
+    static dimensions(period: string) : number[];
+    static extendObservable(observable: string | [string, Locale]) : Observable<string> | Observable<Locale>;
+    static allPeriods: string[];
+    static methods: string[];
+}
+
+export interface DateRangeInterface {
+    title?: string;
+    startDate?: string | Moment;
+    endDate?: string | Moment;
+}
+
+export class DateRange implements DateRangeInterface {
+    constructor(title?: string, startDate?: string | Moment, endDate?: string | Moment);
+    title?: string;
+    startDate?: string | Moment;
+    endDate?: string | Moment;
+}
+
+export interface DateSelection {
+    momentObject: Moment;
+    // ('inclusive' | 'exclusive' | 'expanded')
+    selectionType: string;
+}
+
+export enum PeriodTypes {
+    DAY = 'day',
+    WEEK = 'week',
+    MONTH = 'month',
+    QUARTER = 'quarter',
+    YEAR = 'year'
+}
+
+export interface DateOption {
+    value?: Moment | string;
+    mode?: string;
+}
+
+export class Options {
+    constructor(...options: any[]);
+    timeZone?: string;
+    minDate?: Moment | string | Array<DateOption>;
+    maxDate?: Moment | string | Array<DateOption>;
+    startDate?: Moment | string | Array<DateOption>;
+    endDate?: Moment | string | Array<DateOption>;
+    period?: any;
+    periods?: any[];
+    single?: boolean;
+    orientation?: string;
+    opened?: boolean;
+    expanded?: boolean;
+    standalone?: boolean;
+    hideWeekdays?: boolean;
+    anchorElement?: JQuery<HTMLElement> | HTMLElement;
+    parentElement?: JQuery<HTMLElement> | HTMLElement;
+    forceUpdate?: boolean;
+    customPeriodRanges?: Object;
+    ranges?: DateRange[];
+    locale?: Locale;
+    isCustomPeriodRangeActive?: boolean;
+    callback?: (startDate: Moment, endDate: Moment, period: string) => void;
+}
+
+export class Config {
+    constructor(options?: Options);
+    timeZone?: Observable<string>;
+    minDate?: Computed<Moment>;
+    maxDate?: Computed<Moment>;
+    startDate?: Computed<Moment>;
+    endDate?: Computed<Moment>;
+    period?: Observable<string> | Observable<Period>;
+    periods?: ObservableArray<string> | ObservableArray<Period>;
+    single?: Observable<boolean>;
+    orientation?: Observable<string>;
+    opened?: Observable<boolean>;
+    expanded?: Observable<boolean>;
+    standalone?: Observable<boolean>;
+    hideWeekdays?: Observable<boolean>;
+    anchorElement?: JQuery<HTMLElement> | HTMLElement;
+    parentElement?: JQuery<HTMLElement> | HTMLElement;
+    forceUpdate?: Observable<boolean>;
+    customPeriodRanges?: DateRange[];
+    ranges?: DateRange[];
+    locale?: Locale;
+    isCustomPeriodRangeActive?: Observable<boolean>;
+    // allEvents: Observable<Object>;
+    callback?: (startDate: Moment, endDate: Moment, period: string) => void;
+    firstDayOfWeek?: Observable<number>;
+    extend?(obj: Object) : Object;
+    _firstDayOfWeek?(val: number) : Observable<number>;
+    _allEvents?(object: Object) : Observable<Object>;
+    _timeZone?(tz: string) : Observable<string>;
+    _periods?(periods: Period[]) : ObservableArray<Period>;
+    _customPeriodRanges?(obj: any) : Object;
+    _period?(val: any) : Observable<Period>;
+    _single?(isSingle: boolean) : Observable<boolean>;
+    _opened?(isOpened: boolean) : Observable<boolean>;
+    _expanded?(isExpanded: boolean) : Observable<boolean>;
+    _standalone?(isStandalone: boolean) : Observable<boolean>;
+    _hideWeekdays?(hideWeekdays: boolean) : Observable<boolean>;
+    _minDate?(val: any) : Computed<Moment>;
+    _maxDate?(val: any) : Computed<Moment>;
+    _startDate?(date: Moment) : Computed<Moment>;
+    _endDate?(date: Moment) : Computed<Moment>;
+    _ranges?(obj: Object) : DateRange[];
+    defineRange?(range: Moment): DateRange;
+    parseRange?(range: Moment[], title: string) : DateRange;
+    _orientation?(orientation: string) : Observable<string>;
+    _dateObservable?(
+      date: Moment,
+      mode: string,
+      minBoundary: any,
+      maxBoundary: any
+    ) : Computed<Moment>;
+    _defaultRanges?() : DateRange[];
+    _anchorElement?(elementName: string) : HTMLElement;
+    _parentElement?(elementName: string) : HTMLElement;
+    _callback?(cb: (...input: any[]) => any) : any;
+}
+
+export interface AllTimeDateRange extends DateRange {}
+export interface CustomDateRange extends DateRange {}
+
+export class DateRangePickerView {
+    constructor(
+        options?: Options
+    );
+
+    periodProxy: Period;
+    outsideClick: (event: Event) => Observable<boolean>;
+    startCalendar: CalendarView;
+    endCalendar: CalendarView;
+    startDateInput: Computed<any>;
+    endDateInput: Computed<any>;
+    dateRange: Observable<any>;
+    startDate: Observable<any>;
+    endDate: Observable<any>;
+    style: Observable<any>;
+    callback: (
+        startDate: Moment,
+        endDate: Moment,
+        period: Period,
+        calStartDate: Moment,
+        calEndDate: Moment
+    ) => any;
+    anchorElement: HTMLElement;
+    wrapper: HTMLElement;
+    containerElement: HTMLElement;
+    locale: Locale;
+    getLocale() : Locale;
+    calendars() : CalendarView[];
+    updateDateRange() : ObservableArray<Moment>;
+    isActivePeriod(period: Period) : boolean;
+    cssClasses(): any;
+    isActiveDateRange(dateRange: DateRange) : boolean;
+    isActiveCustomPeriodRange(customPeriodRange: any) : boolean;
+    inputFocus() : Observable<boolean>;
+    setPeriod(period: Period) : Observable<boolean>;
+    setDateRange(dateRange: DateRange) : Observable<any>;
+    setCustomPeriodRange(customPeriodRange: DateRange) : Observable<any>;
+    applyChanges() : Observable<any>;
+    cancelChanges() : void;
+    open() : Observable<boolean>;
+    close() : any;
+    toggle() : any;
+    updatePosition() : any;
+}
+
+export interface CalendarView {
+    inRange: (date: Moment) => boolean;
+    isEvent: (date: Moment) => boolean;
+    tableValues: (date: Moment) => Object;
+    formatDateTemplate: (date: Moment) => Object;
+    eventsForDate: (date: Moment) => Object;
+    cssForDate: (date: Moment, periodIsDay: boolean) => Object;
+    allEvents: Observable<Object>;
+    period: Period;
+    single: boolean;
+    timeZone: string;
+    locale: Locale;
+    startDate: Moment;
+    endDate: Moment;
+    isCustomPeriodRangeActive: Observable<boolean>;
+    type: string;
+    label: string;
+    hoverDate: Observable<Moment>;
+    activeDate: Observable<Moment>;
+    currentDate: Observable<Moment>;
+    inputDate: Computed<Moment>;
+    firstDate: Computed<Moment>;
+    lastDate: Computed<Moment>;
+    headerView: CalendarHeaderView;
+    calendar(): any[];
+    weekDayNames() : string[];
+    firstYearOfDecade(date: Moment) : any
+    lastYearOfDecade(date: Moment) : any;
+    __range__(left: number, right: number, inclusive: boolean) : number[];
+}
+
+export interface CalendarHeaderView {
+    currentDate: Observable<Moment>;
+    period: Period;
+    timeZone: string;
+    firstDate: Computed<Moment>;
+    firstYearOfDecade(date: Moment) : any
+    prevDate: Computed<Moment>;
+    nextDate: Computed<Moment>;
+    selectedMonth: Computed<any>;
+    selectedYear: Computed<any>;
+    selectedDecade: Computed<any>;
+    clickPrevButton() :  Observable<Moment>;
+    clickNextButton() :  Observable<Moment>;
+    prevArrowCss(): Object;
+    nextArrowCss(): Object;
+    monthOptions(): number[];
+    yearOptions(): number[];
+    decadeOptions(): number[];
+    monthSelectorAvailable(): boolean;
+    yearSelectorAvailable(): boolean;
+    decadeSelectorAvailable(): boolean;
+    monthFormatter(month: number): string;
+    yearFormatter(year: number): string;
+    decadeFormatter(from: number): string;
+}
+
+export function __range__(left: number, right: number, inclusive: boolean) : number[];

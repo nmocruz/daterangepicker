@@ -1,4 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
 @import "normalize";
 
 $main-color: #39CCCC; // teal
@@ -81,7 +80,7 @@ header {
     line-height: 60px;
     padding: 0 20px;
     background-color: $main-color;
-    background-image: url('assets/images/noise.png');
+    background-image: url('../images/noise.png');
     font-size: 1.25em;
     text-shadow: 0 0 4px rgba(black, 0.33);
     box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.33);
@@ -148,7 +147,7 @@ p code {
   background: $main-color;
   $from: $main-color;
   $to: darken($main-color, 10%);
-  background-image: url('assets/images/noise.png'), linear-gradient($from 25%, $to);
+  background-image: url('../images/noise.png'), linear-gradient($from 25%, $to);
 
   .container {
     padding: 60px 0;
@@ -197,6 +196,20 @@ p code {
   padding-top: 30px;
 }
 
+footer {
+  margin: 10px 0;
+  padding: 10px 0 0;
+  .container {
+    display: flex;
+    border-top: 1px solid #ddd;
+  }
+  p {
+    flex: 1;
+  }
+  p:last-child {
+    text-align: right;
+  }
+}
 
 .docs .secondary-section .container {
   position: relative;
@@ -319,3 +332,4 @@ p code {
     }
   }
 }
+

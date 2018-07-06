@@ -1,18 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import * as drp from 'knockout-daterangepicker-fb';
-import 'jquery';
-declare var $: JQueryStatic;
+import { DateRangePickerView, Config, Options } from 'knockout-daterangepicker-fb';
 
-declare global {
-    interface JQuery {
-        daterangepicker(options?: drp.Config) : JQuery;
-        data(key: 'daterangepicker') : drp.DateRangePickerView | undefined;
-    }
-}
+// const pickerConfig = new Config({
+//     standalone: true
+// });
 
-const pickerOptions: drp.Config = {
-  standalone: true
-}
+const opts = new Options({ standalone: true });
 
 @Component({
   selector: 'app-home',
@@ -21,14 +14,13 @@ const pickerOptions: drp.Config = {
 })
 
 export class HomeComponent implements OnInit {
-  pickerView: drp.DateRangePickerView;
-  element: JQuery<HTMLElement>;
+    pickerView: DateRangePickerView;
+    element: any;
 
-  constructor() {
-    this.element = $(".daterangepicker-container").daterangepicker(pickerOptions);
-  }
+    constructor() {}
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.element = $('.daterangepicker-container').daterangepicker(opts);
+    }
 
 }
