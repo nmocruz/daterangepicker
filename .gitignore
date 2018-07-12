@@ -3,4 +3,5 @@ dist/website
 .tmp
 .sass-cache
 bower_components
+website-angular/node_modules
 /.idea/

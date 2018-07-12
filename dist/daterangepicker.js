@@ -340,7 +340,7 @@
 
     })();
 
-    Options = (function () {
+    Options = (function() {
         function Options(options) {
 
             this.firstDayOfWeek = options.firstDayOfWeek || 0;
@@ -360,8 +360,8 @@
             this.minDate = options.minDate || moment().subtract(30, 'years');
             this.maxDate = options.maxDate || moment();
             this.startDate = options.startDate || moment().subtract(29, 'days');
-            this.endDate =  options.endDate || moment();
-            this.ranges =  options.ranges || null;
+            this.endDate = options.endDate || moment();
+            this.ranges = options.ranges || null;
             this.isCustomPeriodRangeActive = false;
             this.anchorElement = options.anchorElement;
             this.parentElement = options.parentElement || '';
@@ -505,12 +505,10 @@
             obj || (obj = this._defaultRanges());
             if ($.isPlainObject(obj)) {
                 throw new Error('Invalid ranges parameter, should not be a plain object');
-            }
-            else if (obj instanceof Array) {
+            } else if (obj instanceof Array) {
                 if (obj.length == 0) {
                     throw new Error('Invalid ranges parameter, should not be an empty array');
-                }
-                else if (!(obj[0] instanceof $.fn.daterangepicker.DateRange)) {
+                } else if (!(obj[0] instanceof $.fn.daterangepicker.DateRange)) {
                     throw new Error('Invalid ranges parameter, array should contain DateRange instances');
                 }
 
@@ -518,12 +516,10 @@
                 for (dateRange in obj) {
                     results.push(this.defineRange(obj[dateRange]));
                 }
-            }
-            else if (obj instanceof $.fn.daterangepicker.DateRange) {
+            } else if (obj instanceof $.fn.daterangepicker.DateRange) {
                 results = [];
                 results.push(obj);
-            }
-            else {
+            } else {
                 throw new Error('Invalid ranges parameter, should be a DateRange instance');
             }
 
@@ -673,7 +669,8 @@
                     sameMax = date.isSame(max, _this.period());
                     minExclusive = minBoundary.mode === 'exclusive';
                     maxExclusive = maxBoundary.mode === 'exclusive';
-                    return between || (!minExclusive && sameMin && !(maxExclusive && sameMax)) || (!maxExclusive && sameMax && !(minExclusive && sameMin));
+                    return between || (!minExclusive && sameMin && !(maxExclusive && sameMax)) ||
+                        (!maxExclusive && sameMax && !(minExclusive && sameMin));
                 };
             })(this);
             if (minBoundary) {
@@ -697,7 +694,7 @@
 
             results.push(new DateRange('Last 30 days', moment().subtract(29, 'days'), moment()));
             results.push(new DateRange('Last 90 days', moment().subtract(89, 'days'), moment()));
-            results.push(new DateRange( 'Last Year', moment().subtract(1, 'year').add(1, 'day'), moment()));
+            results.push(new DateRange('Last Year', moment().subtract(1, 'year').add(1, 'day'), moment()));
             results.push(new DateRange('All Time'));
             results.push(new DateRange('Custom Range'));
 

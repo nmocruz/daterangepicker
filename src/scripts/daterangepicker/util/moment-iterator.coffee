@@ -1,7 +1,7 @@
 class MomentIterator
   @array: (date, amount, period) ->
     iterator = new @(date, period)
-    for i in [0..amount-1]
+    for i in [0..amount - 1]
       iterator.next()
 
   constructor: (date, period) ->

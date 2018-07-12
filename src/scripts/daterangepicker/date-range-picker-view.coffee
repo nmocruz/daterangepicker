@@ -29,16 +29,24 @@ class DateRangePickerView
     if @callback
       @dateRange.subscribe (newValue) =>
         [startDate, endDate] = newValue
-        @callback(startDate.clone(), endDate.clone(), @period(), @startCalendar.firstDate(), @endCalendar.lastDate())
+        @callback(
+          startDate.clone(),
+          endDate.clone(),
+          @period(),
+          @startCalendar.firstDate(),
+          @endCalendar.lastDate())
       @startCalendar.firstDate.subscribe (newValue) =>
         [startDate, endDate] = @dateRange()
         @callback(startDate.clone(), endDate.clone(), @period(), newValue, @endCalendar.lastDate())
       @endCalendar.lastDate.subscribe (newValue) =>
         [startDate, endDate] = @dateRange()
-        @callback(startDate.clone(), endDate.clone(), @period(), @startCalendar.firstDate(), newValue)
+        @callback(
+          startDate.clone(), endDate.clone(), @period(), @startCalendar.firstDate(), newValue)
       if @forceUpdate
         [startDate, endDate] = @dateRange()
-        @callback(startDate.clone(), endDate.clone(), @period(), @startCalendar.firstDate(), @endCalendar.lastDate())
+        @callback(
+          startDate.clone(), endDate.clone(),
+          @period(), @startCalendar.firstDate(), @endCalendar.lastDate())
 
     if @anchorElement
       wrapper = $("<div data-bind=\"stopBinding: true\"></div>").appendTo(@parentElement)
@@ -142,27 +150,31 @@ class DateRangePickerView
 
   updatePosition: () ->
     return if @standalone()
-    parentOffset =
+    parentOffset = {
       top: 0
       left: 0
+    }
     parentRightEdge = $(window).width()
     if !@parentElement.is('body')
-      parentOffset =
-        top: @parentElement.offset().top - @parentElement.scrollTop()
-        left: @parentElement.offset().left - @parentElement.scrollLeft()
+      parentOffset = {
+          top: @parentElement.offset().top - @parentElement.scrollTop()
+          left: @parentElement.offset().left - @parentElement.scrollLeft()
+        }
       parentRightEdge = @parentElement.get(0).clientWidth + @parentElement.offset().left
 
-    style =
+    style = {
       top: (@anchorElement.offset().top + @anchorElement.outerHeight() - (parentOffset.top)) + 'px'
       left: 'auto'
       right: 'auto'
-
+    }
+    
     switch @orientation()
       when 'left'
         if @containerElement.offset().left < 0
           style.left = '9px'
         else
-          style.right = (parentRightEdge - (@anchorElement.offset().left) - @anchorElement.outerWidth()) + 'px'
+          style.right = (parentRightEdge -
+            (@anchorElement.offset().left) - @anchorElement.outerWidth()) + 'px'
       else
         if @containerElement.offset().left + @containerElement.outerWidth() > $(window).width()
           style.right = '0'
@@ -173,5 +185,6 @@ class DateRangePickerView
 
   outsideClick: (event) =>
     target = $(event.target)
-    unless event.type == 'focusin' || target.closest(@anchorElement).length || target.closest(@containerElement).length || target.closest('.calendar').length
+    unless event.type == 'focusin' || target.closest(@anchorElement).length ||
+    target.closest(@containerElement).length || target.closest('.calendar').length
       @close()

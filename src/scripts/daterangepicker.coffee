@@ -16,15 +16,16 @@ DateRangePickerView.template = '
 '
 
 # Simplifies monkey-patching
-$.extend $.fn.daterangepicker,
-  ArrayUtils: ArrayUtils
-  MomentIterator: MomentIterator
-  MomentUtil: MomentUtil
-  Period: Period
-  Config: Config
-  DateRange: DateRange
-  AllTimeDateRange: AllTimeDateRange
-  CustomDateRange: CustomDateRange
-  DateRangePickerView: DateRangePickerView
-  CalendarView: CalendarView
-  CalendarHeaderView: CalendarHeaderView
+$.extend $.fn.daterangepicker, {
+    ArrayUtils: ArrayUtils
+    MomentIterator: MomentIterator
+    MomentUtil: MomentUtil
+    Period: Period
+    Config: Config
+    DateRange: DateRange
+    AllTimeDateRange: AllTimeDateRange
+    CustomDateRange: CustomDateRange
+    DateRangePickerView: DateRangePickerView
+    CalendarView: CalendarView
+    CalendarHeaderView: CalendarHeaderView
+  }
