@@ -20,7 +20,6 @@ import 'mocha/mocha.css';
 
 import 'tslib';
 import 'knockout';
-import 'moment';
 import 'knockout-daterangepicker-fb';
 import 'marked/lib/marked.js';
 import 'prismjs/prism.js';

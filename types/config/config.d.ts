@@ -1,0 +1,31 @@
+import { Period } from "./period";
+import { Options } from "./options";
+export class Config {
+    constructor(options?: {});
+    firstDayOfWeek: import("knockout").Observable<number>;
+    timeZone: import("knockout").Observable<string>;
+    periods: import("knockout").ObservableArray<any>;
+    customPeriodRanges: any[];
+    period: any;
+    single: import("knockout").Observable<boolean>;
+    opened: import("knockout").Observable<boolean>;
+    expanded: import("knockout").Observable<boolean>;
+    standalone: import("knockout").Observable<boolean>;
+    hideWeekdays: import("knockout").Observable<boolean>;
+    locale: any;
+    orientation: import("knockout").Observable<any>;
+    forceUpdate: any;
+    minDate: import("knockout").Computed<any>;
+    maxDate: import("knockout").Computed<any>;
+    startDate: import("knockout").Computed<any>;
+    endDate: import("knockout").Computed<any>;
+    ranges: any[];
+    isCustomPeriodRangeActive: import("knockout").Observable<boolean>;
+    anchorElement: any;
+    parentElement: any;
+    callback: any;
+    extend(obj: any): any[];
+    parseRange(value: any, title: any): any;
+    #private;
+}
+export { Period, Options };

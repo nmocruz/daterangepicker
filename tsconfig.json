@@ -1,18 +1,30 @@
 {
+    "include": ["src/**/*"],
     "compileOnSave": true,
     "compilerOptions": {
-        "outDir": "./dist/out-tsc",
+        // Tells TypeScript to read JS files, as
+        // normally they are ignored as source files
+        "allowJs": true,
+        // This compiler run should
+        // only output d.ts files
+        "emitDeclarationOnly": true,
+        // Types should go into this directory.
+        // Removing this would place the .d.ts files
+        // next to the .js files
+        "outDir": "types",
+        "skipLibCheck": true,
         "baseUrl": "src",
         "sourceMap": true,
         "declaration": true,
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
         "noImplicitAny": true,
         "target": "es6",
         "typeRoots": [
             "./node_modules/@types",
-            "./node_modules/moment",
+            "./node_modules/dayjs",
             "./node_modules/knockout/build/types"
         ],
         "types": [],

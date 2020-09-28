@@ -61,7 +61,7 @@ describe 'DateRangePickerView', ->
     it 'works with custom ranges', ->
       d = new DateRangePickerView({
         ranges: {
-          'May 2015': [moment.utc('2015-05-01'), moment.utc('2015-05-31')]
+          'May 2015': [dayjs.utc('2015-05-01'), dayjs.utc('2015-05-31')]
         }
       })
       range = d.ranges[0]

@@ -18,7 +18,7 @@ jQuery integration includes `daterangepicker` function that takes 2 parameters: 
 
 ```javascript
 $("input").daterangepicker({
-  minDate: moment().subtract(2, 'years')
+  minDate: dayjs().subtract(2, 'year')
 }, function (startDate, endDate, period) {
   $(this).val(startDate.format('L') + ' – ' + endDate.format('L'))
 });
@@ -29,12 +29,12 @@ $("input").daterangepicker({
 If you're using Knockout, there's a custom binding you can use:
 
 ```html
-<input type="text" data-bind="daterangepicker: dateRange, daterangepickerOptions: { maxDate: moment() }"/>
+<input type="text" data-bind="daterangepicker: dateRange, daterangepickerOptions: { maxDate: dayjs() }"/>
 ```
 
 ```javascript
 ko.applyBindings({
-  dateRange: ko.observable([moment().subtract(1, 'month'), moment(), 'day'])
+  dateRange: ko.observable([dayjs().subtract(1, 'month'), dayjs(), 'day'])
 });
 ```
 
@@ -42,7 +42,7 @@ ko.applyBindings({
 
 ### timeZone
 
-Sets time zone. If you want to use user's computer time zone, pass `null`. By default, it's UTC. If you want to use other time zones you will need [moment.timezone](http://momentjs.com/timezone/) library.
+Sets time zone. If you want to use user's computer time zone, pass `null`. By default, it's UTC. If you want to use other time zones you will need [dayjs.timezone](https://day.js.org/docs/en/plugin/timezone) library.
 
 ```javascript
 timeZone: String
@@ -68,7 +68,7 @@ Sets first day of the week. 0 is Sunday, 1 is Monday. In case you were wondering
 firstDayOfWeek: Number
 ```
 
-__Important__: this setting will globally change moment.js locale
+__Important__: this setting will globally change dayjs locale
 
 
 Default:
@@ -81,7 +81,7 @@ firstDayOfWeek: 1 // Monday
 Sets a minimum possible date a user can select.
 
 ```javascript
-minDate: [(moment.js-compatible object), ('inclusive' | 'exclusive' | 'expanded')]
+minDate: [(dayjs.js-compatible object), ('inclusive' | 'exclusive' | 'expanded')]
 ```
 
 By default, that means you can select days (weeks, months, etc) that are the same as `minDate` or after `minDate` — this is what we call __inclusive__ mode. In __exclusive__ you can't select days (weeks, months, etc) that fall on `minDate`. When you select a month (week, quarter, etc) in __expanded__ mode and `minDate` falls on the middle of the month, the first day of the month will be selected.
@@ -95,16 +95,16 @@ For example, if `minDate` is 14th of February, `period` is set to `month` and yo
 
 Default:
 ```javascript
-minDate: [moment().subtract(30, 'years'), 'inclusive']
+minDate: [dayjs().subtract(30, 'year'), 'inclusive']
 ```
 
 Examples:
 ```javascript
 minDate: '2015-11-10' // mode defaults to inclusive
-minDate: moment().subtract(2, 'years')
+minDate: dayjs().subtract(2, 'year')
 minDate: ['2015-11-10', 'expanded']
 minDate: ['2015-11-10', 'exclusive']
-minDate: [null, 'exclusive'] // date defaults to moment().subtract(2, 'years')
+minDate: [null, 'exclusive'] // date defaults to dayjs().subtract(2, 'year')
 ```
 
 
@@ -113,7 +113,7 @@ minDate: [null, 'exclusive'] // date defaults to moment().subtract(2, 'years')
 Sets a maximum possible date a user can select.
 
 ```javascript
-maxDate: [(moment.js-compatible object), ('inclusive' | 'exclusive' | 'expanded')]
+maxDate: [(dayjs.js-compatible object), ('inclusive' | 'exclusive' | 'expanded')]
 ```
 
 By default, that means you can select days (weeks, months, etc) that are the same as `maxDate` or after `maxDate` — this is what we call __inclusive__ mode. In __exclusive__ you can't select days (weeks, months, etc) that fall on `maxDate`. When you select a month (week, quarter, etc) in __expanded__ mode and `maxDate` falls on the middle of the month, the last day of the month will be selected.
@@ -127,16 +127,16 @@ For example, if `maxDate` is 14th of February, `period` is set to `month` and yo
 
 Default:
 ```javascript
-maxDate: [moment(), 'inclusive']
+maxDate: [dayjs(), 'inclusive']
 ```
 
 Examples:
 ```javascript
 maxDate: '2015-11-10' // mode defaults to inclusive
-maxDate: moment().add(2, 'years')
+maxDate: dayjs().add(2, 'year')
 maxDate: ['2015-11-10', 'expanded']
 maxDate: ['2015-11-10', 'exclusive']
-maxDate: [null, 'exclusive'] // date defaults to moment().subtract(2, 'years')
+maxDate: [null, 'exclusive'] // date defaults to dayjs().subtract(2, 'year')
 ```
 
 ### startDate
@@ -144,12 +144,12 @@ maxDate: [null, 'exclusive'] // date defaults to moment().subtract(2, 'years')
 This parameter sets the initial value for start date.
 
 ```javascript
-startDate: (moment.js-compatible object)
+startDate: (dayjs.js-compatible object)
 ```
 
 Default:
 ```javascript
-startDate: moment().subtract(29, 'days')
+startDate: dayjs().subtract(29, 'day')
 ```
 
 Examples:
@@ -158,7 +158,7 @@ startDate: new Date()
 startDate: '2015-11-10'
 startDate: [2015, 11, 10]
 startDate: 1449159600
-startDate: moment().subtract(1, 'week')
+startDate: dayjs().subtract(1, 'week')
 ```
 
 ### endDate
@@ -166,12 +166,12 @@ startDate: moment().subtract(1, 'week')
 This parameter sets the initial value for end date.
 
 ```javascript
-endDate: (moment.js-compatible object)
+endDate: (dayjs.js-compatible object)
 ```
 
 Default:
 ```javascript
-endDate: moment()
+endDate: dayjs()
 ```
 
 Examples:
@@ -180,7 +180,7 @@ endDate: new Date()
 endDate: '2015-11-10'
 endDate: [2015, 11, 10]
 endDate: 1449159600
-endDate: moment().add(1, 'week')
+endDate: dayjs().add(1, 'week')
 ```
 
 
@@ -195,9 +195,9 @@ ranges: Object
 Default:
 ```javascript
 {
-  'Last 30 days': [moment().subtract(29, 'days'), moment()],
-  'Last 90 days': [moment().subtract(89, 'days'), moment()],
-  'Last Year': [moment().subtract(1, 'year').add(1,'day'), moment()],
+  'Last 30 days': [dayjs().subtract(29, 'day'), dayjs()],
+  'Last 90 days': [dayjs().subtract(89, 'day'), dayjs()],
+  'Last Year': [dayjs().subtract(1, 'year').add(1,'day'), dayjs()],
   'All Time': 'all-time' // [minDate, maxDate],
   'Custom Range': 'custom'
 }
@@ -206,8 +206,8 @@ Default:
 Examples:
 ```javascript
 ranges: {
-  'Last 245 Days': [moment().subtract(244, 'days'), moment()],
-  'Last 3 Years': [moment().subtract(3, 'years').add(1, 'day'), moment()]
+  'Last 245 Days': [dayjs().subtract(244, 'day'), dayjs()],
+  'Last 3 Years': [dayjs().subtract(3, 'year').add(1, 'day'), dayjs()]
 }
 ```
 
@@ -246,7 +246,7 @@ ranges: Object
 Examples:
 ```javascript
 customPeriodRanges: {
-  'Last Year': [moment().subtract(1, 'year').add(1,'day'), moment()],
+  'Last Year': [dayjs().subtract(1, 'year').add(1,'day'), dayjs()],
   'All Time': 'all-time' // [minDate, maxDate]
 }
 ```
@@ -394,8 +394,8 @@ Source code is available on [GitHub](https://github.com/sensortower/daterangepic
 All classes used in daterangepicker are accessable through `$.fn.daterangepicker`:
 
 * `$.fn.daterangepicker.ArrayUtils`
-* `$.fn.daterangepicker.MomentIterator`
-* `$.fn.daterangepicker.MomentUtil`
+* `$.fn.daterangepicker.DayjsIterator`
+* `$.fn.daterangepicker.DayjsUtil`
 * `$.fn.daterangepicker.Period`
 * `$.fn.daterangepicker.Config`
 * `$.fn.daterangepicker.DateRange`

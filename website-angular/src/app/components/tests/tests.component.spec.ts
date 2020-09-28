@@ -1,12 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect} from 'chai';
 import { TestsComponent } from './tests.component';
 
 describe('TestsComponent', () => {
   let component: TestsComponent;
   let fixture: ComponentFixture<TestsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TestsComponent ]
     })
@@ -20,6 +20,6 @@ describe('TestsComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).to.be.ok;
   });
 });

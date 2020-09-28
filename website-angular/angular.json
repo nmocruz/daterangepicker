@@ -30,7 +30,7 @@
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.app.json",
-                        "verbose": true,
+                        "verbose": false,
                         "assets": [
                             "src/favicon.ico",
                             "src/assets",
@@ -51,7 +51,7 @@
                             }
                         ],
                         "styles": [
-                            "src/styles.scss",
+                            "src/assets/styles/styles.scss",
                             "node_modules/prismjs/themes/prism-okaidia.css",
                             "node_modules/highlightjs/styles/github.css",
                             "../dist/daterangepicker.css",
@@ -63,10 +63,7 @@
                             "node_modules/prismjs/components/prism-css.min.js",
                             "node_modules/prismjs/components/prism-javascript.min.js",
                             "node_modules/prismjs/components/prism-markdown.min.js",
-                            "node_modules/knockout/build/output/knockout-latest.js",
                             "node_modules/jquery/dist/jquery.min.js",
-                            "node_modules/moment/moment.js",
-                            "node_modules/knockout-daterangepicker-fb/dist/daterangepicker.js",
                             "node_modules/chai/chai.js",
                             "node_modules/mocha/mocha.js"
                         ]
@@ -79,13 +76,15 @@
                             }],
                             "optimization": true,
                             "outputHashing": "all",
-                            "sourceMap": false,
                             "extractCss": true,
                             "namedChunks": false,
                             "aot": true,
                             "extractLicenses": false,
                             "vendorChunk": false,
-                            "buildOptimizer": true
+                            "buildOptimizer": true,
+                            "sourceMap": {
+                                "scripts": true
+                            }
                         }
                     }
                 },
@@ -115,8 +114,8 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.spec.json",
                         "karmaConfig": "src/karma.conf.js",
-                        "styles": ["src/styles.css"],
-                        "scripts": [],
+                        "styles": ["src/assets/styles/styles.scss"],
+                        "scripts": ["node_modules/knockout-daterangepicker-fb/dist/daterangepicker.umd.js"],
                         "assets": ["src/favicon.ico", "src/assets"]
                     }
                 },

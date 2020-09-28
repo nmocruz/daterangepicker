@@ -22,7 +22,7 @@
 ## Dependencies
 
 * jquery
-* moment
+* day.js
 * knockout
 
 ## Documentation
@@ -44,7 +44,7 @@ bower install knockout-daterangepicker --save
 ### With jQuery
 ```javascript
 $("input").daterangepicker({
-  minDate: moment().subtract(2, 'years'),
+  minDate: dayjs().subtract(2, 'years'),
   callback: function (startDate, endDate, period) {
     $(this).val(startDate.format('L') + ' – ' + endDate.format('L'));
   }
@@ -58,7 +58,7 @@ $("input").daterangepicker({
 
 ```javascript
 ko.applyBindings({
-  dateRange: ko.observable([moment().subtract(1, 'month'), moment()])
+  dateRange: ko.observable([dayjs().subtract(1, 'month'), dayjs()])
 });
 ```
 

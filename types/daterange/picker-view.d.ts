@@ -1,0 +1,41 @@
+export class DateRangePickerView {
+    static periodProxy: typeof Period;
+    static template: string;
+    constructor(options?: {});
+    setDateRange(dateRange: any): any;
+    setCustomPeriodRange(customPeriodRange: any): any;
+    outsideClick(event: any): any;
+    startCalendar: CalendarView;
+    endCalendar: CalendarView;
+    startDateInput: import("knockout").Computed<any>;
+    endDateInput: import("knockout").Computed<any>;
+    dateRange: import("knockout").Observable<any[]>;
+    style: import("knockout").Observable<{}>;
+    containerElement: JQuery<any>;
+    getLocale(): any;
+    calendars(): CalendarView[];
+    updateDateRange(): any;
+    cssClasses(): {
+        single: any;
+        opened: any;
+        expanded: any;
+        standalone: any;
+        'hide-weekdays': any;
+        'hide-periods': boolean;
+        'orientation-left': boolean;
+        'orientation-right': boolean;
+    };
+    isActivePeriod(period: any): boolean;
+    isActiveDateRange(dateRange: any): any;
+    isActiveCustomPeriodRange(customPeriodRange: any): any;
+    inputFocus(): any;
+    setPeriod(period: any): any;
+    applyChanges(): any;
+    cancelChanges(): any;
+    open(): any;
+    close(): any;
+    toggle(): any;
+    updatePosition(): any;
+}
+import { CalendarView } from "../calendar/calendar";
+import { Period } from "../config/config";

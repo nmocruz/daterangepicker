@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { expect} from 'chai';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -20,6 +20,6 @@ describe('HeaderComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).to.be.ok;
   });
 });

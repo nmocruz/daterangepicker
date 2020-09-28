@@ -1,6 +1,6 @@
 import { DateRangePickerView, Options, DateRange } from 'knockout-daterangepicker-fb';
 declare var chai: any;
-declare var moment: any;
+declare var dayjs: any;
 const assert = chai.assert;
 
 export function doTests() {
@@ -91,8 +91,8 @@ export function doTests() {
                     ranges: [
                         new DateRange(
                             'May 2015',
-                            moment.utc('2015-05-01'),
-                            moment.utc('2015-05-31')
+                            dayjs.utc('2015-05-01'),
+                            dayjs.utc('2015-05-31')
                         )
                     ]
                 });

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DateRangePickerView, Config, Options } from 'knockout-daterangepicker-fb';
+import { Options, DateRangePickerView } from 'knockout-daterangepicker-fb';
+
+import 'jquery';
+declare var $: JQueryStatic;
 
 // const pickerConfig = new Config({
 //     standalone: true

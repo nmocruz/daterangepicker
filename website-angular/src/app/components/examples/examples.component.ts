@@ -1,10 +1,10 @@
 import { Component, OnInit, DoCheck, AfterViewInit, AfterContentInit, QueryList, ViewChild, Directive, ElementRef } from '@angular/core';
-import { Observable, ObservableArray } from 'knockout';
-import { Moment } from 'moment';
+import * as ko from 'knockout';
+import { Observable } from 'knockout';
+import dayjs from 'dayjs';
 import { Options, DateRange, DateRangePickerView } from 'knockout-daterangepicker-fb';
 
-declare var ko: any;
-declare var moment: any;
+
 declare var $: any;
 
 @Directive({selector: 'markdown'})
@@ -114,19 +114,19 @@ export class ChildDirective {
 }
 
 interface DatesContainer {
-    dateRange?: Observable<Moment[]>;
-    dateRange2?: Observable<Moment[]>;
-    dateRange3?: Observable<Moment[]>;
-    dateRange4?: Observable<Moment[]>;
-    dateRange5?: Observable<Moment[]>;
+    dateRange?: Observable<dayjs.Dayjs[]>;
+    dateRange2?: Observable<dayjs.Dayjs[]>;
+    dateRange3?: Observable<dayjs.Dayjs[]>;
+    dateRange4?: Observable<dayjs.Dayjs[]>;
+    dateRange5?: Observable<dayjs.Dayjs[]>;
 }
 
 class DatesView implements DatesContainer {
-    dateRange = ko.observable([moment().subtract(29, 'days'), moment()]);
-    dateRange2 = ko.observable([moment().subtract(29, 'days'), moment()]);
-    dateRange3 = ko.observable([moment().subtract(29, 'days'), moment()]);
-    dateRange4 = ko.observable([moment().subtract(29, 'days'), moment()]);
-    dateRange5 = ko.observable([moment().subtract(29, 'days'), moment()]);
+    dateRange = ko.observable([dayjs().subtract(29, 'day'), dayjs()]);
+    dateRange2 = ko.observable([dayjs().subtract(29, 'day'), dayjs()]);
+    dateRange3 = ko.observable([dayjs().subtract(29, 'day'), dayjs()]);
+    dateRange4 = ko.observable([dayjs().subtract(29, 'day'), dayjs()]);
+    dateRange5 = ko.observable([dayjs().subtract(29, 'day'), dayjs()]);
 
     drpView: DateRangePickerView;
     drpView2: DateRangePickerView;
@@ -136,6 +136,7 @@ class DatesView implements DatesContainer {
 
     constructor() { }
 }
+
 
 @Component({
   selector: 'app-examples',

@@ -3,13 +3,18 @@
     "compilerOptions": {
         "outDir": "../out-tsc/app",
         "sourceMap": true,
-        "listFiles": true,
+        "listFiles": false,
         "moduleResolution": "node",
-        "traceResolution": true,
-        "types": [],
+        "traceResolution": false,
+        "types": [
+            "mocha",
+            "chai",
+            "knockout-daterangepicker-fb"
+        ],
         "typeRoots": [
             "../node_modules/@types"
         ],
+        "skipLibCheck": true
     },
     "include": [
         "../src/**/*.ts"
@@ -17,6 +22,7 @@
     "exclude": [
         "src/test.ts",
         "**/*.spec.ts",
-        "node_modules",
+        "**/node_modules",
+        "**/.*/"
     ]
 }

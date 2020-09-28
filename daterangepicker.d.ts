@@ -1,6 +1,7 @@
 import { BindingHandlers, BindingHandler, Observable, Computed, ObservableArray } from 'knockout';
-import { Moment, Locale } from 'moment';
-import * as $ from 'jquery';
+import * as dayjs from 'dayjs';
+// import * as updateLocale from 'dayjs/plugin/updateLocale';
+
 
 declare global {
     export interface BindingHandlers {
@@ -13,27 +14,12 @@ declare global {
     }
 }
 
-declare module 'moment' {
-    export interface Locale {
-        applyButtonTitle: 'Apply',
-        cancelButtonTitle: 'Cancel',
-        inputFormat: 'L',
-        startLabel: 'Start',
-        endLabel: 'End',
-        dayLabel: 'Day',
-        weekLabel: 'Week',
-        monthLabel: 'Month',
-        quarterLabel: 'Quarter',
-        yearLabel: 'Year'
-    }
-}
-
 declare module 'knockout' {
     export interface Computed<T> {
         mode?: string;
-        fit: (date?: Moment | string) => Moment;
-        clone: (date?: Moment | string) => Moment;
-        isWithinBoundaries: (date?: Moment | string) => boolean;
+        fit: (date?: dayjs.Dayjs | string) => dayjs.Dayjs;
+        clone: (date?: dayjs.Dayjs | string) => dayjs.Dayjs;
+        isWithinBoundaries: (date?: dayjs.Dayjs | string) => boolean;
     }
     export interface Observable<T> {
         scale?(period: string): string;
@@ -46,12 +32,34 @@ declare module 'knockout' {
     }
 }
 
+export interface Locale {
+    applyButtonTitle: 'Apply',
+    cancelButtonTitle: 'Cancel',
+    inputFormat: 'L',
+    startLabel: 'Start',
+    endLabel: 'End',
+    dayLabel: 'Day',
+    weekLabel: 'Week',
+    monthLabel: 'Month',
+    quarterLabel: 'Quarter',
+    yearLabel: 'Year',
+    months: string[],
+    monthsShort: string[],
+    weekdays: string[],
+    weekdaysShort: string[],
+    weekdaysMin: string[],
+    ordinal?(n: number): string,
+    formats?: object,
+    relativeTime?: object,
+    meridiem?(hour: number, minute: number, isLowerCase: boolean): string
+}
+
 export interface DateRangePicker {
     (options?: Options, callback?: DateRangePickerCallback): JQuery;
     ArrayUtils?: ArrayUtils;
     Config?: Config;
-    MomentIterator?: MomentIterator;
-    MomentUtil?: MomentUtil;
+    DayjsIterator?: DayjsIterator;
+    DayjsUtil?: DayjsUtil;
     Period?: Period;
     DateRangePickerView?: DateRangePickerView;
     DateRange?: DateRange;
@@ -66,7 +74,7 @@ export interface DateRangePicker {
     initialized using the options parameter)
 
     This same daterangepicker function is extended to include all of the supporting types defined in the module
-        ArrayUtils, MomentIterator, MomentUtil
+        ArrayUtils, DayjsIterator, DayjsUtil
         Period, Config
         DateRange, AllTimeDateRange, CustomDateRange
         DateRangePickerView
@@ -81,37 +89,37 @@ export interface ArrayUtils {
 }
 
 export type DateRangePickerCallback = (
-    startDate: Moment,
-    endDate: Moment,
+    startDate: dayjs.Dayjs,
+    endDate: dayjs.Dayjs,
     period: string | null
 ) => void;
 
-interface MomentIteratorInterface {
-    array?(date: Moment, amount: number, period: string): Moment[];
-    next?(): Moment;
-    date: Moment;
+interface DayjsIteratorInterface {
+    array?(date: dayjs.Dayjs, amount: number, period: string): dayjs.Dayjs[];
+    next?(): dayjs.Dayjs;
+    date: dayjs.Dayjs;
     period: string;
 
 }
 
-export class MomentIterator implements MomentIteratorInterface {
-    constructor(date: Moment, period: string);
-    static array(date: Moment, amount: number, period: string): Moment[];
-    next(): Moment;
-    date: Moment;
+export class DayjsIterator implements DayjsIteratorInterface {
+    constructor(date: dayjs.Dayjs, period: string);
+    static array(date: dayjs.Dayjs, amount: number, period: string): dayjs.Dayjs[];
+    next(): dayjs.Dayjs;
+    date: dayjs.Dayjs;
     period: string;
 }
 
-interface MomentUtilInterface {
+interface DayjsUtilInterface {
     patchCurrentLocale?(currentLocale: Locale): Locale
     setFirstDayOfTheWeek?(dow: number): Locale;
-    tz?(...input: any[]): Moment;
+    tz?(...input: any[]): dayjs.Dayjs;
 }
 
-export class MomentUtil implements MomentUtilInterface {
+export class DayjsUtil implements DayjsUtilInterface {
     static patchCurrentLocale(currentLocale: Locale): Locale;
     static setFirstDayOfTheWeek(dow: number): Locale;
-    static tz(...input: any[]): Moment;
+    static tz(...input: any[]): dayjs.Dayjs;
 }
 
 export type allPeriods = 'day' | 'week' | 'month' | 'quarter' | 'year';
@@ -122,7 +130,7 @@ export class Period {
     static nextPageArguments(period: string): [number, string];
     static format(period: string): string;
     static title(period: string, localeObj: Locale): string;
-    static dimensions(period: string): number[];
+    static dimentions(period: string): number[];
     static extendObservable(observable: string | [string, Locale]): Observable<string> | Observable<Locale>;
     static allPeriods: string[];
     static methods: string[];
@@ -130,19 +138,19 @@ export class Period {
 
 export interface DateRangeInterface {
     title?: string;
-    startDate?: string | Moment;
-    endDate?: string | Moment;
+    startDate?: string | dayjs.Dayjs;
+    endDate?: string | dayjs.Dayjs;
 }
 
 export class DateRange implements DateRangeInterface {
-    constructor(title?: string, startDate?: string | Moment, endDate?: string | Moment);
+    constructor(title?: string, startDate?: string | dayjs.Dayjs, endDate?: string | dayjs.Dayjs);
     title?: string;
-    startDate?: string | Moment;
-    endDate?: string | Moment;
+    startDate?: string | dayjs.Dayjs;
+    endDate?: string | dayjs.Dayjs;
 }
 
 export interface DateSelection {
-    momentObject: Moment;
+    momentObject: dayjs.Dayjs;
     // ('inclusive' | 'exclusive' | 'expanded')
     selectionType: string;
 }
@@ -156,17 +164,17 @@ export enum PeriodTypes {
 }
 
 export interface DateOption {
-    value?: Moment | string;
+    value?: dayjs.Dayjs | string;
     mode?: string;
 }
 
 export class Options {
     constructor(...options: any[]);
     timeZone?: string;
-    minDate?: Moment | string | Array<DateOption>;
-    maxDate?: Moment | string | Array<DateOption>;
-    startDate?: Moment | string | Array<DateOption>;
-    endDate?: Moment | string | Array<DateOption>;
+    minDate?: dayjs.Dayjs | string | Array<DateOption>;
+    maxDate?: dayjs.Dayjs | string | Array<DateOption>;
+    startDate?: dayjs.Dayjs | string | Array<DateOption>;
+    endDate?: dayjs.Dayjs | string | Array<DateOption>;
     period?: string;
     periods?: string[];
     single?: boolean;
@@ -182,16 +190,16 @@ export class Options {
     ranges?: DateRange[];
     locale?: Locale;
     isCustomPeriodRangeActive?: boolean;
-    callback?: (startDate: Moment, endDate: Moment, period: string) => void;
+    callback?: (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, period: string) => void;
 }
 
 export class Config {
     constructor(options?: Options);
     timeZone?: Observable<string>;
-    minDate?: Computed<Moment>;
-    maxDate?: Computed<Moment>;
-    startDate?: Computed<Moment>;
-    endDate?: Computed<Moment>;
+    minDate?: Computed<dayjs.Dayjs>;
+    maxDate?: Computed<dayjs.Dayjs>;
+    startDate?: Computed<dayjs.Dayjs>;
+    endDate?: Computed<dayjs.Dayjs>;
     period?: Observable<string> | Observable<Period>;
     periods?: ObservableArray<string> | ObservableArray<Period>;
     single?: Observable<boolean>;
@@ -208,7 +216,7 @@ export class Config {
     locale?: Locale;
     isCustomPeriodRangeActive?: Observable<boolean>;
     // allEvents: Observable<Object>;
-    callback?: (startDate: Moment, endDate: Moment, period: string) => void;
+    callback?: (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, period: string) => void;
     firstDayOfWeek?: Observable<number>;
     extend?(obj: Object): Object;
     _firstDayOfWeek?(val: number): Observable<number>;
@@ -222,20 +230,20 @@ export class Config {
     _expanded?(isExpanded: boolean): Observable<boolean>;
     _standalone?(isStandalone: boolean): Observable<boolean>;
     _hideWeekdays?(hideWeekdays: boolean): Observable<boolean>;
-    _minDate?(val: any): Computed<Moment>;
-    _maxDate?(val: any): Computed<Moment>;
-    _startDate?(date: Moment): Computed<Moment>;
-    _endDate?(date: Moment): Computed<Moment>;
+    _minDate?(val: any): Computed<dayjs.Dayjs>;
+    _maxDate?(val: any): Computed<dayjs.Dayjs>;
+    _startDate?(date: dayjs.Dayjs): Computed<dayjs.Dayjs>;
+    _endDate?(date: dayjs.Dayjs): Computed<dayjs.Dayjs>;
     _ranges?(obj: Object): DateRange[];
-    defineRange?(range: Moment): DateRange;
-    parseRange?(range: Moment[], title: string): DateRange;
+    defineRange?(range: dayjs.Dayjs): DateRange;
+    parseRange?(range: dayjs.Dayjs[], title: string): DateRange;
     _orientation?(orientation: string): Observable<string>;
     _dateObservable?(
-        date: Moment,
+        date: dayjs.Dayjs,
         mode: string,
         minBoundary: any,
         maxBoundary: any
-    ): Computed<Moment>;
+    ): Computed<dayjs.Dayjs>;
     _defaultRanges?(): DateRange[];
     _anchorElement?(elementName: string): HTMLElement;
     _parentElement?(elementName: string): HTMLElement;
@@ -257,15 +265,15 @@ export class DateRangePickerView {
     startDateInput: Computed<any>;
     endDateInput: Computed<any>;
     dateRange: Observable<any>;
-    startDate: Observable<Moment>;
-    endDate: Observable<Moment>;
+    startDate: Observable<dayjs.Dayjs>;
+    endDate: Observable<dayjs.Dayjs>;
     style: Observable<any>;
     callback: (
-        startDate: Moment,
-        endDate: Moment,
+        startDate: dayjs.Dayjs,
+        endDate: dayjs.Dayjs,
         period: Period,
-        calStartDate: Moment,
-        calEndDate: Moment
+        calStartDate: dayjs.Dayjs,
+        calEndDate: dayjs.Dayjs
     ) => any;
     anchorElement: HTMLElement;
     wrapper: HTMLElement;
@@ -273,7 +281,7 @@ export class DateRangePickerView {
     locale: Locale;
     getLocale(): Locale;
     calendars(): CalendarView[];
-    updateDateRange(): ObservableArray<Moment>;
+    updateDateRange(): ObservableArray<dayjs.Dayjs>;
     isActivePeriod(period: Period): boolean;
     cssClasses(): any;
     isActiveDateRange(dateRange: DateRange): boolean;
@@ -291,49 +299,49 @@ export class DateRangePickerView {
 }
 
 export interface CalendarView {
-    inRange: (date: Moment) => boolean;
-    isEvent: (date: Moment) => boolean;
-    tableValues: (date: Moment) => Object;
-    formatDateTemplate: (date: Moment) => Object;
-    eventsForDate: (date: Moment) => Object;
-    cssForDate: (date: Moment, periodIsDay: boolean) => Object;
+    inRange: (date: dayjs.Dayjs) => boolean;
+    isEvent: (date: dayjs.Dayjs) => boolean;
+    tableValues: (date: dayjs.Dayjs) => Object;
+    formatDateTemplate: (date: dayjs.Dayjs) => Object;
+    eventsForDate: (date: dayjs.Dayjs) => Object;
+    cssForDate: (date: dayjs.Dayjs, periodIsDay: boolean) => Object;
     allEvents: Observable<Object>;
     period: Period;
     single: boolean;
     timeZone: string;
     locale: Locale;
-    startDate: Moment;
-    endDate: Moment;
+    startDate: dayjs.Dayjs;
+    endDate: dayjs.Dayjs;
     isCustomPeriodRangeActive: Observable<boolean>;
     type: string;
     label: string;
-    hoverDate: Observable<Moment>;
-    activeDate: Observable<Moment>;
-    currentDate: Observable<Moment>;
-    inputDate: Computed<Moment>;
-    firstDate: Computed<Moment>;
-    lastDate: Computed<Moment>;
+    hoverDate: Observable<dayjs.Dayjs>;
+    activeDate: Observable<dayjs.Dayjs>;
+    currentDate: Observable<dayjs.Dayjs>;
+    inputDate: Computed<dayjs.Dayjs>;
+    firstDate: Computed<dayjs.Dayjs>;
+    lastDate: Computed<dayjs.Dayjs>;
     headerView: CalendarHeaderView;
     calendar(): any[];
     weekDayNames(): string[];
-    firstYearOfDecade(date: Moment): any
-    lastYearOfDecade(date: Moment): any;
+    firstYearOfDecade(date: dayjs.Dayjs): any
+    lastYearOfDecade(date: dayjs.Dayjs): any;
     __range__(left: number, right: number, inclusive: boolean): number[];
 }
 
 export interface CalendarHeaderView {
-    currentDate: Observable<Moment>;
+    currentDate: Observable<dayjs.Dayjs>;
     period: Period;
     timeZone: string;
-    firstDate: Computed<Moment>;
-    firstYearOfDecade(date: Moment): any
-    prevDate: Computed<Moment>;
-    nextDate: Computed<Moment>;
+    firstDate: Computed<dayjs.Dayjs>;
+    firstYearOfDecade(date: dayjs.Dayjs): any
+    prevDate: Computed<dayjs.Dayjs>;
+    nextDate: Computed<dayjs.Dayjs>;
     selectedMonth: Computed<any>;
     selectedYear: Computed<any>;
     selectedDecade: Computed<any>;
-    clickPrevButton(): Observable<Moment>;
-    clickNextButton(): Observable<Moment>;
+    clickPrevButton(): Observable<dayjs.Dayjs>;
+    clickNextButton(): Observable<dayjs.Dayjs>;
     prevArrowCss(): Object;
     nextArrowCss(): Object;
     monthOptions(): number[];

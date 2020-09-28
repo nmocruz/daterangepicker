@@ -4,7 +4,7 @@
         "outDir": "./out-tsc/wp",
         "baseUrl": "../",
         "sourceMap": true,
-        "listFiles": true,
+        "listFiles": false,
         "declaration": false,
         "importHelpers": true,
         "module": "esnext",
@@ -13,18 +13,15 @@
         "noImplicitAny": false,
         "typeRoots": [
             "node_modules/@types",
-            "node_modules/moment",
-            "node_modules/knockout",
-            "node_modules/knockout-daterangepicker-fb"
         ],
         "types": [
-            "moment",
             "knockout-daterangepicker-fb",
             "knockout"
         ]
     },
     "exclude": [
         "node_modules",
+        "../node_modules",
         "dist",
         "./src/test.ts",
         "**/*.component.spec.ts",

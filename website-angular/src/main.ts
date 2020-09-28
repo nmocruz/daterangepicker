@@ -4,12 +4,11 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import $ from 'jquery';
-import 'assets/styles/styles.scss';
-import 'mocha';
-import 'moment';
+import './assets/styles/styles.scss';
+import * as mocha from 'mocha/mocha';
+import * as dayjs from 'dayjs';
 
-declare var mocha: any;
-declare var moment: any;
+// declare var mocha: any;
 
 if (environment.production) {
   enableProdMode();

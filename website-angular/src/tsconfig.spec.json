@@ -2,12 +2,13 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
-    "module": "commonjs",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "downlevelIteration": true,
     "types": [
-      "jasmine",
-      "node",
       "mocha",
-      "chai"
+      "chai",
+      "knockout-daterangepicker-fb"
     ]
   },
   "files": [
@@ -17,5 +18,10 @@
   "include": [
     "**/*.spec.ts",
     "**/*.d.ts"
+  ],
+  "exclude": [
+      "node_modules/knockout-daterangepicker-fb/node_modules/**",
+      "**/node_modules",
+      "**/.*/"
   ]
 }

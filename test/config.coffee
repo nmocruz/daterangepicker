@@ -56,7 +56,7 @@ describe 'Config', ->
     it 'works with a valid object', () ->
       new Config({
         ranges: {
-          "Test Range": ['2015-05-14', moment()]
+          "Test Range": ['2015-05-14', dayjs()]
         }
       })
 
@@ -69,7 +69,7 @@ describe 'Config', ->
 
     it 'fails with a "complex" object', () ->
       TestClass = ->
-        this["Test Range"] = ['2015-05-14', moment()]
+        this["Test Range"] = ['2015-05-14', dayjs()]
 
       assert.throw( ->
         new Config({
@@ -108,7 +108,7 @@ describe 'Config', ->
     it 'works with a valid object', () ->
       new Config({
         customPeriodRanges: {
-          "Test Range": ['2015-05-14', moment()]
+          "Test Range": ['2015-05-14', dayjs()]
         }
       })
 
@@ -127,8 +127,8 @@ describe 'Config', ->
         describe 'inclusive mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2015-05-14'), 'inclusive']
-            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+            minDate: [dayjs.utc('2015-05-14'), 'inclusive']
+            maxDate: [dayjs.utc('2016-01-01'), 'inclusive']
           })
 
           it 'converts 2015-04-15 into 2015-05-14', () ->
@@ -149,8 +149,8 @@ describe 'Config', ->
         describe 'exclusive mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2015-05-14'), 'exclusive']
-            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+            minDate: [dayjs.utc('2015-05-14'), 'exclusive']
+            maxDate: [dayjs.utc('2016-01-01'), 'inclusive']
           })
 
           it 'converts 2015-04-15 into 2015-06-01', () ->
@@ -171,8 +171,8 @@ describe 'Config', ->
         describe 'extended mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2015-05-14'), 'extended']
-            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+            minDate: [dayjs.utc('2015-05-14'), 'extended']
+            maxDate: [dayjs.utc('2016-01-01'), 'inclusive']
           })
 
           it 'converts 2015-04-15 into 2015-05-01', () ->
@@ -194,8 +194,8 @@ describe 'Config', ->
         describe 'inclusive mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2014-01-01'), 'inclusive']
-            maxDate: [moment.utc('2015-05-14'), 'inclusive']
+            minDate: [dayjs.utc('2014-01-01'), 'inclusive']
+            maxDate: [dayjs.utc('2015-05-14'), 'inclusive']
           })
 
           it 'converts 2015-04-15 into 2015-04-15', () ->
@@ -216,8 +216,8 @@ describe 'Config', ->
         describe 'exclusive mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2014-01-01'), 'inclusive']
-            maxDate: [moment.utc('2015-05-14'), 'exclusive']
+            minDate: [dayjs.utc('2014-01-01'), 'inclusive']
+            maxDate: [dayjs.utc('2015-05-14'), 'exclusive']
           })
 
           it 'converts 2015-04-15 into 2015-04-15', () ->
@@ -238,8 +238,8 @@ describe 'Config', ->
         describe 'extended mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2014-01-01'), 'inclusive']
-            maxDate: [moment.utc('2015-05-14'), 'extended']
+            minDate: [dayjs.utc('2014-01-01'), 'inclusive']
+            maxDate: [dayjs.utc('2015-05-14'), 'extended']
           })
 
           it 'converts 2015-04-15 into 2015-04-15', () ->
@@ -262,8 +262,8 @@ describe 'Config', ->
         describe 'inclusive mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2015-05-14'), 'inclusive']
-            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+            minDate: [dayjs.utc('2015-05-14'), 'inclusive']
+            maxDate: [dayjs.utc('2016-01-01'), 'inclusive']
           })
 
           it 'returns false for 2015-04-15', () ->
@@ -284,8 +284,8 @@ describe 'Config', ->
         describe 'exclusive mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2015-05-14'), 'exclusive']
-            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+            minDate: [dayjs.utc('2015-05-14'), 'exclusive']
+            maxDate: [dayjs.utc('2016-01-01'), 'inclusive']
           })
 
           it 'returns false for 2015-04-15', () ->
@@ -306,8 +306,8 @@ describe 'Config', ->
         describe 'extended mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2015-05-14'), 'extended']
-            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+            minDate: [dayjs.utc('2015-05-14'), 'extended']
+            maxDate: [dayjs.utc('2016-01-01'), 'inclusive']
           })
 
           it 'returns false for 2015-04-15', () ->
@@ -329,8 +329,8 @@ describe 'Config', ->
         describe 'inclusive mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2014-01-01'), 'inclusive']
-            maxDate: [moment.utc('2015-05-14'), 'inclusive']
+            minDate: [dayjs.utc('2014-01-01'), 'inclusive']
+            maxDate: [dayjs.utc('2015-05-14'), 'inclusive']
           })
 
           it 'returns true for 2015-04-15', () ->
@@ -351,8 +351,8 @@ describe 'Config', ->
         describe 'exclusive mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2014-01-01'), 'inclusive']
-            maxDate: [moment.utc('2015-05-14'), 'exclusive']
+            minDate: [dayjs.utc('2014-01-01'), 'inclusive']
+            maxDate: [dayjs.utc('2015-05-14'), 'exclusive']
           })
 
           it 'returns true for 2015-04-15', () ->
@@ -373,8 +373,8 @@ describe 'Config', ->
         describe 'extended mode', ->
           c = new Config({
             period: 'month'
-            minDate: [moment.utc('2014-01-01'), 'inclusive']
-            maxDate: [moment.utc('2015-05-14'), 'extended']
+            minDate: [dayjs.utc('2014-01-01'), 'inclusive']
+            maxDate: [dayjs.utc('2015-05-14'), 'extended']
           })
 
           it 'returns true for 2015-04-15', () ->

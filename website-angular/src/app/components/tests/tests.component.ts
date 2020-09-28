@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as chai from 'chai';
+import { doTests } from './array-utils.spec';
 
 @Component({
     selector: 'app-tests',
@@ -12,18 +13,18 @@ export class TestsComponent implements OnInit {
 
     async loadTests() {
         if ( mocha !== null ) {
-            const array_utils = await import('./array-utils.spec');
+            import('./array-utils.spec')
+                .then((module) => module.doTests());
             const config = await import('./config.spec');
             const pickerView = await import('./date-range-picker-view.spec');
-            const momentIterator = await import('./moment-iterator.spec');
-            const momentUtil = await import('./moment-util.spec');
+            const dayjsIterator = await import('./dayjs-iterator.spec');
+            const dayjsUtil = await import('./dayjs-util.spec');
             const periodTest = await import('./period.spec');
 
-            array_utils.doTests();
             config.doTests();
             pickerView.doTests();
-            momentIterator.doTests();
-            momentUtil.doTests();
+            dayjsIterator.doTests();
+            dayjsUtil.doTests();
             periodTest.doTests();
             mocha.run();
         }

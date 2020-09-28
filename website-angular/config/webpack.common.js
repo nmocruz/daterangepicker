@@ -19,7 +19,7 @@ module.exports = {
         vendor: helpers.getRoot('src','vendor.ts'),
         app: helpers.getRoot('src','main.ts')
     },
-    target: 'web',
+    target: 'node',
     devtool: 'source-map',
     watch: true,
     output: {
@@ -32,7 +32,7 @@ module.exports = {
         modules: [helpers.getRoot('src'), helpers.getRoot('node_modules')],
         alias: {
             ko: helpers.getRoot("node_modules","knockout"),
-            // moment: helpers.getRoot('node_modules','moment','moment.js'),
+            // dayjs: helpers.getRoot('node_modules','dayjs','dayjs'),
         }
     },
     // optimization: {
@@ -90,16 +90,14 @@ module.exports = {
               use: 'file-loader'
             },
             {
-                test: /\.ts$/,
-                loader: '@ngtools/webpack',
-                // exclude: [/(component|module)\.(spec|e2e)\.ts$/],
+                test: /\.spec\.ts$/,
+                loader: 'mocha-loader',
             },
-            // {
-            //     test: /\.ts$/,
-            //     loader: 'null-loader',
-            //     include: [/\.(spec|e2e)\.ts$/],
-            // },
-            // {
+            {
+                test: /\.tsx?$/,
+                loader: 'ts-loader',
+                // exclude: [/(component|module)\.(spec|e2e)\.ts$/],
+            }
         ]
     },
     plugins: [
@@ -125,8 +123,8 @@ module.exports = {
             "window.ko": "knockout",
             "chai" : 'chai',
             "window.chai" : "chai",
-            "moment" : 'moment',
-            'window.moment' : 'moment'
+            "dayjs" : 'dayjs',
+            'window.dayjs' : 'dayjs'
         }),
         new CopyWebpackPlugin([
             { from: 'src/index-wp.html', to: helpers.getRoot('dist', 'index.html') },
@@ -134,13 +132,17 @@ module.exports = {
             { from: 'node_modules/knockout-daterangepicker-fb/README.md', to: helpers.getRoot('dist', 'assets') },
             { from: 'node_modules/knockout-daterangepicker-fb/docs', to: helpers.getRoot('dist', 'assets','docs') },
             { from: 'node_modules/mocha/mocha.js', to: helpers.getRoot('dist', 'assets', 'scripts') },
-            { from: 'node_modules/moment/moment.js', to: helpers.getRoot('dist', 'assets', 'scripts') }
+            { from: 'node_modules/dayjs/dayjs.min.js', to: helpers.getRoot('dist', 'assets', 'scripts') }
         ]),
     ],
     node: {
         fs: "empty",
     },
     devServer: {
+        stats: {
+            modules: false,
+            moduleTrace: false
+        },
         // stats: 'verbose',
         historyApiFallback: true,
         watchOptions: {
