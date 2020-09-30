@@ -1,6 +1,6 @@
 /*!
- * knockout-daterangepicker
- * version: 0.1.0
+ * knockout-daterangepicker-fb
+ * version: 0.3.0
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -10,8 +10,7 @@
   position: absolute;
   background: white;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
-  -ms-flex-pack: start;
-      justify-content: flex-start;
+  justify-content: flex-start;
   border-radius: 4px;
   padding: 4px;
   font-size: 13px;
@@ -50,7 +49,6 @@
 }
 
 .daterangepicker .periods {
-  display: -ms-inline-flexbox;
   display: inline-flex;
   margin: 0 auto 8px;
 }
@@ -64,12 +62,9 @@
 }
 
 .daterangepicker .ranges {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: column;
-      flex-direction: column;
-  -ms-flex-align: stretch;
-      align-items: stretch;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .daterangepicker .ranges li {
@@ -79,7 +74,6 @@
 }
 
 .daterangepicker .custom-range-inputs {
-  display: -ms-flexbox;
   display: flex;
   margin: -3px;
   margin-bottom: 5px;
@@ -88,8 +82,7 @@
 .daterangepicker .custom-range-inputs input {
   min-width: 50px;
   width: 50px;
-  -ms-flex: 1;
-      flex: 1;
+  flex: 1;
   margin: 3px;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -100,7 +93,6 @@
 }
 
 .daterangepicker .custom-range-buttons {
-  display: -ms-flexbox;
   display: flex;
   margin: -3px;
 }
@@ -115,7 +107,7 @@
 }
 
 .daterangepicker .custom-range-buttons button:hover {
-  background: gainsboro;
+  background: #dcdbdb;
 }
 
 .daterangepicker .custom-range-buttons button.apply-btn {
@@ -226,20 +218,17 @@
 }
 
 .daterangepicker select.month-select {
-  -ms-flex: 10;
-      flex: 10;
+  flex: 10;
   max-width: 75%;
 }
 
 .daterangepicker select.year-select {
-  -ms-flex: 11;
-      flex: 11;
+  flex: 11;
   max-width: 75%;
 }
 
 .daterangepicker select.decade-select {
-  -ms-flex: 11;
-      flex: 11;
+  flex: 11;
   max-width: 75%;
 }
 
@@ -279,27 +268,21 @@
 }
 
 .calendar .calendar-header {
-  display: -ms-flexbox;
   display: flex;
   margin: 0 6px 4px;
 }
 
 .calendar .calendar-header .calendar-selects {
-  -ms-flex: 5;
-      flex: 5;
+  flex: 5;
   text-align: center;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: center;
-      justify-content: center;
-  -ms-flex-align: center;
-      align-items: center;
+  justify-content: center;
+  align-items: center;
   padding: 2px;
 }
 
 .calendar .calendar-header .arrow {
-  -ms-flex: 1;
-      flex: 1;
+  flex: 1;
   text-align: center;
 }
 
@@ -313,32 +296,22 @@
   border-radius: 4px;
   overflow: hidden;
   padding: 5px;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-line-pack: stretch;
-      align-content: stretch;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -ms-flex-direction: column;
-      flex-direction: column;
+  align-content: stretch;
+  justify-content: space-around;
+  flex-direction: column;
 }
 
 .calendar .calendar-table .table-row {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-line-pack: stretch;
-      align-content: stretch;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -ms-flex: 1;
-      flex: 1;
+  align-content: stretch;
+  justify-content: space-around;
+  flex: 1;
 }
 
 .calendar .calendar-table .table-row .table-col {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex: 1;
-      flex: 1;
+  flex: 1;
   text-align: center;
   line-height: 1;
   cursor: default;
@@ -349,17 +322,13 @@
 }
 
 .calendar .calendar-table .table-row .table-col .table-value-wrapper {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex: 1;
-      flex: 1;
-  -ms-flex-align: center;
-      align-items: center;
+  flex: 1;
+  align-items: center;
 }
 
 .calendar .calendar-table .table-row .table-col .table-value-wrapper .table-value {
-  -ms-flex: 1;
-      flex: 1;
+  flex: 1;
 }
 
 .calendar .calendar-table .table-row .table-col.out-of-boundaries, .calendar .calendar-table .table-row .table-col.unavailable,
@@ -402,8 +371,7 @@
 }
 
 .calendar .calendar-table .table-row .table-col .week-day {
-  -ms-flex: 1;
-      flex: 1;
+  flex: 1;
   text-align: center;
 }
 
@@ -412,7 +380,6 @@
 }
 
 .daterangepicker.opened {
-  display: -ms-inline-flexbox;
   display: inline-flex;
 }
 
@@ -441,8 +408,7 @@
 }
 
 .daterangepicker.single {
-  -ms-flex-direction: column;
-      flex-direction: column;
+  flex-direction: column;
 }
 
 .daterangepicker.single .ranges,
@@ -453,10 +419,8 @@
 }
 
 .daterangepicker.single .controls {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: center;
-      justify-content: center;
+  justify-content: center;
 }
 
 .daterangepicker.single .controls .periods {
@@ -486,8 +450,7 @@
 }
 
 .daterangepicker.quarter-period .table-col {
-  -ms-flex-direction: column;
-      flex-direction: column;
+  flex-direction: column;
   font-size: 2em;
 }
 
@@ -497,6 +460,5 @@
 }
 
 .daterangepicker.orientation-left:not(.single) .controls {
-  -ms-flex-order: 2;
-      order: 2;
+  order: 2;
 }

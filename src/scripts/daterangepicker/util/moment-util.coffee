@@ -3,9 +3,8 @@ class MomentUtil
     moment.locale(moment.locale(), obj)
 
   @setFirstDayOfTheWeek: (dow) ->
-    dow = (dow % 7 + 7) % 7
+    dow = ((dow % 7) + 7) % 7
     if moment.localeData().firstDayOfWeek() != dow
-      offset = dow - moment.localeData().firstDayOfWeek()
       @patchCurrentLocale({
         week: {
           dow: dow
@@ -13,7 +12,7 @@ class MomentUtil
         }
       })
 
-  @tz: (input) ->
+  @tz: () ->
     args = Array.prototype.slice.call(arguments, 0, -1)
     timeZone = arguments[arguments.length - 1]
     if moment.tz

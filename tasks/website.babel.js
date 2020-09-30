@@ -1,12 +1,12 @@
-import gulp from 'gulp';
+import { src, task, series, dest, watch } from 'gulp';
 import marked from 'marked';
 import highlight from 'highlight.js';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
+import log from 'fancy-log';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
-
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -29,79 +29,92 @@ function markdownFilter(code) {
   return marked(code);
 }
 
-gulp.task('images', () => {
-  return gulp.src('website/images/*')
-    .pipe(gulp.dest('dist/website/images'))
+task('images', () => {
+  return src('website/images/*')
+    .pipe(dest('dist/website/images'))
 });
 
-gulp.task('html', ['styles', 'scripts'], () => {
-  return gulp.src('website/*.html')
-    .pipe($.fileInclude({
-      prefix: '@@',
-      basepath: '@file',
-      filters: {
-        markdown: markdownFilter
+task(
+  'html',
+  series(['styles', 'scripts'], () => {
+    return src('website/*.html')
+      .pipe($.fileInclude({
+        prefix: '@@',
+        basepath: '@file',
+        filters: {
+          markdown: markdownFilter
+        }
+      })).on('error', log)
+      .pipe(dest('.tmp'))
+      .pipe(reload({stream: true}));
+  })
+);
+
+task(
+  'serve',
+  series(['html', 'styles', 'scripts'], () => {
+    browserSync({
+      notify: false,
+      port: 9000,
+      ghostMode: {
+        clicks: false,
+        forms: false,
+        scroll: false
+      },
+      server: {
+        baseDir: ['.tmp', 'website'],
+        routes: {
+          '/bower_components': 'bower_components',
+          '/docs': '.tmp/docs.html',
+          '/tests': '.tmp/tests.html',
+          '/examples': '.tmp/examples.html'
+        }
       }
-    })).on('error', $.util.log)
-    .pipe(gulp.dest('.tmp'))
-    .pipe(reload({stream: true}));
-});
+    });
 
-gulp.task('serve', ['html', 'styles', 'scripts'], () => {
-  browserSync({
-    notify: false,
-    port: 9000,
-    ghostMode: {
-      clicks: false,
-      forms: false,
-      scroll: false
-    },
-    server: {
-      baseDir: ['.tmp', 'website'],
-      routes: {
-        '/bower_components': 'bower_components',
-        '/docs': '.tmp/docs.html',
-        '/tests': '.tmp/tests.html',
-        '/examples': '.tmp/examples.html'
+    watch([
+      '{src,website}/scripts/**/*.coffee',
+      'test/**/*.coffee',
+      'src/templates/**/*.html',
+      'website/**/*.html',
+      '{docs,.}/*.md'
+    ]).on('change', reload);
+
+    watch('{src,website}/styles/**/*.scss', ['styles']);
+    watch('test/**/*.coffee', ['scripts']);
+    watch('{src,website}/scripts/**/*.coffee', ['scripts']);
+    watch('src/templates/**/*.html', ['scripts']);
+    watch('website/**/*.html', ['html']);
+    watch('{docs,.}/*.md', ['html']);
+  })
+);
+
+task(
+  'build:website',
+  series(['html', 'scripts', 'styles', 'images'],
+  () => {
+    const assets = $.useref.assets({searchPath: ['.tmp', 'website', '.']});
+
+    return src('.tmp/*.html')
+      .pipe(assets)
+      .pipe($.if('*.js', $.uglify({preserveComments: 'license'})))
+      .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
+      .pipe(assets.restore())
+      .pipe($.useref())
+      .pipe(dest('dist/website'))
+      .pipe($.size({title: 'build:website', gzip: true}));
+  })
+);
+
+task(
+  'serve:website',
+  series(['build:website'], () => {
+    browserSync({
+      notify: false,
+      port: 9000,
+      server: {
+        baseDir: ['dist/website']
       }
-    }
-  });
-
-  gulp.watch([
-    '{src,website}/scripts/**/*.coffee',
-    'test/**/*.coffee',
-    'src/templates/**/*.html',
-    'website/**/*.html',
-    '{docs,.}/*.md'
-  ]).on('change', reload);
-
-  gulp.watch('{src,website}/styles/**/*.scss', ['styles']);
-  gulp.watch('test/**/*.coffee', ['scripts']);
-  gulp.watch('{src,website}/scripts/**/*.coffee', ['scripts']);
-  gulp.watch('src/templates/**/*.html', ['scripts']);
-  gulp.watch('website/**/*.html', ['html']);
-  gulp.watch('{docs,.}/*.md', ['html']);
-});
-
-gulp.task('build:website', ['html', 'scripts', 'styles', 'images'], () => {
-  const assets = $.useref.assets({searchPath: ['.tmp', 'website', '.']});
-
-  return gulp.src('.tmp/*.html')
-    .pipe(assets)
-    .pipe($.if('*.js', $.uglify({preserveComments: 'license'})))
-    .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
-    .pipe(assets.restore())
-    .pipe($.useref())
-    .pipe(gulp.dest('dist/website'))
-    .pipe($.size({title: 'build:website', gzip: true}));
-});
-
-gulp.task('serve:website', ['build:website'], () => {
-  browserSync({
-    notify: false,
-    port: 9000,
-    server: {
-      baseDir: ['dist/website']
-    }
-  });
-});
+    });
+  })
+);

@@ -1,24 +1,27 @@
-import gulp from 'gulp';
+import {src, dest, series, task} from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
+require('./build.babel');
 
 const $ = gulpLoadPlugins();
 
-
 function bump(type) {
-  return gulp.src('./package.json')
+  return src('./package.json')
     .pipe($.bump({type: type}))
-    .pipe(gulp.dest('./'))
-    .pipe($.callback(() => { gulp.start('build:min'); }));
-};
+    .pipe(dest('./'));
+}
 
-gulp.task('bump:major', () => {
-  return bump('major');
-});
+// task('bump:major', series([bump('major'), 'build:min'], () => {}));
 
-gulp.task('bump:minor', () => {
-  return bump('minor');
-});
+task(
+  'bump:minor',
+  series([
+    () => {
+      return src('./package.json')
+      .pipe($.bump({type: 'minor'}))
+      .pipe(dest('./'))
+    },
+    'build:min']
+  )
+);
 
-gulp.task('bump:patch', () => {
-  return bump('patch');
-});
+// task('bump:patch', series([bump('patch'), 'build:min']));

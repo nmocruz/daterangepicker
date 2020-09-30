@@ -1,7 +1,8 @@
-import gulp from 'gulp';
+import {src, dest, series, task} from 'gulp';
 import fs from 'fs';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
+import log from 'fancy-log';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -23,48 +24,57 @@ function banner() {
      */
   `.replace(/\n\s{0,4}/g, '\n').replace('\n', '');
 }
+exports.banner = banner;
 
-gulp.task('styles', () => {
-  return gulp.src([
-      'src/styles/*.scss',
-      'website/styles/*.scss'
-    ])
-    .pipe($.plumber())
-    .pipe($.sass.sync({
-      outputStyle: 'expanded',
-      precision: 10,
-      includePaths: ['.']
-    }).on('error', $.util.log))
-    .pipe($.autoprefixer({browsers: ['last 2 versions']}))
-    .pipe(gulp.dest('.tmp/styles'))
-    .pipe(reload({stream: true}));
+task('styles', () => {
+  return (
+    src([
+        'src/styles/*.scss',
+        'website/styles/*.scss'
+      ])
+      .pipe($.plumber())
+      .pipe($.sass.sync({
+        outputStyle: 'expanded',
+        precision: 10,
+        includePaths: ['.']
+      }).on('error', log))
+      .pipe($.autoprefixer())
+      .pipe(dest('.tmp/styles'))
+      .pipe(reload({stream: true}))
+  )
 });
 
-gulp.task('scripts', () => {
-  return gulp.src([
+task('scripts', () => {
+  return (
+    src([
       'src/scripts/*.coffee',
       'website/scripts/*.coffee'
     ])
-    .pipe($.include()).on('error', $.util.log)
+    .pipe($.include()).on('error', log)
     .pipe($.plumber())
-    .pipe($.coffee().on('error', $.util.log))
-    .pipe(gulp.dest('.tmp/scripts'))
-    .pipe(reload({stream: true}));
+    .pipe($.coffee().on('error', log))
+    .pipe(dest('.tmp/scripts'))
+    .pipe(reload({stream: true}))
+  )
 });
 
-gulp.task('build', ['scripts', 'styles'], () => {
-  return gulp.src(['.tmp/scripts/daterangepicker.js', '.tmp/styles/daterangepicker.css'])
+task('build', series(['scripts', 'styles'], () => {
+  return src(['.tmp/scripts/daterangepicker.js', '.tmp/styles/daterangepicker.css'])
     .pipe($.header(banner()))
-    .pipe(gulp.dest('dist/'))
-    .pipe($.size({title: 'build', gzip: true}));
-});
+    .pipe(dest('dist/'))
+    .pipe($.size({title: 'build', gzip: true}))
+  })
+);
 
-gulp.task('build:min', ['build'], () => {
-  return gulp.src(['dist/daterangepicker.js', 'dist/daterangepicker.css'])
-    .pipe($.if('*.js', $.uglify({preserveComments: 'license'})))
-    .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
-    .pipe($.if('*.js', $.extReplace('.min.js')))
-    .pipe($.if('*.css', $.extReplace('.min.css')))
-    .pipe(gulp.dest('dist/'))
-    .pipe($.size({title: 'build:min', gzip: true}));
-});
+task(
+  'build:min',
+  series(['build'], () => {
+    return src(['dist/daterangepicker.js', 'dist/daterangepicker.css'])
+      .pipe($.if('*.js', $.babelMinify()))
+      .pipe($.if('*.css', $.cleanCss({compatibility: '*'})))
+      .pipe($.if('*.js', $.extReplace('.min.js')))
+      .pipe($.if('*.css', $.extReplace('.min.css')))
+      .pipe(dest('dist/'))
+      .pipe($.size({title: 'build:min', gzip: true}));
+  })
+);
