@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker-fb
- * version: 0.3.0
+ * version: 0.3.1
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -8,7 +8,7 @@
 (function() {
   (function(root, factory) {
     if (typeof define === 'function' && define.amd) {
-      return define(['moment', 'ko', 'jquery'], factory);
+      return define(['moment', 'knockout', 'jquery'], factory);
     } else if (exports === 'object') {
       return factory(require('moment'), require('knockout'), require('jquery'));
     } else {

@@ -1,6 +1,6 @@
 ((root, factory) ->
   if typeof define is 'function' and define.amd
-    define ['moment', 'ko', 'jquery'], factory
+    define ['moment', 'knockout', 'jquery'], factory
   else if exports is 'object'
     factory require('moment'), require('knockout'), require('jquery')
   else

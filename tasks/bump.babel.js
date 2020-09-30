@@ -10,7 +10,17 @@ function bump(type) {
     .pipe(dest('./'));
 }
 
-// task('bump:major', series([bump('major'), 'build:min'], () => {}));
+task(
+  'bump:major',
+  series([
+    () => {
+      return src('./package.json')
+      .pipe($.bump({type: 'major'}))
+      .pipe(dest('./'))
+    },
+    'build:min']
+  )
+);
 
 task(
   'bump:minor',
@@ -24,4 +34,14 @@ task(
   )
 );
 
-// task('bump:patch', series([bump('patch'), 'build:min']));
+task(
+  'bump:patch',
+  series([
+    () => {
+      return src('./package.json')
+      .pipe($.bump({type: 'patch'}))
+      .pipe(dest('./'))
+    },
+    'build:min']
+  )
+);
