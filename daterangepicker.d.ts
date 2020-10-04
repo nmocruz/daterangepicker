@@ -156,7 +156,7 @@ export enum PeriodTypes {
 }
 
 export interface DateOption {
-    value?: Moment | string;
+    val?: Moment | string;
     mode?: string;
 }
 

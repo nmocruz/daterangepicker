@@ -98,12 +98,18 @@ class Config
         ko.observable(val || false)
 
     _minDate: (val) ->
-        [val, mode] = val if val instanceof Array
+        if val instanceof Array
+            [val, mode] = val
+        if val instanceof Object
+            {val, mode} = val
         val ||= moment().subtract(30, 'years')
         @_dateObservable(val, mode)
 
     _maxDate: (val) ->
-        [val, mode] = val if val instanceof Array
+        if val instanceof Array
+            [val, mode] = val
+        if val instanceof Object
+            {val, mode} = val
         val ||= moment()
         @_dateObservable(val, mode, @minDate)
 
