@@ -163,10 +163,10 @@ export interface DateOption {
 export class Options {
     constructor(...options: any[]);
     timeZone?: string;
-    minDate?: Moment | string | Array<DateOption>;
-    maxDate?: Moment | string | Array<DateOption>;
-    startDate?: Moment | string | Array<DateOption>;
-    endDate?: Moment | string | Array<DateOption>;
+    minDate?: Moment | string | DateOption;
+    maxDate?: Moment | string | DateOption;
+    startDate?: Moment | string | DateOption;
+    endDate?: Moment | string | DateOption;
     period?: string;
     periods?: string[];
     single?: boolean;
