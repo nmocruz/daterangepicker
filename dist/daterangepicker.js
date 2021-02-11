@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker-fb
- * version: 0.3.3
+ * version: 0.4.0
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -8,11 +8,11 @@
 (function() {
   (function(root, factory) {
     if (typeof define === 'function' && define.amd) {
-      return define(['moment', 'knockout', 'jquery'], factory);
-    } else if (exports === 'object') {
-      return factory(require('moment'), require('knockout'), require('jquery'));
+      return define(['moment', 'knockout', 'jQuery'], factory);
+    } else if (!(typeof exports === 'undefined') && exports === 'object') {
+      return factory(require('moment'), require('knockout'), require('jQuery'));
     } else {
-      return factory(root.moment, root.ko, root.jquery);
+      return factory(root.moment, root.ko, root.jQuery);
     }
   })(this, function(moment, ko, $) {
     var AllTimeDateRange, ArrayUtils, CalendarHeaderView, CalendarView, Config, CustomDateRange, DateRange, DateRangePickerView, MomentIterator, MomentUtil, Options, Period;
@@ -384,8 +384,7 @@
         var mode;
         if (val instanceof Array) {
           [val, mode] = val;
-        }
-        if (val instanceof Object) {
+        } else if (val instanceof Object) {
           ({val, mode} = val);
         }
         val || (val = moment().subtract(30, 'years'));
@@ -396,8 +395,7 @@
         var mode;
         if (val instanceof Array) {
           [val, mode] = val;
-        }
-        if (val instanceof Object) {
+        } else if (val instanceof Object) {
           ({val, mode} = val);
         }
         val || (val = moment());

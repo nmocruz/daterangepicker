@@ -64,7 +64,7 @@ task(
       server: {
         baseDir: ['.tmp', 'website'],
         routes: {
-          '/bower_components': 'bower_components',
+          '/bower_components': 'node_modules',
           '/docs': '.tmp/docs.html',
           '/tests': '.tmp/tests.html',
           '/examples': '.tmp/examples.html'
@@ -80,12 +80,12 @@ task(
       '{docs,.}/*.md'
     ]).on('change', reload);
 
-    watch('{src,website}/styles/**/*.scss', ['styles']);
-    watch('test/**/*.coffee', ['scripts']);
-    watch('{src,website}/scripts/**/*.coffee', ['scripts']);
-    watch('src/templates/**/*.html', ['scripts']);
-    watch('website/**/*.html', ['html']);
-    watch('{docs,.}/*.md', ['html']);
+    watch('{src,website}/styles/**/*.scss', series(['styles']));
+    watch('test/**/*.coffee', series(['scripts']));
+    watch('{src,website}/scripts/**/*.coffee', series(['scripts']));
+    watch('src/templates/**/*.html', series(['scripts']));
+    watch('website/**/*.html', series(['html']));
+    watch('{docs,.}/*.md', series(['html']));
   })
 );
 

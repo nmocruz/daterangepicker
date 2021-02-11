@@ -1,40 +1,40 @@
 ## daterangepicker attached to an input
 
 ```html
-<input data-bind="daterangepicker: dateRange" />
+<input data-bind='daterangepicker: dateRange' />
 ```
 
 
 ## daterangepicker attached to a button
 
 ```html
-<button data-bind="daterangepicker: dateRange2"></button>
+<button data-bind='daterangepicker: dateRange2'></button>
 ```
 
 
 ## Single mode
 
 ```html
-<input data-bind="
+<input data-bind='
   daterangepicker: dateRange3,
   daterangepickerOptions: {
     single: true
   }
-"/>
+'/>
 ```
 
 
 ## Month picker
 
 ```html
-<input data-bind="
+<input data-bind='
   daterangepicker: dateRange4,
-  daterangepickerFormat: 'MMMM YYYY',
+  daterangepickerFormat: "MMMM YYYY",
   daterangepickerOptions: {
     single: true,
-    periods: ['month']
+    periods: ["month"]
   }
-"/>
+'></input>
 ```
 
 
@@ -48,24 +48,22 @@
     single: true,
     standalone: true
   }
-"/>
+">
 ```
 
 
 ## jQuery example
 
 ```html
-<input class="daterangepicker-field"></input>
+<input class="daterangepicker-field"/>
 ```
 
 ```javascript
-$(".daterangepicker-field").daterangepicker(
-    new Options({
-        forceUpdate: true,
-        callback: function(startDate, endDate, period) {
-            var title = startDate.format('L') + ' – ' + endDate.format('L');
-            $(this).val(title)
-        }
-    })
-);
+$(".daterangepicker-field").daterangepicker({
+  forceUpdate: true,
+  callback: function(startDate, endDate, period) {
+      var title = startDate.format('L') + ' – ' + endDate.format('L');
+      $(this).val(title)
+  }
+});
 ```

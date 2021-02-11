@@ -100,7 +100,7 @@ class Config
     _minDate: (val) ->
         if val instanceof Array
             [val, mode] = val
-        if val instanceof Object
+        else if val instanceof Object
             {val, mode} = val
         val ||= moment().subtract(30, 'years')
         @_dateObservable(val, mode)
@@ -108,7 +108,7 @@ class Config
     _maxDate: (val) ->
         if val instanceof Array
             [val, mode] = val
-        if val instanceof Object
+        else if val instanceof Object
             {val, mode} = val
         val ||= moment()
         @_dateObservable(val, mode, @minDate)

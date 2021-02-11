@@ -208,7 +208,8 @@ export class Config {
     locale?: Locale;
     isCustomPeriodRangeActive?: Observable<boolean>;
     // allEvents: Observable<Object>;
-    callback?: (startDate: Moment, endDate: Moment, period: string) => void;
+    //callback?: (startDate: Moment, endDate: Moment, period: string) => void;
+    callback?: (startDate: Moment, endDate: Moment, period: Period, calStartDate?: Moment, calEndDate?: Moment) => any
     firstDayOfWeek?: Observable<number>;
     extend?(obj: Object): Object;
     _firstDayOfWeek?(val: number): Observable<number>;
@@ -245,7 +246,7 @@ export class Config {
 export interface AllTimeDateRange extends DateRange { }
 export interface CustomDateRange extends DateRange { }
 
-export class DateRangePickerView {
+export class DateRangePickerView extends Config {
     constructor(
         options?: Options
     );
@@ -257,9 +258,10 @@ export class DateRangePickerView {
     startDateInput: Computed<any>;
     endDateInput: Computed<any>;
     dateRange: Observable<any>;
-    startDate: Observable<Moment>;
-    endDate: Observable<Moment>;
+    startDate: Computed<Moment>;
+    endDate: Computed<Moment>;
     style: Observable<any>;
+    single: Observable<boolean>;
     callback: (
         startDate: Moment,
         endDate: Moment,
