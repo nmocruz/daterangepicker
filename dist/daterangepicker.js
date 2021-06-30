@@ -122,9 +122,35 @@
         _optionsKey: 'daterangepickerOptions',
         _formatKey: 'daterangepickerFormat',
         init: function(element, valueAccessor, allBindings) {
-          var observable, options;
+          var defineButtonTitle, defineLabel, l, label, labels, len, len1, locale, m, observable, options, ref1, title;
           observable = valueAccessor();
           options = ko.unwrap(allBindings.get(this._optionsKey)) || {};
+          locale = {};
+          labels = ['start', 'end', 'day', 'week', 'month', 'quarter', 'quarter', 'year'];
+          defineLabel = function(label) {
+            return Object.defineProperty(locale, `${label}Label`, {
+              get: function() {
+                return i18next.t(label);
+              }
+            });
+          };
+          defineButtonTitle = function(buttonTitle) {
+            return Object.defineProperty(locale, `${buttonTitle}ButtonTitle`, {
+              get: function() {
+                return i18next.t(buttonTitle);
+              }
+            });
+          };
+          for (l = 0, len = labels.length; l < len; l++) {
+            label = labels[l];
+            defineLabel(label);
+          }
+          ref1 = ['apply', 'cancel'];
+          for (m = 0, len1 = ref1.length; m < len1; m++) {
+            title = ref1[m];
+            defineButtonTitle(title);
+          }
+          $.extend(options, locale);
           return $(element).daterangepicker(options, function(startDate, endDate, period) {
             return observable([startDate, endDate]);
           });
@@ -451,16 +477,16 @@
 
       _locale(val) {
         return $.extend({
-          applyButtonTitle: i18next.t('apply'),
-          cancelButtonTitle: i18next.t('cancel'),
+          applyButtonTitle: 'Apply',
+          cancelButtonTitle: 'Cancel',
           inputFormat: 'L',
-          startLabel: i18next.t('start'),
-          endLabel: i18next.t('end'),
-          dayLabel: i18next.t('day'),
-          weekLabel: i18next.t('week'),
-          monthLabel: i18next.t('month'),
-          quarterLabel: i18next.t('quarter'),
-          yearLabel: i18next.t('year')
+          startLabel: 'Start',
+          endLabel: 'End',
+          dayLabel: 'Day',
+          weekLabel: 'Week',
+          monthLabel: 'Month',
+          quarterLabel: 'Quarter',
+          yearLabel: 'Year'
         }, val || {});
       }
 

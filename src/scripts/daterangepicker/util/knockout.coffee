@@ -12,6 +12,23 @@ ko.bindingHandlers.daterangepicker = do ->
     init: (element, valueAccessor, allBindings) ->
       observable = valueAccessor()
       options = ko.unwrap(allBindings.get(@_optionsKey)) || {}
+      
+      locale = {}
+      labels = ['start','end', 'day', 'week', 'month', 'quarter', 'quarter','year']
+
+      defineLabel = (label) ->
+        Object.defineProperty locale, "#{label}Label", 
+          get: -> i18next.t label
+
+      defineButtonTitle = (buttonTitle) ->
+        Object.defineProperty locale, "#{buttonTitle}ButtonTitle",
+          get: -> i18next.t buttonTitle
+
+      defineLabel label for label in labels
+      defineButtonTitle title for title in ['apply', 'cancel']
+            
+      $.extend options, locale
+
       $(element).daterangepicker(options, (startDate, endDate, period) ->
         observable([startDate, endDate])
       )

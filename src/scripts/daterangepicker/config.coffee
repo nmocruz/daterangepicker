@@ -145,17 +145,18 @@ class Config
         new DateRange(title, from, to)
 
     _locale: (val) ->
+    
         $.extend({
-            applyButtonTitle: i18next.t('apply')
-            cancelButtonTitle: i18next.t('cancel')
+            applyButtonTitle: 'Apply'
+            cancelButtonTitle: 'Cancel'
             inputFormat: 'L'
-            startLabel: i18next.t('start')
-            endLabel: i18next.t('end'),
-            dayLabel: i18next.t('day'),
-            weekLabel: i18next.t('week'),
-            monthLabel: i18next.t('month'),
-            quarterLabel: i18next.t('quarter'),
-            yearLabel: i18next.t('year')
+            startLabel: 'Start'
+            endLabel: 'End',
+            dayLabel: 'Day',
+            weekLabel: 'Week',
+            monthLabel: 'Month',
+            quarterLabel: 'Quarter',
+            yearLabel: 'Year'
         }, val || {})
 
     _orientation: (val) ->
