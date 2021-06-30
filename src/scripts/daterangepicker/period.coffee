@@ -30,7 +30,7 @@ class Period
         'YYYY'
 
   @title: (period, localeObj) ->
-      i18next.t(period)
+    localeObj["#{period}Label"]
 
   @dimentions: (period) ->
     switch period
