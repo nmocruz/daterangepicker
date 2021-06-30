@@ -17,7 +17,9 @@
   #= require "./daterangepicker/calendar-header-view.coffee"
   #= require "./daterangepicker/calendar-view.coffee"
   #= require "./daterangepicker/date-range-picker-view.coffee"
-
+  
+  # try check an esm module
+  i18next = i18next.default || i18next
   DateRangePickerView.template = '
     #= require "./../templates/daterangepicker.html"
   '
