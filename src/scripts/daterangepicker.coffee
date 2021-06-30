@@ -6,6 +6,9 @@
   else
     factory root.moment, root.ko, root.jquery, root.i18next
 ) @, (moment, ko, $, i18next) ->
+  # try check an esm module
+  i18next = i18next.default || i18next
+ 
   #= require "./daterangepicker/util/moment-util.coffee"
   #= require "./daterangepicker/util/moment-iterator.coffee"
   #= require "./daterangepicker/util/array-utils.coffee"
@@ -18,8 +21,6 @@
   #= require "./daterangepicker/calendar-view.coffee"
   #= require "./daterangepicker/date-range-picker-view.coffee"
   
-  # try check an esm module
-  i18next = i18next.default || i18next
   DateRangePickerView.template = '
     #= require "./../templates/daterangepicker.html"
   '
