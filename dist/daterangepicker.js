@@ -8,13 +8,13 @@
 (function() {
   (function(root, factory) {
     if (typeof define === 'function' && define.amd) {
-      return define(['moment', 'knockout', 'jquery'], factory);
+      return define(['moment', 'knockout', 'jquery', 'i18next'], factory);
     } else if (!(typeof exports === 'undefined') && exports === 'object') {
-      return factory(require('moment'), require('knockout'), require('jquery'));
+      return factory(require('moment'), require('knockout'), require('jquery'), require('i18next'));
     } else {
-      return factory(root.moment, root.ko, root.jquery);
+      return factory(root.moment, root.ko, root.jquery, root.i18next);
     }
-  })(this, function(moment, ko, $) {
+  })(this, function(moment, ko, $, i18next) {
     var AllTimeDateRange, ArrayUtils, CalendarHeaderView, CalendarView, Config, CustomDateRange, DateRange, DateRangePickerView, MomentIterator, MomentUtil, Options, Period;
     MomentUtil = class MomentUtil {
       static patchCurrentLocale(obj) {
@@ -206,18 +206,7 @@
         }
 
         static title(period, localeObj) {
-          switch (period) {
-            case 'day':
-              return localeObj.dayLabel;
-            case 'week':
-              return localeObj.weekLabel;
-            case 'month':
-              return localeObj.monthLabel;
-            case 'quarter':
-              return localeObj.quarterLabel;
-            case 'year':
-              return localeObj.yearLabel;
-          }
+          return i18next.t(period);
         }
 
         static dimentions(period) {
@@ -460,16 +449,16 @@
 
       _locale(val) {
         return $.extend({
-          applyButtonTitle: 'Apply',
-          cancelButtonTitle: 'Cancel',
+          applyButtonTitle: i18next.t('apply'),
+          cancelButtonTitle: i18next.t('cancel'),
           inputFormat: 'L',
-          startLabel: 'Start',
-          endLabel: 'End',
-          dayLabel: 'Day',
-          weekLabel: 'Week',
-          monthLabel: 'Month',
-          quarterLabel: 'Quarter',
-          yearLabel: 'Year'
+          startLabel: i18next.t('start'),
+          endLabel: i18next.t('end'),
+          dayLabel: i18next.t('day'),
+          weekLabel: i18next.t('week'),
+          monthLabel: i18next.t('month'),
+          quarterLabel: i18next.t('quarter'),
+          yearLabel: i18next.t('year')
         }, val || {});
       }
 
