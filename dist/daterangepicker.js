@@ -234,7 +234,7 @@
         }
 
         static title(period, localeObj) {
-          return i18next.t(period);
+          return localeObj[`${period}Label`];
         }
 
         static dimentions(period) {
