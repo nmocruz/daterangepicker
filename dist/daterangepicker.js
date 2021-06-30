@@ -126,7 +126,7 @@
           observable = valueAccessor();
           options = ko.unwrap(allBindings.get(this._optionsKey)) || {};
           locale = {};
-          labels = ['start', 'end', 'day', 'week', 'month', 'quarter', 'quarter', 'year'];
+          labels = ['start', 'end', 'day', 'week', 'month', 'quarter', 'year'];
           defineLabel = function(label) {
             return Object.defineProperty(locale, `${label}Label`, {
               get: function() {

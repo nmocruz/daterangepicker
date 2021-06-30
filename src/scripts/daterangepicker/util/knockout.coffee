@@ -14,7 +14,7 @@ ko.bindingHandlers.daterangepicker = do ->
       options = ko.unwrap(allBindings.get(@_optionsKey)) || {}
       
       locale = {}
-      labels = ['start','end', 'day', 'week', 'month', 'quarter', 'quarter','year']
+      labels = ['start','end', 'day', 'week', 'month', 'quarter','year']
 
       defineLabel = (label) ->
         Object.defineProperty locale, "#{label}Label", 
