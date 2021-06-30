@@ -1,11 +1,11 @@
 ((root, factory) ->
   if typeof define is 'function' and define.amd
-    define ['moment', 'knockout', 'jquery'], factory
+    define ['moment', 'knockout', 'jquery', 'i18next'], factory
   else if not (typeof exports is 'undefined') and exports is 'object'
-    factory require('moment'), require('knockout'), require('jquery')
+    factory require('moment'), require('knockout'), require('jquery'), require('i18next')
   else
-    factory root.moment, root.ko, root.jquery
-) @, (moment, ko, $) ->
+    factory root.moment, root.ko, root.jquery, root.i18next
+) @, (moment, ko, $, i18next) ->
   #= require "./daterangepicker/util/moment-util.coffee"
   #= require "./daterangepicker/util/moment-iterator.coffee"
   #= require "./daterangepicker/util/array-utils.coffee"
