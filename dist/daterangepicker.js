@@ -1008,16 +1008,15 @@
               [startDate, endDate] = newValue;
               return this.callback(startDate.clone(), endDate.clone(), this.period(), this.startCalendar.firstDate(), this.endCalendar.lastDate());
             });
-            this.startCalendar.firstDate.subscribe((newValue) => {
-              var endDate, startDate;
-              [startDate, endDate] = this.dateRange();
-              return this.callback(startDate.clone(), endDate.clone(), this.period(), newValue, this.endCalendar.lastDate());
-            });
-            this.endCalendar.lastDate.subscribe((newValue) => {
-              var endDate, startDate;
-              [startDate, endDate] = this.dateRange();
-              return this.callback(startDate.clone(), endDate.clone(), this.period(), this.startCalendar.firstDate(), newValue);
-            });
+            /*
+            @startCalendar.firstDate.subscribe (newValue) =>
+              [startDate, endDate] = @dateRange()
+              @callback(startDate.clone(), endDate.clone(), @period(), newValue, @endCalendar.lastDate())
+            @endCalendar.lastDate.subscribe (newValue) =>
+              [startDate, endDate] = @dateRange()
+              @callback(
+                startDate.clone(), endDate.clone(), @period(), @startCalendar.firstDate(), newValue)
+            */
             if (this.forceUpdate) {
               [startDate, endDate] = this.dateRange();
               this.callback(startDate.clone(), endDate.clone(), this.period(), this.startCalendar.firstDate(), this.endCalendar.lastDate());
