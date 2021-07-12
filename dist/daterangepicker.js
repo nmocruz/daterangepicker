@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker-fb
- * version: 0.4.1
+ * version: 0.4.2
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -412,7 +412,7 @@
         var mode;
         if (val instanceof Array) {
           [val, mode] = val;
-        } else if (val instanceof Object) {
+        } else if (val instanceof Object && !val instanceof moment) {
           ({val, mode} = val);
         }
         val || (val = moment());
@@ -1012,6 +1012,7 @@
             @startCalendar.firstDate.subscribe (newValue) =>
               [startDate, endDate] = @dateRange()
               @callback(startDate.clone(), endDate.clone(), @period(), newValue, @endCalendar.lastDate())
+
             @endCalendar.lastDate.subscribe (newValue) =>
               [startDate, endDate] = @dateRange()
               @callback(

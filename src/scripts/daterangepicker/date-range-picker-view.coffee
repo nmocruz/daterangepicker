@@ -36,15 +36,18 @@ class DateRangePickerView
           @period(),
           @startCalendar.firstDate(),
           @endCalendar.lastDate())
+      
       ###
       @startCalendar.firstDate.subscribe (newValue) =>
         [startDate, endDate] = @dateRange()
         @callback(startDate.clone(), endDate.clone(), @period(), newValue, @endCalendar.lastDate())
+      
       @endCalendar.lastDate.subscribe (newValue) =>
         [startDate, endDate] = @dateRange()
         @callback(
           startDate.clone(), endDate.clone(), @period(), @startCalendar.firstDate(), newValue)
       ###
+      
       if @forceUpdate
         [startDate, endDate] = @dateRange()
         @callback(

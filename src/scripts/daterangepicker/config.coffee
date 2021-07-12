@@ -108,7 +108,7 @@ class Config
     _maxDate: (val) ->
         if val instanceof Array
             [val, mode] = val
-        else if val instanceof Object
+        else if val instanceof Object && !val instanceof moment
             {val, mode} = val
         val ||= moment()
         @_dateObservable(val, mode, @minDate)
