@@ -54,20 +54,29 @@ describe 'DateRangePickerView', ->
   describe '#setDateRange #isActiveDateRange', ->
     it 'works with default ranges', ->
       d = new DateRangePickerView({})
-      range = d.ranges[0]
+      range = d.ranges()[0]
       assert.instanceOf(range, $.fn.daterangepicker.DateRange)
       d.setDateRange(range)
       assert.isTrue(d.isActiveDateRange(range))
+    
     it 'works with custom ranges', ->
       d = new DateRangePickerView({
         ranges: {
           'May 2015': [moment.utc('2015-05-01'), moment.utc('2015-05-31')]
         }
       })
-      range = d.ranges[0]
+      range = d.ranges()[0]
       assert.instanceOf(range, $.fn.daterangepicker.DateRange)
       d.setDateRange(range)
       assert.isTrue(d.isActiveDateRange(range))
+    
+    it 'works with have observable ranges', ->
+      d = new DateRangePickerView({
+        ranges: {
+          'May 2015': [moment.utc('2015-05-01'), moment.utc('2015-05-31')]
+        }
+      })
+      assert.isTrue(ko.isObservableArray(d.ranges))
 
   describe 'open and closed states', ->
     it 'is not open by default', ->

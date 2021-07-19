@@ -1,9 +1,12 @@
 {
     "name": "knockout-daterangepicker",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "private": true,
     "engines": {
         "node": "*"
+    },
+    "scripts": {
+        "test": "mocha --require coffeescript/register"
     },
     "main": "dist/daterangepicker.js",
     "typings": "./daterangepicker.d.ts",
@@ -19,6 +22,7 @@
         "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
         "browser-sync": "^2.24.4",
         "chai": "^4.1.2",
+        "coffeescript": "^2.5.1",
         "del": "^6.0.0",
         "fancy-log": "^1.3.3",
         "gulp": "^4.0.0",
@@ -51,7 +55,7 @@
         "hoek": "^6.1.3",
         "main-bower-files": "^2.5.0",
         "marked": "^1.2.0",
-        "mocha": "^8.1.3",
+        "mocha": "^8.4.0",
         "open": "^7.2.1",
         "opn": "^6.0.0",
         "postcss": "^8.1.1",
@@ -79,11 +83,11 @@
         }
     },
     "dependencies": {
+        "i18next": "^20.3.2",
         "jquery": "^3.3.1",
         "knockout": "^3.5.1",
         "moment": "^2.29.0",
-        "moment-timezone": "^0.5.31",
-        "i18next": "20.3.2"
+        "moment-timezone": "^0.5.31"
     },
     "browserslist": [
         "defaults"

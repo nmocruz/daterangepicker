@@ -9,7 +9,10 @@
       <!-- /ko -->
     </ul>
     <ul class="ranges" data-bind="foreach: $data.ranges">
-      <li class="range" data-bind="css: {active: $parent.isActiveDateRange($data)}, text: $data.title, click: function(){ $parent.setDateRange($data); }"></li>
+
+      <li class="range" data-bind="css: {active: $parent.isActiveDateRange($data), disabled: $parent.isValidDateRange($data) == false}, text: $data.title, click: function(){ $parent.setDateRange($data); }">
+
+      </li>
     </ul>
     <form data-bind="submit: $data.applyChanges">
       <div class="custom-range-inputs">

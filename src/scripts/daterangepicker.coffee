@@ -4,7 +4,7 @@
   else if not (typeof exports is 'undefined') and exports is 'object'
     factory require('moment'), require('knockout'), require('jquery'), require('i18next')
   else
-    factory root.moment, root.ko, root.jquery, root.i18next
+    factory root.moment, root.ko, root.jquery ||  root.jQuery, root.i18next
 ) @, (moment, ko, $, i18next) ->
   # try check an esm module
   i18next = i18next.default || i18next

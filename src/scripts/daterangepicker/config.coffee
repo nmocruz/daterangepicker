@@ -124,14 +124,16 @@ class Config
     _ranges: (obj) ->
         obj ||= @_defaultRanges()
         throw new Error('Invalid ranges parameter (should be a plain object)') unless $.isPlainObject(obj)
+        resultsRanges = ko.observableArray([])
         for title, value of obj
             switch value
                 when 'all-time'
-                    new AllTimeDateRange(title, @minDate().clone(), @maxDate().clone())
+                    resultsRanges.push new AllTimeDateRange(title, @minDate().clone(), @maxDate().clone())
                 when 'custom'
-                    new CustomDateRange(title)
+                    resultsRanges.push new CustomDateRange(title)
                 else
-                    @parseRange(value, title)
+                    resultsRanges.push @parseRange(value, title)
+        resultsRanges
 
     parseRange: (value, title) ->
         throw new Error('Value should be an array') unless $.isArray(value)

@@ -204,7 +204,7 @@ export class Config {
     parentElement?: JQuery<HTMLElement> | HTMLElement;
     forceUpdate?: Observable<boolean>;
     customPeriodRanges?: DateRange[];
-    ranges?: DateRange[];
+    ranges?: ObservableArray<DateRange>;
     locale?: Locale;
     isCustomPeriodRangeActive?: Observable<boolean>;
     // allEvents: Observable<Object>;
@@ -227,7 +227,7 @@ export class Config {
     _maxDate?(val: any): Computed<Moment>;
     _startDate?(date: Moment): Computed<Moment>;
     _endDate?(date: Moment): Computed<Moment>;
-    _ranges?(obj: Object): DateRange[];
+    _ranges?(obj: Object): ObservableArray<DateRange>;
     defineRange?(range: Moment): DateRange;
     parseRange?(range: Moment[], title: string): DateRange;
     _orientation?(orientation: string): Observable<string>;

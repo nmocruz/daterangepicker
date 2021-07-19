@@ -80,7 +80,7 @@ export function doTests() {
         describe('#setDateRange #isActiveDateRange', function() {
             it('works with default ranges', function() {
                 const d = createPickerView({});
-                const range = d.ranges[0];
+                const range = d.ranges()[0];
                 assert.instanceOf(range, $.fn.daterangepicker.DateRange);
                 d.setDateRange(range);
                 assert.isTrue(d.isActiveDateRange(range));
@@ -96,7 +96,7 @@ export function doTests() {
                         )
                     ]
                 });
-                const range = d.ranges[0];
+                const range = d.ranges()[0];
                 assert.instanceOf(range, $.fn.daterangepicker.DateRange);
                 d.setDateRange(range);
                 assert.isTrue(d.isActiveDateRange(range));

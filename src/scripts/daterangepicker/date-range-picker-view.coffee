@@ -105,12 +105,15 @@ class DateRangePickerView
 
   isActiveDateRange: (dateRange) ->
     if dateRange.constructor == CustomDateRange
-      for dr in @ranges
+      for dr in @ranges()
         if dr.constructor != CustomDateRange && @isActiveDateRange(dr)
           return false
       true
     else
       @startDate().isSame(dateRange.startDate, 'day') && @endDate().isSame(dateRange.endDate, 'day')
+
+  isValidDateRange: (dateRange) ->
+    dateRange.startDate >=  @startDate() && dateRange.endDate <= @endDate()
 
   isActiveCustomPeriodRange: (customPeriodRange) ->
     @isActiveDateRange(customPeriodRange) && @isCustomPeriodRangeActive()
