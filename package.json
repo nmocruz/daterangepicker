@@ -1,6 +1,6 @@
 {
     "name": "knockout-daterangepicker",
-    "version": "0.4.4",
+    "version": "0.4.5",
     "private": true,
     "engines": {
         "node": "*"
@@ -82,7 +82,7 @@
             ]
         }
     },
-    "dependencies": {
+    "peerDependencies": {
         "i18next": "^20.3.2",
         "jquery": "^3.3.1",
         "knockout": "^3.5.1",
