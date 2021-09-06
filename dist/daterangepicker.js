@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker-fb
- * version: 0.4.3
+ * version: 0.4.4
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -12,7 +12,7 @@
     } else if (!(typeof exports === 'undefined') && exports === 'object') {
       return factory(require('moment'), require('knockout'), require('jquery'), require('i18next'));
     } else {
-      return factory(root.moment, root.ko, root.jquery, root.i18next);
+      return factory(root.moment, root.ko, root.jquery || root.jQuery, root.i18next);
     }
   })(this, function(moment, ko, $, i18next) {
     var AllTimeDateRange, ArrayUtils, CalendarHeaderView, CalendarView, Config, CustomDateRange, DateRange, DateRangePickerView, MomentIterator, MomentUtil, Options, Period;
