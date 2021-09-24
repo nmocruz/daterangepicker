@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker-fb
- * version: 0.4.5
+ * version: 0.4.6
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -476,7 +476,7 @@
       }
 
       _locale(val) {
-        return $.extend({
+        return val || {
           applyButtonTitle: 'Apply',
           cancelButtonTitle: 'Cancel',
           inputFormat: 'L',
@@ -487,7 +487,7 @@
           monthLabel: 'Month',
           quarterLabel: 'Quarter',
           yearLabel: 'Year'
-        }, val || {});
+        };
       }
 
       _orientation(val) {

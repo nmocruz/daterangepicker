@@ -146,9 +146,8 @@ class Config
         throw new Error('Invalid end date') unless to.isValid()
         new DateRange(title, from, to)
 
-    _locale: (val) ->
-    
-        $.extend({
+    _locale: (val) ->    
+        val || {
             applyButtonTitle: 'Apply'
             cancelButtonTitle: 'Cancel'
             inputFormat: 'L'
@@ -159,7 +158,7 @@ class Config
             monthLabel: 'Month',
             quarterLabel: 'Quarter',
             yearLabel: 'Year'
-        }, val || {})
+        }
 
     _orientation: (val) ->
         val ||= 'right'
