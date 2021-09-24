@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker-fb
- * version: 0.4.6
+ * version: 0.4.7
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -122,20 +122,20 @@
         _optionsKey: 'daterangepickerOptions',
         _formatKey: 'daterangepickerFormat',
         init: function(element, valueAccessor, allBindings) {
-          var defineButtonTitle, defineLabel, l, label, labels, len, len1, locale, m, observable, options, ref1, title;
+          var defineButtonTitle, defineLabel, l, label, labels, len, len1, m, observable, options, ref1, title;
           observable = valueAccessor();
           options = ko.unwrap(allBindings.get(this._optionsKey)) || {};
-          locale = {};
+          options.locale = {};
           labels = ['start', 'end', 'day', 'week', 'month', 'quarter', 'year'];
           defineLabel = function(label) {
-            return Object.defineProperty(locale, `${label}Label`, {
+            return Object.defineProperty(options.locale, `${label}Label`, {
               get: function() {
                 return i18next.t(label);
               }
             });
           };
           defineButtonTitle = function(buttonTitle) {
-            return Object.defineProperty(locale, `${buttonTitle}ButtonTitle`, {
+            return Object.defineProperty(options.locale, `${buttonTitle}ButtonTitle`, {
               get: function() {
                 return i18next.t(buttonTitle);
               }
@@ -150,7 +150,6 @@
             title = ref1[m];
             defineButtonTitle(title);
           }
-          $.extend(options, locale);
           return $(element).daterangepicker(options, function(startDate, endDate, period) {
             return observable([startDate, endDate]);
           });
