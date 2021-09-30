@@ -110,7 +110,7 @@ class Config
             [val, mode] = val
         else if val instanceof Object && !val instanceof moment
             {val, mode} = val
-        val ||= moment()
+        val ||= moment().add(30, 'years')
         @_dateObservable(val, mode, @minDate)
 
     _startDate: (val) ->

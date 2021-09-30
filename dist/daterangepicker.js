@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker-fb
- * version: 0.4.8
+ * version: 0.4.9
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -414,7 +414,7 @@
         } else if (val instanceof Object && !val instanceof moment) {
           ({val, mode} = val);
         }
-        val || (val = moment());
+        val || (val = moment().add(30, 'years'));
         return this._dateObservable(val, mode, this.minDate);
       }
 
