@@ -147,11 +147,11 @@ class Config
         new DateRange(title, from, to)
 
     _locale: (val) ->    
-        val || {
-            applyButtonTitle: 'Apply'
-            cancelButtonTitle: 'Cancel'
-            inputFormat: 'L'
-            startLabel: 'Start'
+        defaults = {
+            applyButtonTitle: 'Apply',
+            cancelButtonTitle: 'Cancel',
+            inputFormat: 'L',
+            startLabel: 'Start',
             endLabel: 'End',
             dayLabel: 'Day',
             weekLabel: 'Week',
@@ -159,6 +159,10 @@ class Config
             quarterLabel: 'Quarter',
             yearLabel: 'Year'
         }
+
+        for key in Object.keys(defaults)
+            val[key] = defaults[key] if !val[key]
+        val
 
     _orientation: (val) ->
         val ||= 'right'

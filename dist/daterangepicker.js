@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker-fb
- * version: 0.4.7
+ * version: 0.4.8
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -475,7 +475,8 @@
       }
 
       _locale(val) {
-        return val || {
+        var defaults, key, l, len, ref1;
+        defaults = {
           applyButtonTitle: 'Apply',
           cancelButtonTitle: 'Cancel',
           inputFormat: 'L',
@@ -487,6 +488,14 @@
           quarterLabel: 'Quarter',
           yearLabel: 'Year'
         };
+        ref1 = Object.keys(defaults);
+        for (l = 0, len = ref1.length; l < len; l++) {
+          key = ref1[l];
+          if (!val[key]) {
+            val[key] = defaults[key];
+          }
+        }
+        return val;
       }
 
       _orientation(val) {
