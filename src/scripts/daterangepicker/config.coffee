@@ -161,7 +161,8 @@ class Config
         }
 
         for key in Object.keys(defaults)
-            val[key] = defaults[key] if val[key] != undefined
+            if val[key] != undefined
+                val[key] = defaults[key] 
         val
 
     _orientation: (val) ->
