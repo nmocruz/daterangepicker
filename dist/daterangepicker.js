@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker-fb
- * version: 0.4.11
+ * version: 0.4.12
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -491,7 +491,7 @@
         ref1 = Object.keys(defaults);
         for (l = 0, len = ref1.length; l < len; l++) {
           key = ref1[l];
-          if (val[key] !== void 0) {
+          if (val[key] === void 0) {
             val[key] = defaults[key];
           }
         }

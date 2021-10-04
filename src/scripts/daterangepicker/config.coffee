@@ -161,7 +161,7 @@ class Config
         }
 
         for key in Object.keys(defaults)
-            if val[key] != undefined
+            if val[key] == undefined
                 val[key] = defaults[key] 
         val
 
